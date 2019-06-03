@@ -4,7 +4,7 @@ import LogoIcon from '../../../../assets/img/logo.png';
 
 const Logo = () => (
   <StyledLogo>
-      <a className="logo__link" href="Home.html">
+      <a className="logo__link" href="/">
           <img
               className="logo__image"
               src={LogoIcon}

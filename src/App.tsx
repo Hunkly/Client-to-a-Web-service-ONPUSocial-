@@ -1,27 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Container from './shared/components/Container';
 import Header from './shared/components/Header';
+import UserPage from './pages/UserPage';
+import Publications from './pages/UserPage/Publications';
+import GreetingPage from './pages/GreetingPage';
 import './App.css';
+
+const Home = () => <p>Home</p>;
+const News = () => <p>News</p>;
+const About = () => <p>About Us</p>;
+
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Header/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+     <Header/>
+       <Container>
+        <Switch>
+         <Route exact={true} path="/" component={GreetingPage} />
+         <Route path="/news" component={News} />
+         <Route path="/about-us" component={About} />
+         <Route path="/users/:id" component={UserPage} />
+        </Switch>
+       </Container>
+    </BrowserRouter>
   );
 }
 

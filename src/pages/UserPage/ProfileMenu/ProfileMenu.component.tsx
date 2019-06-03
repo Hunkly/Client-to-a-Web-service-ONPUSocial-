@@ -1,0 +1,20 @@
+import React from 'react';
+import Button from "../Button/Button.component";
+import StyledProfileMenu from './ProfileMenu.styled';
+
+
+export default function ProfileMenu() {
+    return (
+        <StyledProfileMenu>
+            <div className="profile-menu__avatar"/>
+            <Button>
+                Add to friends
+            </Button>
+            <Button>
+                Message
+            </Button>
+            <Button>
+                Report
+            </Button>
+        </StyledProfileMenu>
+    )};

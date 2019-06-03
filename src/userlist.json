@@ -1,0 +1,60 @@
+{
+  "users": [{
+    "id": 1,
+    "name": "Andrew Lubitskiy",
+    "age": "21",
+    "faculty": "ICS",
+    "cafedra": "SPO",
+    "birthday": "07-26-1997",
+    "group": "AT-161",
+    "email": "dron@gmail.com",
+    "about": "lorem ipsum",
+    "colleagues": [{
+      "id": 2,
+      "name": "Evgenyi Karnuta"
+    },
+    {
+      "id": 3,
+      "name": "Maxim Kopyl"
+    }]
+  },
+    {
+      "id": 2,
+      "name": "Evgenyi Karnuta",
+      "age": "21",
+      "faculty": "ICS",
+      "cafedra": "SPO",
+      "birthday": "03-13-1998",
+      "group": "AS-161",
+      "email": "ghost@gmail.com",
+      "about": "lorem ipsum",
+      "colleagues": [{
+        "id": 1,
+        "name": "Andrew Lubitskiy"
+      },
+        {
+          "id": 3,
+          "name": "Maxim Kopyl"
+        }]
+    },
+    {
+      "id": 3,
+      "name": "Maxim Kopyl",
+      "age": "21",
+      "faculty": "ICS",
+      "cafedra": "SPO",
+      "birthday": "11-21-1997",
+      "group": "AS-161",
+      "email": "max@microsoft.com",
+      "about": "lorem ipsum",
+      "colleagues": [{
+        "id": 1,
+        "name": "Andrew Lubitskiy"
+      },
+        {
+          "id": 2,
+          "name": "Evgenyi Karnuta"
+        }]
+    }
+  ]
+}
