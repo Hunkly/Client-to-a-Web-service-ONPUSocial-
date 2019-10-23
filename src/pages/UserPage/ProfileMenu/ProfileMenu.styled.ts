@@ -9,7 +9,7 @@ export default styled.div`
          .profile-menu__avatar {
             width: 150px;
             height: 150px;
-            background-color: #b9b9b9;
+            background-color: #9f9f9f;
             border-radius: 50%;
           }
 `;

@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 
-export default styled.div`
-    display: flex;
-    justify-content: center;
-    position: relative;
-    right: -75px;
+interface IStyledLogoProps{
+    user?: boolean
+}
+
+export default styled.div<IStyledLogoProps>`
+    ${props => (props.user ? 'position: relative; right: -75px;' : '')}
     .logo__link {
     text-decoration: none;
     .logo__image {

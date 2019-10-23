@@ -1,33 +1,31 @@
 import React from 'react';
-import {NavLink, BrowserRouter} from 'react-router-dom';
 import StyledMenu from './Menu.styled';
+import Store from '../../../../store/store';
+import {logOut} from "../../../../store/currentSession/actions";
 
 const Menu = () => (
   <StyledMenu>
-      <BrowserRouter>
-        <NavLink
-          exact={true}
-          to="/"
-          className="menu-link"
-          activeClassName="menu-link--active"
+        <a
+            href="/"
+            className="menu-link"
         >
           Home
-        </NavLink>
-        <NavLink
-          to="/news"
-          className="menu-link"
-          activeClassName="menu-link--active"
+        </a>
+        <a
+            href="/news"
+            className="menu-link"
         >
-          Settings
-        </NavLink>
-        <NavLink
-          to="/about-us"
-          className="menu-link"
-          activeClassName="menu-link--active"
+          News
+        </a>
+        <a
+            href="/"
+            className="menu-link"
+            onClick={() => {
+                Store.dispatch(logOut());
+            }}
         >
           Log out
-        </NavLink>
-      </BrowserRouter>
+        </a>
   </StyledMenu>
 );
 

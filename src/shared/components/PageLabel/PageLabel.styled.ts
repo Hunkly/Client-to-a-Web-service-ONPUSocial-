@@ -5,14 +5,14 @@ export default styled.div`
   display: flex;
   align-items: center;
   height: 30px;
-  background-color: #d1d1d1;
+  background-color: #9f9f9f;
   margin-bottom: 15px;
   border-radius: 10px;
 
   .pageLabel__label {
     color: #000;
     font-size: 16px;
-    font-weight: 50;
+    font-weight: 500;
     padding-left: 10px;
   }
 `;

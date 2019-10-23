@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from "../Button/Button.component";
+import Button from "../../../shared/components/Button/Button.component";
 import StyledProfileMenu from './ProfileMenu.styled';
 
 

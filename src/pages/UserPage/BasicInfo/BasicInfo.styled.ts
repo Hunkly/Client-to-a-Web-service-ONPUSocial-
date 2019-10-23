@@ -12,7 +12,7 @@ export default styled.div`
   .basic-info__avatar {
     width: 150px;
     height: 150px;
-    background-color: #b9b9b9;
+    background-color: #7c7c7c;
     border-radius: 50%;
   }
   

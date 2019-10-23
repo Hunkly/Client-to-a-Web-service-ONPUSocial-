@@ -1,8 +1,8 @@
 import React from 'react';
 import UserPost from '../../../shared/models/Post';
 import Publications from './Publications.component';
-import PublicationItem from './PublicationItem';
-import PageLabel from "../PageLabel";
+import PublicationItem from '../../../shared/components/PublicationItem';
+import PageLabel from "../../../shared/components/PageLabel";
 import {PostData} from "../Publications/Publications.constants";
 
 import ColleagueItem from "../Colleagues/ColleagueItem";

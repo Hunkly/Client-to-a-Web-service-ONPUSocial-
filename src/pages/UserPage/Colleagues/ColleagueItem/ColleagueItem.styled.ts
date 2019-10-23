@@ -15,7 +15,7 @@ export default styled.div<IStyledBasicInfoItemProps>`
   .colleague-item__avatar {
     width: 50px;
     height: 50px;
-    background-color: #b9b9b9;
+    background-color: #9f9f9f;
     border-radius: 50%;
   }
 

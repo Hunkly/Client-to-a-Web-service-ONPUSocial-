@@ -14,7 +14,9 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
   public render() {
     if (!this.props.user) {
       return (
+          <StyledUserPage>
             <div>Loading...</div>
+          </StyledUserPage>
       );
     }
     return (
