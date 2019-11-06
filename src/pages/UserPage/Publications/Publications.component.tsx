@@ -1,7 +1,6 @@
 import React from 'react';
 import StyledPublications from './Publications.styled';
 import UserPost from "../../../shared/models/Post";
-import { PostData } from "./Publications.constants";
 
 
 interface IPublicationsProps {

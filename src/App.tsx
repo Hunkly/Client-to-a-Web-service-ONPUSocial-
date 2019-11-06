@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect, Provider} from 'react-redux';
+import {Provider} from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Container from './shared/components/Container';
 import Header from './shared/components/Header';
@@ -9,10 +9,7 @@ import './App.css';
 import AuthorizationPage from "./pages/AuthorizationPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import Store from './store/store';
-import {CurrentSession} from "./store/actionTypes";
-import {loadState, saveState} from "./store/localStorage";
 
-const Home = () => <p>Home</p>;
 const News = () => <p>News</p>;
 const About = () => <p>About Us</p>;
 
@@ -36,6 +33,6 @@ const App: React.FC = () => {
         </BrowserRouter>
       </Provider>
   );
-}
+};
 
 export default App;

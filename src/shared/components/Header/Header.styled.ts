@@ -6,8 +6,8 @@ interface IStyledHeaderProps {
 
 export default styled.div<IStyledHeaderProps>`
   .header__subheader{
-  background-color: #eaeaea;
-  height: 120px;
+  //background-color: #eaeaea;
+  height: 100px;
   display: flex;
   justify-content: ${props => (props.user ? 'space-between' : 'center')};
   ${props => (props.user ? '' : 'margin: 0 auto;')}
@@ -15,7 +15,7 @@ export default styled.div<IStyledHeaderProps>`
   }
   
   .header {
-  background-color: #eaeaea;
+  background-color: #61BB9D;
   width: 100%;
   }
 `;

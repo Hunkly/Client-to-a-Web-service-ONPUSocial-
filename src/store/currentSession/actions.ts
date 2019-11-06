@@ -1,8 +1,8 @@
-import {CurrentSession, LOG_IN, LOG_OUT, SessionAction, UserName} from "../actionTypes";
+import {CurrentSession, LOG_IN, LOG_OUT, SessionAction } from "../actionTypes";
 import {saveState} from "../localStorage";
 
 export function logIn(session: CurrentSession): SessionAction{
-    console.log('Log In action', session);
+    console.log('LOG_IN action', session);
     saveState({
         isLogged: session.isLogged,
         fullName: {
@@ -28,7 +28,7 @@ export function logOut(): SessionAction{
             lastName: ''
         }
     });
-    console.log('Log Out action');
+    console.log('LOG_OUT action');
     return {
         type: LOG_OUT,
         isLogged: false,

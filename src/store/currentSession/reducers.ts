@@ -1,7 +1,7 @@
 import {CurrentSession, LOG_IN, LOG_OUT, SessionAction} from "../actionTypes";
 
 const initialState: CurrentSession = {
-    isLogged: true,
+    isLogged: false,
     fullName: {
         firstName: '',
         lastName: ''
@@ -11,7 +11,7 @@ const initialState: CurrentSession = {
 export default function currentSessionReducer(state = initialState, action: SessionAction ): CurrentSession {
     switch(action.type) {
         case LOG_IN:
-            console.log('LOG_IN', state);
+            console.log('LOG_IN reducer', state);
             return {
                 isLogged: action.isLogged,
                 fullName: {
@@ -20,7 +20,7 @@ export default function currentSessionReducer(state = initialState, action: Sess
                 }
             };
         case LOG_OUT:
-            console.log('LOG_OUT', state);
+            console.log('LOG_OUT reducer', state);
             return initialState;
 
         default:

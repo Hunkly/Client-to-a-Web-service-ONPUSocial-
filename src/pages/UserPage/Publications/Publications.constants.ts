@@ -1,5 +1,4 @@
-import IPost from '../../../shared/models/Post';
-import IUser from "../../../shared/models/User";
+
 
 export default interface IPostTest {
   id: number,

@@ -5,12 +5,12 @@ export default styled.div`
   display: flex;
   align-items: center;
   height: 30px;
-  background-color: #9f9f9f;
+  background-color: #61BB9D;
   margin-bottom: 15px;
-  border-radius: 10px;
+  border-radius: 5px;
 
   .pageLabel__label {
-    color: #000;
+    color: #fff;
     font-size: 16px;
     font-weight: 500;
     padding-left: 10px;

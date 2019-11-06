@@ -10,10 +10,9 @@ export default styled.div<IStyledGreetingPageProps>`
     
     .greeting-page__container{
         color: #000;
-        height: 600px;
+        height: 400px;
         display: flex;
-        //align-items: flex-start; 
-        justify-content: flex-start;
+        justify-content: center;
         flex-direction: column;
     }
     

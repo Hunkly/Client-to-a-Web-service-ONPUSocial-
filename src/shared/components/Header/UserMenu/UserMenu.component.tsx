@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import StyledUserMenu from './UserMenu.styled';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import {CurrentSession, UserName} from "../../../../store/actionTypes";
+import {CurrentSession} from "../../../../store/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../../store/localStorage";
 
-interface IUserMenuProps {
-    isLogged: boolean,
-    fullName: UserName
-}
+// interface IUserMenuProps {
+//     isLogged: boolean,
+//     fullName: UserName
+// }
 
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 saveState(list);
 
-const UserMenu = ({isLogged, fullName}: IUserMenuProps) => {
+const UserMenu = () => {
 
     useEffect(
         () => {
@@ -25,11 +25,11 @@ const UserMenu = ({isLogged, fullName}: IUserMenuProps) => {
 
     return (
         <StyledUserMenu>
-            <a className="user-menu__link" href="User.html">
+            <a className="user-menu__link" href="/">
                 <img
                     className="user-menu__avatar"
                     src={DefaultPhoto}
-                    alt="user-photo"
+                    alt="user"
                 />
             </a>
             <div className="user-menu__wrapper">
@@ -49,9 +49,5 @@ function mapStateToProps(state: CurrentSession){
         }
     }
 }
-
-// const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-//     remove: (item) => () => dispatch({ type: "REMOVE_ITEM", item }),
-// });
 
 export default connect(mapStateToProps)(UserMenu)

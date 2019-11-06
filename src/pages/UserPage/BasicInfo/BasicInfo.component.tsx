@@ -4,8 +4,6 @@ import UserModel from '../../../shared/models/User';
 import BasicInfoItem from './BasicInfoItem';
 import Headline from '../../../shared/components/HeadLine';
 import PageLabel from '../../../shared/components/PageLabel';
-import Colleagues from '../Colleagues';
-import Button from '../../../shared/components/Button';
 
 interface IBasicInfoProps {
     user: UserModel;

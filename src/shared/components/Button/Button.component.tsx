@@ -2,14 +2,15 @@ import React from 'react';
 import StyledButton from './Button.styled';
 
 interface IButtonProps {
-    children: string;
+    children: React.ReactNode;
     color?: string;
     activeColor?: string;
+    type?: 'button' | 'reset' | 'submit';
 }
 
-export default function Button({ activeColor, color, children }: IButtonProps) {
+export default function Button({ type, activeColor, color, children }: IButtonProps) {
     return (
-        <StyledButton color={color} activeColor={activeColor}>
+        <StyledButton type={type} color={color} activeColor={activeColor}>
             {children}
         </StyledButton>
     )};

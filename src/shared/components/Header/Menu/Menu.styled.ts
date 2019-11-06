@@ -5,17 +5,18 @@ const StyledMenu = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  color: #fff;
   
   .menu-link {
     font-size: 15px
-    color: #000;
+    color: #fff;
     text-decoration: none;
     :hover {
       color: #000;
     }
   }
   .menu-link--active {
-    color: #000;
+    color: #fff;
     border-bottom: 1px solid #000;
   }
 `;

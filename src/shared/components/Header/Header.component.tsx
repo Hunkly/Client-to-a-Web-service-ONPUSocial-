@@ -4,24 +4,24 @@ import UserMenu from './UserMenu';
 import Container from '../Container';
 import Logo from './Logo';
 import Menu from './Menu';
-import {CurrentSession, UserName} from "../../../store/actionTypes";
+import {CurrentSession} from "../../../store/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../store/localStorage";
 
-interface IHeaderProps{
-    isLogged: boolean,
-    fullName: UserName
-}
+// interface IHeaderProps{
+//     isLogged: boolean,
+//     fullName: UserName
+// }
 
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 saveState(list);
 
-function Header({isLogged, fullName}:IHeaderProps) {
+function Header() {
     useEffect(
         () => {
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
-            console.log('List', list);
+            console.log('Header -> localStorage: ', list);
         }
     );
 
@@ -41,7 +41,6 @@ function Header({isLogged, fullName}:IHeaderProps) {
 }
 
 function mapStateToProps(state: CurrentSession){
-    console.log('Session', state);
     return {
         isLogged: state.isLogged,
         fullName: {

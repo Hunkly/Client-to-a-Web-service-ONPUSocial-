@@ -1,20 +1,17 @@
 import React from 'react';
 import UserPost from '../../../shared/models/Post';
-import Publications from './Publications.component';
 import PublicationItem from '../../../shared/components/PublicationItem';
 import PageLabel from "../../../shared/components/PageLabel";
-import {PostData} from "../Publications/Publications.constants";
+import {PostData} from "./Publications.constants";
 
-import ColleagueItem from "../Colleagues/ColleagueItem";
-
-interface IPublicationProps {
-    data?: {
-        name_post: string,
-        content: string,
-        user: string,
-        date: number,
-    };
-}
+// interface IPublicationProps {
+//     data?: {
+//         name_post: string,
+//         content: string,
+//         user: string,
+//         date: number,
+//     };
+// }
 
 interface IPublicationsContainerState {
     isLoading: boolean;
@@ -31,7 +28,6 @@ export default class PublicationsContainer extends React.PureComponent<{},
 
     public componentDidMount(): void {
         this.setState({ isLoading: true });
-        //const ID = this.props.match.params.id;
         fetch(`http://localhost:9005/posts/1`)
             .then(resp => resp.json())
             .then((data: UserPost) => {
