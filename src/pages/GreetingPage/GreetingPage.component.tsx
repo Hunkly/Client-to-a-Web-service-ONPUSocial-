@@ -1,37 +1,45 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import GreetingPageStyled from './GreetingPage.styled';
-import {CurrentSession} from "../../store/actionTypes";
+import {Account, CurrentSession} from "../../store/currentSession/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../store/localStorage";
-import RegistrationWindow from "./RegistrationWindow";
+import AuthorizationWindow from "./AuthorizationWindow";
 
-// interface IGreetingPageProps{
-//     isLogged: boolean,
-//     fullName: UserName
-// }
+interface IGreetingPageProps{
+    isLogged: boolean,
+    account: Account,
+}
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 console.log(list);
 saveState(list);
 
-function GreetingPage(){
+function GreetingPage({isLogged, account}: IGreetingPageProps){
+    const [login, setLogin] = useState(list.account.login);
+    const [password, setPassword] = useState(list.account.password);
+    const [logged, setLogged] = useState(list.isLogged);
+    let one = true;
 
     useEffect(
         () => {
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
             console.log('Greeting page -> localStorage: ', list);
+            if(one) {
+                setLogin(list.account.login);
+                setPassword(list.account.password);
+                setLogged(list.isLogged);
+            }
         }
     );
 
     return(
         <GreetingPageStyled active_color='red'>
-            {/*<div>{}</div>*/}
             <div className="greeting-page__container">
-                { list.isLogged ? null : <div className = "greeting-page__title">WELCOME TO ONPU SOCIAL NETWORK </div>}
-                { list.isLogged ? <div className = "greeting-page__text"> We glad to see you here, {list.fullName.firstName}. Let's begin.</div> : <div className = "greeting-page__text">Please, log in or sign up in the system</div>}
+                { logged ? null : <div className = "greeting-page__title">WELCOME TO ONPU SOCIAL NETWORK </div>}
+                { logged ? <div className = "greeting-page__text"> We glad to see you here, {login}. Let's begin.</div> : <div className = "greeting-page__text">Please, log in or sign up in the system</div>}
             </div>
-            { list.isLogged ? null : <div className="greeting-page__container">
-                <RegistrationWindow/>
+            { logged ? null : <div className="greeting-page__container">
+                <AuthorizationWindow/>
             </div>}
         </GreetingPageStyled>
     )
@@ -40,9 +48,9 @@ function GreetingPage(){
 function mapStateToProps(state: CurrentSession){
     return {
         isLogged: state.isLogged,
-        fullName: {
-            firstName: state.fullName.firstName,
-            lastName: state.fullName.lastName
+        account: {
+            login: state.account.login,
+            password: state.account.password
         }
     }
 }

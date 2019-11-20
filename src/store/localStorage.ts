@@ -1,4 +1,4 @@
-import {CurrentSession} from "./actionTypes";
+import {CurrentSession} from "./currentSession/actionTypes";
 
 export const loadState = () => {
     try {

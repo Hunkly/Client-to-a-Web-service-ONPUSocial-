@@ -2,18 +2,23 @@ import React from 'react'
 import StyledRegistrationPage from './RegistrationWindow.styled'
 import Button from "../../../shared/components/Button";
 import DatePicker from "react-datepicker";
+import TextArea from "../../../shared/components/TextArea/TextArea.component";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 interface IRegState{
-    email: string,
     firstName: string,
     lastName: string,
-    password: string,
-    password_confirm: string,
-    phone: string,
     birthday: number,
-    description: string;
+    email: string,
+    phone: string,
+    description: string,
+    photo: string,
+    studyGroup: string,
+    starosta: boolean,
+    userName: string,
+    password: string,
+    passwordConfirm: string,
     date: Date;
 }
 
@@ -21,94 +26,36 @@ interface IRegProps {
 
 }
 
-const year = [
-    {
-        id: 1,
-        month: 'January',
-        day: 31
-
-    },
-    {
-        id: 2,
-        month: 'February',
-        day: 28
-    },
-    {
-        id: 3,
-        month: 'March',
-        day: 31
-    },
-    {
-        id: 4,
-        month: 'April',
-        day: 30
-    },
-    {
-        id: 5,
-        month: 'May',
-        day: 31
-    },
-    {
-        id: 6,
-        month: 'June',
-        day: 30
-    },
-    {
-        id: 7,
-        month: 'Jule',
-        day: 31
-    },
-    {
-        id: 8,
-        month: 'August',
-        day: 31
-    },
-    {
-        id: 9,
-        month: 'September',
-        day: 30
-    },
-    {
-        id: 10,
-        month: 'October',
-        day: 31
-    },
-    {
-        id: 11,
-        month: 'November',
-        day: 30
-    },
-    {
-        id: 12,
-        month: 'December',
-        day: 31
-    },
-];
-
 export default class RegistrationWindow extends React.Component<IRegProps,IRegState>{
     constructor(props: IRegProps) {
         super(props);
 
         this.state = {
-            email: '',
             firstName: '',
             lastName: '',
-            password: '',
-            password_confirm: '',
-            phone: '',
             birthday: 0,
+            email: '',
+            phone: '',
             description: '',
+            photo: '',
+            studyGroup: '',
+            starosta: false,
+            userName: '',
+            password: '',
+            passwordConfirm: '',
             date: new Date()
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.dateChange = this.dateChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
-    dateChange = (date: Date) => {
+
+    handleDateChange = (date: Date) => {
         this.setState({
-            date: date
+            date: date,
+            birthday: date.valueOf()
         });
     };
 
@@ -117,28 +64,54 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
         event.preventDefault();
     }
 
-    // handleChange(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>){
-    handleChange(event: any){
+    public isValid = true;
+    public id = '';
+    handleChange(event: React.ChangeEvent<HTMLInputElement>){
         console.log('handleChange', event);
         // @ts-ignore
         this.setState({
             [event.target.name]: event.target.value
         });
-        console.log('state', this.state);
+
+        if(event.target.value === '') {
+            this.isValid = true;
+        }
+
+        console.log(this.validate(event.target.name,event.target.value));
+        this.isValid = this.validate(event.target.name,event.target.value);
+        this.id = event.target.name;
     }
 
-    birthdayConvert(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> ){
-        let day = event.target.name
+    validate(name: string, value: string){
+        switch(name){
+            case 'email': {
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(value).toLowerCase());
+            }
+            case 'phone': {
+                let re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+                return re.test(String(value).toLowerCase());
+            }
+            case 'firstName':
+            case 'lastName': {
+                let re = /^[A-Za-z ]+$/;
+                return re.test(String(value).toLowerCase());
+            }
+            default: {
+                return false;
+            }
+        }
     }
 
     render() {
         return (
-            <StyledRegistrationPage>
+            <StyledRegistrationPage id={this.id} isValid={this.isValid}>
                 <form action="">
                     <div className="registration-page__row">
                         <div className="registration-page__element">
                             Your first name
                             <input
+                                id="firstName"
                                 type="text"
                                 name="firstName"
                                 placeholder="First name"
@@ -146,10 +119,19 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                                 onChange={this.handleChange}
                                 required
                             />
+                            {
+                                !this.state.firstName ? null :
+                                    this.isValid ? null :
+                                        this.id === 'firstName' ?
+                                            <div className="registration-page__additional-text">
+                                                Data is incorrect
+                                            </div> : null
+                            }
                         </div>
                         <div className="registration-page__element">
                             Your last name
                             <input
+                                id="lastName"
                                 type="text"
                                 name="lastName"
                                 placeholder="Last name"
@@ -157,13 +139,51 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                                 onChange={this.handleChange}
                                 required
                             />
+                            {
+                                this.isValid || !this.state.lastName ? null :
+                                    this.id === 'lastName' ?
+                                        <div className="registration-page__additional-text">
+                                            Data is incorrect
+                                        </div> : null
+                            }
                         </div>
                     </div>
 
                     <div className="registration-page__row">
                         <div className="registration-page__element">
+                            Date of birth
+                            <DatePicker
+                                startDate={null}
+                                className="registration-window__date-picker"
+                                selected={this.state.date}
+                                onChange={this.handleDateChange}
+                            />
+                        </div>
+                        <div className="registration-page__element">
+                            Your phone
+                            <input
+                                id="phone"
+                                type="text"
+                                name="phone"
+                                placeholder="Phone"
+                                value={this.state.phone}
+                                onChange={this.handleChange}
+                                required
+                            />
+                            {
+                                this.isValid || !this.state.phone ? null :
+                                 this.id === 'phone' ?
+                                     <div className="registration-page__additional-text">
+                                        Data is incorrect
+                                     </div> : null
+                            }
+                        </div>
+                    </div>
+                    <div className="registration-page__row">
+                        <div className="registration-page__element">
                             Your e-mail
                             <input
+                                id="email"
                                 type="email"
                                 name="email"
                                 placeholder="Email"
@@ -171,60 +191,20 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                                 onChange={this.handleChange}
                                 required
                             />
-                        </div>
-                        <div className="registration-page__element">
-                            Your phone
-                            <input
-                                type="password"
-                                name="phone"
-                                placeholder="Phone"
-                                value={this.state.phone}
-                                onChange={this.handleChange}
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="registration-page__row">
-                        <div className="registration-page__element">
-                            Date of birth
-                            <div className="registration-page__element__container">
-                            {/*    <input*/}
-                            {/*        className="registration-page__birthday-input"*/}
-                            {/*        type="number"*/}
-                            {/*        name="day"*/}
-                            {/*        placeholder="Day"*/}
-                            {/*        value={this.state.birthday}*/}
-                            {/*        onChange={this.birthdayConvert}*/}
-                            {/*        required*/}
-                            {/*    />*/}
-                            {/*    <select name="birthday" onChange={this.birthdayConvert}>*/}
-                            {/*        {*/}
-                            {/*            year.map(({month, id}) =>*/}
-                            {/*             <option value={id}>{month}</option>*/}
-                            {/*            )*/}
-                            {/*        }*/}
-                            {/*    </select>*/}
-                            {/*    <input*/}
-                            {/*        className="registration-page__birthday-input"*/}
-                            {/*        type="number"*/}
-                            {/*        name="birthday"*/}
-                            {/*        placeholder="Year"*/}
-                            {/*        value={this.state.birthday}*/}
-                            {/*        onChange={this.birthdayConvert}*/}
-                            {/*        required*/}
-                            {/*    />*/}
-                            {/*</div>*/}
-                            <DatePicker
-                                selected={this.state.date}
-                                onChange={this.dateChange}
-                            />
-                            </div>
+                            {
+                                this.isValid || !this.state.email ? null :
+                                    this.id === 'email' ?
+                                        <div className="registration-page__additional-text">
+                                            Data is incorrect
+                                        </div> : null
+                            }
                         </div>
                     </div>
                     <div className="registration-page__row">
                         <div className="registration-page__element">
                             Password
                             <input
+                                id="password"
                                 type="password"
                                 name="password"
                                 placeholder="Password"
@@ -236,10 +216,11 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                         <div className="registration-page__element">
                             Repeat the password
                             <input
+                                id="passwordConfirm"
                                 type="password"
-                                name="password_confirm"
+                                name="passwordConfirm"
                                 placeholder="Confirm password"
-                                value={this.state.password_confirm}
+                                value={this.state.passwordConfirm}
                                 onChange={this.handleChange}
                                 required
                             />
@@ -248,14 +229,21 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                     <div className="registration-page__row">
                         <div className="registration-page__element">
                             Something about you
-                            <input
-                                type="text"
-                                name="description"
+                            <TextArea
+                                id="description"
+                                name='description'
                                 placeholder="Description"
                                 value={this.state.description}
                                 onChange={this.handleChange}
-                                required
+                                maxLength={200}
+                                required={true}
                             />
+                            {
+                                this.state.description.length<200 ? null :
+                                    <div className="registration-page__additional-text">
+                                        Data is too long
+                                    </div>
+                        }
                         </div>
                     </div>
                     <div className="registration-page__row">

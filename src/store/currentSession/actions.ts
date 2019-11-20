@@ -1,37 +1,35 @@
-import {CurrentSession, LOG_IN, LOG_OUT, SessionAction } from "../actionTypes";
+import {CurrentSession, LOG_IN, LOG_OUT, SessionAction } from "./actionTypes";
 import {saveState} from "../localStorage";
+import {ThunkAction} from "redux-thunk";
+import {Action} from "redux";
 
 export function logIn(session: CurrentSession): SessionAction{
     console.log('LOG_IN action', session);
     saveState({
         isLogged: session.isLogged,
-        fullName: {
-            firstName: session.fullName.firstName,
-            lastName: session.fullName.lastName
+        account: {
+            login: session.account.login,
+            password: session.account.password
         }
     });
-    return {
+    return{
         type: LOG_IN,
-        isLogged: session.isLogged,
-        fullName: {
-            firstName: session.fullName.firstName,
-            lastName: session.fullName.lastName
-        }
+        payload: session
     }
 }
 
 export function logOut(): SessionAction{
     saveState({
         isLogged: false,
-        fullName: {
-            firstName: '',
-            lastName: ''
+        account: {
+            login: '',
+            password: ''
         }
     });
     console.log('LOG_OUT action');
     return {
         type: LOG_OUT,
         isLogged: false,
-        fullName: undefined
+        account: undefined
     }
 }

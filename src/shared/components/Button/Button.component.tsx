@@ -6,11 +6,12 @@ interface IButtonProps {
     color?: string;
     activeColor?: string;
     type?: 'button' | 'reset' | 'submit';
+    onClick?: (event: any) => void;
 }
 
-export default function Button({ type, activeColor, color, children }: IButtonProps) {
+export default function Button({ type, activeColor, color, children, onClick }: IButtonProps) {
     return (
-        <StyledButton type={type} color={color} activeColor={activeColor}>
+        <StyledButton type={type} color={color} activeColor={activeColor} onClick={onClick}>
             {children}
         </StyledButton>
     )};

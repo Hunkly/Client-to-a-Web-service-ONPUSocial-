@@ -1,26 +1,25 @@
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 
-export interface UserName {
-    firstName: string,
-    lastName: string
+export interface Account {
+    login: string,
+    password: string
 }
 
 export interface CurrentSession{
     isLogged: boolean,
-    fullName: UserName
+    account: Account
 }
 
  interface LogIn {
     type: typeof LOG_IN
-    isLogged: boolean,
-    fullName: UserName
+    payload: CurrentSession
 }
 
  interface LogOut{
     type: typeof LOG_OUT
     isLogged: boolean,
-    fullName: undefined
+    account: undefined
 }
 
 export type SessionAction = LogOut | LogIn;

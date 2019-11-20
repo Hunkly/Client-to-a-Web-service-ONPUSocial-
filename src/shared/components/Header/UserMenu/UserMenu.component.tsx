@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import StyledUserMenu from './UserMenu.styled';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import {CurrentSession} from "../../../../store/actionTypes";
+import {CurrentSession} from "../../../../store/currentSession/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../../store/localStorage";
 
@@ -14,12 +14,21 @@ let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 saveState(list);
 
 const UserMenu = () => {
+    const [login, setLogin] = useState(list.account.login);
+    const [password, setPassword] = useState(list.account.password);
+    const [logged, setLogged] = useState(list.isLogged);
+    let one = true;
 
     useEffect(
         () => {
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
             console.log('List', list);
+            if(one) {
+                setLogin(list.account.login);
+                setPassword(list.account.password);
+                setLogged(list.isLogged);
+            }
         }
     );
 
@@ -33,7 +42,7 @@ const UserMenu = () => {
                 />
             </a>
             <div className="user-menu__wrapper">
-                <div className="user-menu__name">{list.fullName.firstName}</div>
+                <div className="user-menu__name">{login}</div>
             </div>
         </StyledUserMenu>
     );
@@ -43,9 +52,9 @@ function mapStateToProps(state: CurrentSession){
     console.log('Session', state);
     return {
         isLogged: state.isLogged,
-        fullName: {
-            firstName: state.fullName.firstName,
-            lastName: state.fullName.lastName
+        account: {
+            login: state.account.login,
+            password: state.account.password
         }
     }
 }

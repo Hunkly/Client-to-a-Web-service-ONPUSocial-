@@ -1,6 +1,11 @@
 import styled from '@emotion/styled'
 
-export default styled.div`
+interface IStyledRegWindowProps{
+    id?: string;
+    isValid?: boolean;
+}
+
+export default styled.div<IStyledRegWindowProps>`
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -8,6 +13,14 @@ export default styled.div`
     height: 600px;
     border-radius: 5px;
     background-color: #61BB9D;
+    color: #fff;
+    font-weight: 600;
+    
+    .registration-window__date-picker{
+        border-radius: 5px;
+        border: none;
+        margin-top: 5px;
+    }
     
     .registration-page__row{
         display: flex;
@@ -18,6 +31,7 @@ export default styled.div`
         display: flex;
         flex-direction: column;
         margin: 5px;
+        width: 100%;
     }
     
     input{
@@ -28,8 +42,14 @@ export default styled.div`
         margin-top: 5px;
     }
     
-    button{
-        //display: none;
+    #${(props) => (props.id ? props.id : '1')} {
+        border: ${(props) => (props.isValid ? 'none' : '1px solid')};
+        border-color: ${(props) => (props.isValid ? 'black' : 'red')};
+    }
+    
+    .registration-page__additional-text{
+        color: red;
+        font-weight: 350;
     }
     
     .registration-page__birthday-input{

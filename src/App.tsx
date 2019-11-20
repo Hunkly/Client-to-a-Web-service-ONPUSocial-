@@ -26,8 +26,8 @@ const App: React.FC = () => {
              <Route path="/news" component={News} />
              <Route path="/about-us" component={About} />
              <Route path="/users/:id" component={UserPage} />
-             <Route path="/auth" component={AuthorizationPage} />
-             <Route path="/registration" component={RegistrationPage} />
+             {/*<Route path="/auth" component={AuthorizationWindow} />*/}
+             {/*<Route path="/registration" component={RegistrationPage} />*/}
             </Switch>
            </Container>
         </BrowserRouter>

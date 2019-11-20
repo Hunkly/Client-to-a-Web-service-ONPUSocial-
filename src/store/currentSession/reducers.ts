@@ -1,11 +1,12 @@
-import {CurrentSession, LOG_IN, LOG_OUT, SessionAction} from "../actionTypes";
+import {CurrentSession, LOG_IN, LOG_OUT, SessionAction} from "./actionTypes";
 
-const initialState: CurrentSession = {
+export const initialState: CurrentSession = {
     isLogged: false,
-    fullName: {
-        firstName: '',
-        lastName: ''
+    account: {
+        login: '',
+        password: ''
     }
+
 };
 
 export default function currentSessionReducer(state = initialState, action: SessionAction ): CurrentSession {
@@ -13,16 +14,16 @@ export default function currentSessionReducer(state = initialState, action: Sess
         case LOG_IN:
             console.log('LOG_IN reducer', state);
             return {
-                isLogged: action.isLogged,
-                fullName: {
-                    firstName: action.fullName.firstName,
-                    lastName: action.fullName.lastName
-                }
+                ...state,
+                account:{
+                  login: action.payload.account.login,
+                  password: action.payload.account.password
+                },
+                isLogged: action.payload.isLogged
             };
         case LOG_OUT:
             console.log('LOG_OUT reducer', state);
             return initialState;
-
         default:
             return state
     }

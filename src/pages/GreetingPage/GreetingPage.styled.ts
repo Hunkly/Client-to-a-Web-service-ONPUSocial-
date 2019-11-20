@@ -14,6 +14,7 @@ export default styled.div<IStyledGreetingPageProps>`
         display: flex;
         justify-content: center;
         flex-direction: column;
+        margin-top: 100px;
     }
     
     .greeting-page__title{
@@ -49,10 +50,6 @@ export default styled.div<IStyledGreetingPageProps>`
     :hover {
           color: green;
         }
-    }
-    
-    .greeting-page__container{
-    margin-top: 30px;
     }
     
     .greeting-page__link-active{

@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import StyledHeader from './Header.styled';
 import UserMenu from './UserMenu';
 import Container from '../Container';
 import Logo from './Logo';
 import Menu from './Menu';
-import {CurrentSession} from "../../../store/actionTypes";
+import {CurrentSession} from "../../../store/currentSession/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../store/localStorage";
 
@@ -17,11 +17,21 @@ let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 saveState(list);
 
 function Header() {
+    const [login, setLogin] = useState(list.account.login);
+    const [password, setPassword] = useState(list.account.password);
+    const [logged, setLogged] = useState(list.isLogged);
+    let one = true;
+
     useEffect(
         () => {
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
             console.log('Header -> localStorage: ', list);
+            if(one) {
+                setLogin(list.account.login);
+                setPassword(list.account.password);
+                setLogged(list.isLogged);
+            }
         }
     );
 
@@ -30,9 +40,9 @@ function Header() {
             <div className = "header">
                 <Container>
                     <div className = "header__subheader">
-                        {list.isLogged ? <UserMenu/> : null}
-                        <Logo user={list.isLogged}/>
-                        {list.isLogged ? <Menu/> : null}
+                        {logged ? <UserMenu/> : null}
+                        <Logo user={logged}/>
+                        {logged ? <Menu/> : null}
                     </div>
                 </Container>
             </div>
@@ -43,9 +53,9 @@ function Header() {
 function mapStateToProps(state: CurrentSession){
     return {
         isLogged: state.isLogged,
-        fullName: {
-            firstName: state.fullName.firstName,
-            lastName: state.fullName.lastName
+        account: {
+            login: state.account.login,
+            password: state.account.password
         }
     }
 }
