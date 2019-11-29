@@ -6,8 +6,8 @@ import { saveState } from "../../../store/localStorage";
 import { CurrentSession, Account } from "../../../store/currentSession/actionTypes";
 import { connect } from "react-redux";
 import axios from 'axios';
-import { getDataSuccess } from "../../../store/data/actions";
-import * as errorHandlerActions from '../../../store/errorHandler/actions';
+// import { getDataSuccess } from "../../../store/data/actions";
+// import * as errorHandlerActions from '../../../store/errorHandler/actions';
 import Store from '../../../store/store';
 
 interface IAuthWindowProps{
@@ -38,7 +38,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
     const [errMessage, setErrMessage] = useState('');
     const [id, setId] = useState('');
     const [emailed, setEmailed] = useState(false);
-    let one = true;
 
     function Autorization(login: string, password: string){
         axios
@@ -118,7 +117,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
         console.log('PASSWORD', password);
         setErr(false);
     }
-    let log = '';
+    // let log = '';
     function auth(){
         if(validate('login',login)){
             if(!validate('email',login)){
@@ -262,12 +261,12 @@ function mapDispatchToProps(dispatch: any): DispatchProps{
                 .get(url)
                 .then(res => {
                     console.log('ON GET DATA, getDataSuccess', res);
-                    dispatch(getDataSuccess(res.data));
+                    // dispatch(getDataSuccess(res.data));
                     return res.data;
                 })
                 .catch(error => {
                     console.log('ON GET DATA, error', error);
-                    dispatch(errorHandlerActions.handleHTTPError(error, props));
+                    // dispatch(errorHandlerActions.handleHTTPError(error, props));
                     return error;
                 })
         }

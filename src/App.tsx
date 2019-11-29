@@ -6,8 +6,6 @@ import Header from './shared/components/Header';
 import UserPage from './pages/UserPage';
 import GreetingPage from './pages/GreetingPage';
 import './App.css';
-import AuthorizationPage from "./pages/AuthorizationPage";
-import RegistrationPage from "./pages/RegistrationPage";
 import Store from './store/store';
 
 const News = () => <p>News</p>;

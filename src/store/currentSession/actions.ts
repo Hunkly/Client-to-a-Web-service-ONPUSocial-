@@ -1,7 +1,5 @@
 import {CurrentSession, LOG_IN, LOG_OUT, SessionAction } from "./actionTypes";
 import {saveState} from "../localStorage";
-import {ThunkAction} from "redux-thunk";
-import {Action} from "redux";
 
 export function logIn(session: CurrentSession): SessionAction{
     console.log('LOG_IN action', session);
