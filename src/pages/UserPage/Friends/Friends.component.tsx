@@ -1,7 +1,7 @@
 import React from 'react';
-import StyledColleagues from './Colleagues.styled';
-import {ColleagueData} from "./Colleague.constants";
-import ColleagueItem from "./ColleagueItem";
+import StyledColleagues from './Friends.styled';
+import {ColleagueData} from "./Friends.constants";
+import ColleagueItem from "./FriendItem";
 import PageLabel from "../../../shared/components/PageLabel";
 
 // interface IColleaguesProps {
@@ -13,7 +13,7 @@ export default function Colleagues() {
 
     return (
        <StyledColleagues>
-           <PageLabel>Colleagues</PageLabel>
+           <PageLabel>Friends</PageLabel>
            {ColleagueData.map((data) => (
-                <ColleagueItem name={data.name}/>))}
+                <ColleagueItem name={data.name} key={data.id}/>))}
        </StyledColleagues>)};

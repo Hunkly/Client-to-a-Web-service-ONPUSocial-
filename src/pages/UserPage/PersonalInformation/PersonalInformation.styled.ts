@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export default styled.div`
    color: #000;
-   width: 100%;
+   width: 460px;
    
   .basic-info__data {
     width: 100%;

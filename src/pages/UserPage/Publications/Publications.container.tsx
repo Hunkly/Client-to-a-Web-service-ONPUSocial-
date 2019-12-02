@@ -2,7 +2,12 @@ import React from 'react';
 import UserPost from '../../../shared/models/Post';
 import PublicationItem from '../../../shared/components/PublicationItem';
 import PageLabel from "../../../shared/components/PageLabel";
-import {PostData} from "./Publications.constants";
+import axios from 'axios';
+import {CurrentSession} from "../../../store/currentSession/actionTypes";
+import {saveState} from "../../../store/localStorage";
+import Store from "../../../store/store";
+import Publications from "./Publications.component";
+// import {PostData} from "./Publications.constants";
 
 // interface IPublicationProps {
 //     data?: {
@@ -14,39 +19,40 @@ import {PostData} from "./Publications.constants";
 // }
 
 interface IPublicationsContainerState {
-    isLoading: boolean;
-    posts: UserPost | null;
+    //isLoading: boolean;
+    posts: UserPost[];
 }
+
+let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
+console.log(list);
+saveState(list);
+console.log('Store ', Store.getState());
 
 export default class PublicationsContainer extends React.PureComponent<{},
     IPublicationsContainerState
     > {
     public state = {
-        isLoading: false,
-        posts: null
+        //isLoading: false,
+        posts: []
     };
 
     public componentDidMount(): void {
-        this.setState({ isLoading: true });
-        fetch(`http://localhost:9005/posts/1`)
-            .then(resp => resp.json())
-            .then((data: UserPost) => {
-                if (data.content) {
-                    this.setState({
-                        isLoading: false,
-                        posts: data
-                    });
-                }
+        //this.setState({ isLoading: true });
+        axios
+            .get(`http://localhost:9005/posts/user/${list.account.login}`)
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    //isLoading: false,
+                    posts: res.data.content
+                });
             })
     }
 
     public render() {
         return (
             <div>
-               {/*// <Publications posts={this.state.posts} />*/}
-                <PageLabel> Publications </PageLabel>
-                {PostData.map(({ name_post, user, content, date }) => (
-                    <PublicationItem user={user} name_post={name_post} date={date} content={content}/>))}
+                <Publications posts={this.state.posts}/>
             </div>
         );
     }

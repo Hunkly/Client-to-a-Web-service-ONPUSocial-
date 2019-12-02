@@ -5,8 +5,12 @@ export default styled.div`
    color: #000;
    padding-top: 50px;
    
-   .page-container{
+   .page-information-box{
         display: flex;
+        width: 100%;
+   }
+   
+   .page-container{
         width: 100%;
    }
 `;

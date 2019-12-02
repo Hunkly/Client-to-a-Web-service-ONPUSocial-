@@ -1,5 +1,5 @@
 import React from 'react';
-import StyledBasicInfoItem from './BasicInfoItem.styled';
+import StyledBasicInfoItem from './PersonalInformationItem.styled';
 
 interface IBasicInfoProps {
     title: string;

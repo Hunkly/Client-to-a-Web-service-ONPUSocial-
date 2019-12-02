@@ -1,5 +1,5 @@
 import React from 'react';
-import StyledColleagueItem from './ColleagueItem.styled';
+import StyledColleagueItem from './FriendItem.styled';
 //import IColleagueItem from '../Colleague.constants';
 
 interface IUserColleagues {

@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
-import StyledBasicInfo from './BasicInfo.styled';
+import StyledBasicInfo from './PersonalInformation.styled';
 import UserModel from '../../../shared/models/User';
-import BasicInfoItem from './BasicInfoItem';
+import BasicInfoItem from './PersonalInformationItem';
 import Headline from '../../../shared/components/HeadLine';
 import PageLabel from '../../../shared/components/PageLabel';
 

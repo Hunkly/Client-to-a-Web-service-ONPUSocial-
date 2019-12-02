@@ -1,9 +1,9 @@
 import React from 'react';
 import UserModel from '../../shared/models/User';
 import StyledUserPage from './UserPage.styled';
-import BasicInfo from './BasicInfo';
+import PersonalInformation from './PersonalInformation';
 import ProfileMenu from "./ProfileMenu";
-import Colleagues from "./Colleagues";
+import Friends from "./Friends";
 import Publications from "./Publications";
 
 interface IUserPageProps {
@@ -21,14 +21,14 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
     }
     return (
           <StyledUserPage>
-            <div>
-              <div className = "page-container">
+            <div className="page-container">
+              <div className = "page-information-box">
                 <ProfileMenu/>
-                <BasicInfo user={this.props.user} />
+                <PersonalInformation user={this.props.user} />
               </div>
               <Publications/>
             </div>
-            <Colleagues/>
+            <Friends/>
           </StyledUserPage>
     );
   }

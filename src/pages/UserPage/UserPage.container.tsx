@@ -6,7 +6,6 @@ import UserPage from './UserPage.component';
 
 interface IUserPageContainerProps {
     match: match<{ id: string }>;
-    // theme: ITheme
 }
 
 interface IUserPageContainerState {
@@ -42,9 +41,7 @@ export default class UserPageContainer extends React.PureComponent<
 
     public render() {
         return (
-            // <ThemeProvider theme={this.props.theme}>
             <UserPage user={this.state.user} />
-            //  </ThemeProvider>
         );
     }
 }
