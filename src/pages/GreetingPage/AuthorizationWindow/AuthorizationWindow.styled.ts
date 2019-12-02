@@ -10,16 +10,22 @@ export default styled.div<IStyledAuthWindowProps>`
     display: flex;
     flex-direction: column;
     padding: 15px;
-    width: 300px;
-    height: ${(props) => (!props.isErr ? props.isValid ? '200px' : '220px' : '220px')};
+    width: 100%;
+    //height: ${(props) => (!props.isErr ? props.isValid ? '200px' : '220px' : '220px')};
     border-radius: 5px;
     background-color: #61BB9D;
     color: #fff;
     
     .authorization-page__button-container{
-        margin-top: 20px;
         display: flex;
         justify-content: space-between;
+        margin-top: 15px;
+        width: 100%;
+        
+        button{
+            margin: 5px;
+            width: 100%;
+        }
     }
     
     #${(props) => (props.id ? props.id : '1')} {

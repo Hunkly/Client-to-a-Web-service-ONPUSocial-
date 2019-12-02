@@ -12,7 +12,7 @@ export default styled.button<IStyledButtonProps>`
     border: none;
     max-height: 40px;
     border-radius: 5px;
-    width: 120px;
+    min-width: 150px;
     padding: 10px 30px 10px 30px;
     //margin-top: 20px;
     :hover {

@@ -3,8 +3,14 @@ import StyledRegistrationPage from './RegistrationWindow.styled'
 import Button from "../../../shared/components/Button";
 import DatePicker from "react-datepicker";
 import TextArea from "../../../shared/components/TextArea/TextArea.component";
+import {logIn, showRegWindow} from "../../../store/currentSession/actions";
+import axios from 'axios';
 
 import "react-datepicker/dist/react-datepicker.css";
+import {saveState} from "../../../store/localStorage";
+import pathHistory from "../../../pathHistory";
+import {CurrentSession} from "../../../store/currentSession/actionTypes";
+import {connect} from "react-redux";
 
 interface IRegState{
     firstName: string,
@@ -18,16 +24,23 @@ interface IRegState{
     starosta: boolean,
     userName: string,
     password: string,
-    passwordConfirm: string,
-    date: Date;
+    date: Date,
+    passwordConfirm: string
 }
 
 interface IRegProps {
 
 }
 
-export default class RegistrationWindow extends React.Component<IRegProps,IRegState>{
-    constructor(props: IRegProps) {
+interface DispatchProps {
+    onLogIn: (session: CurrentSession) => void,
+    onGetData: (url: string, props: any) => void
+}
+
+type Props = IRegProps & DispatchProps;
+
+class RegistrationWindow extends React.Component<Props,IRegState>{
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -42,8 +55,8 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
             starosta: false,
             userName: '',
             password: '',
-            passwordConfirm: '',
-            date: new Date()
+            date: new Date(),
+            passwordConfirm: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,13 +67,55 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
 
     handleDateChange = (date: Date) => {
         this.setState({
-            date: date,
             birthday: date.valueOf()
         });
     };
 
     handleSubmit(event: React.FormEvent<HTMLFormElement>){
         console.log("formSubmitted");
+        const userForm = {
+            first_name: this.state.firstName,
+            last_name: this.state.lastName,
+            birthday: this.state.birthday,
+            email: this.state.email,
+            phone: this.state.phone,
+            description: this.state.description,
+            photo: '/photo/test.png',
+            studygroup: null,
+            starosta: null,
+            username: this.state.userName,
+            password: this.state.password
+        };
+        axios
+            .post(`http://localhost:9005/users`, userForm)
+            .then(res => {
+                console.log(res.data);
+                axios
+                    .get(`http://localhost:9005/login?login=${this.state.userName}&password=${this.state.password}`)
+                    .then(res => {
+                        console.log('ON GET DATA, getDataSuccess', res);
+                        this.props.onLogIn({
+                            isLogged: res.data,
+                            signUp: false,
+                            account: {
+                                login: this.state.userName,
+                                password: this.state.password
+                            }
+                        });
+                        saveState({
+                            isLogged: res.data,
+                            signUp: false,
+                            account: {login: this.state.userName, password: this.state.password}
+                        });
+                        pathHistory.push(`/users/${this.state.userName}`)
+                    })
+                    .catch(error => {
+                        console.log('ON GET DATA, error', error.response.data);
+                    });
+            })
+            .catch(error => {
+              console.log(error.message);
+            });
         event.preventDefault();
     }
 
@@ -82,6 +137,10 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
         this.id = event.target.name;
     }
 
+    pushTo(event: React.ChangeEvent<HTMLButtonElement>){
+        return pathHistory.push(event.target.value);
+    }
+
     validate(name: string, value: string){
         switch(name){
             case 'email': {
@@ -97,6 +156,9 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                 let re = /^[A-Za-z ]+$/;
                 return re.test(String(value).toLowerCase());
             }
+            // case 'passwordConfirm': {
+            //    if(this.state.passwordConfirm === this.state.password){ return true } else { return false }
+            // }
             default: {
                 return false;
             }
@@ -224,6 +286,27 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                                 onChange={this.handleChange}
                                 required
                             />
+                            {/*{*/}
+                            {/*    this.isValid || !this.state.passwordConfirm ? null :*/}
+                            {/*        this.id === 'passwordConfirm' ?*/}
+                            {/*            <div className="registration-page__additional-text">*/}
+                            {/*                Data must be identity*/}
+                            {/*            </div> : null*/}
+                            {/*}*/}
+                        </div>
+                    </div>
+                    <div className="registration-page__row">
+                        <div className="registration-page__element">
+                            User name
+                            <input
+                                id="userName"
+                                type="text"
+                                name="userName"
+                                placeholder="User name"
+                                value={this.state.userName}
+                                onChange={this.handleChange}
+                                required
+                            />
                         </div>
                     </div>
                     <div className="registration-page__row">
@@ -248,12 +331,25 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
                     </div>
                     <div className="registration-page__row">
                         <div className="registration-page__element">
-                            <Button type='submit' color="#FB4141" activeColor="#FB4141">
+                            <Button
+                                onClick={this.handleSubmit}
+                                color="#3E76BB"
+                                activeColor="#3E76BB"
+                            >
                                 Register
                             </Button>
                         </div>
+                        <div className="registration-page__element">
+                            <Button
+                                onClick={this.pushTo}
+                                color="#FB4141"
+                                activeColor="#FB4141"
+                                value='/'
+                            >
+                                Go back
+                            </Button>
+                        </div>
                         <div>
-
                         </div>
                     </div>
                 </form>
@@ -261,3 +357,38 @@ export default class RegistrationWindow extends React.Component<IRegProps,IRegSt
         );
     }
 }
+
+    function mapStateToProps(state: CurrentSession){
+        return {
+            isLogged: state.isLogged,
+            account: {
+                login: state.account.login,
+                password: state.account.password
+            }
+        }
+    }
+
+    function mapDispatchToProps(dispatch: any): DispatchProps{
+        return {
+            onLogIn: async (session: CurrentSession) => {
+                await dispatch(logIn(session));
+                //console.log('Login completed [UI]')
+            },
+            onGetData: async (url: string, props: any) => {
+                axios
+                    .get(url)
+                    .then(res => {
+                        console.log('ON GET DATA, getDataSuccess', res);
+                        // dispatch(getDataSuccess(res.data));
+                        return res.data;
+                    })
+                    .catch(error => {
+                        console.log('ON GET DATA, error', error);
+                        // dispatch(errorHandlerActions.handleHTTPError(error, props));
+                        return error;
+                    })
+            }
+        }
+    }
+
+    export default connect(mapStateToProps, mapDispatchToProps)(RegistrationWindow)

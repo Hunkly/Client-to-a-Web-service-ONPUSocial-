@@ -7,14 +7,16 @@ export default function ProfileMenu() {
     return (
         <StyledProfileMenu>
             <div className="profile-menu__avatar"/>
-            <Button>
-                Add to friends
-            </Button>
-            <Button>
-                Message
-            </Button>
-            <Button>
-                Report
-            </Button>
+            <div>
+                {/*<Button>*/}
+                {/*    Add to friends*/}
+                {/*</Button>*/}
+                {/*<Button>*/}
+                {/*    Message*/}
+                {/*</Button>*/}
+                {/*<Button>*/}
+                {/*    Report*/}
+                {/*</Button>*/}
+            </div>
         </StyledProfileMenu>
     )};

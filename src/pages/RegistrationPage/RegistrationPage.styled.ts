@@ -9,4 +9,8 @@ export default styled.div`
     flex-direction: column;
     font-size: 45px;
     font-weight: 300;
+    
+    .registration-page__window{
+        font-size: 15px;
+    }
 `

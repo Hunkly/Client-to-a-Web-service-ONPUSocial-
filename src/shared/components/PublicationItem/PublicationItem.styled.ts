@@ -4,6 +4,10 @@ export default styled.div`
    color: #000;
    padding-left: 20px;
    
+   p{
+        font-weight: 100;
+   }
+   
    .publication-item__author{
         display: flex;
         align-items: center;

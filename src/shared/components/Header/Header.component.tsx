@@ -8,17 +8,12 @@ import {CurrentSession} from "../../../store/currentSession/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../store/localStorage";
 
-// interface IHeaderProps{
-//     isLogged: boolean,
-//     fullName: UserName
-// }
 
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 saveState(list);
 
+
 function Header() {
-    const [login, setLogin] = useState(list.account.login);
-    const [password, setPassword] = useState(list.account.password);
     const [logged, setLogged] = useState(list.isLogged);
     let one = true;
 
@@ -28,8 +23,6 @@ function Header() {
             saveState(list);
             console.log('Header -> localStorage: ', list);
             if(one) {
-                setLogin(list.account.login);
-                setPassword(list.account.password);
                 setLogged(list.isLogged);
             }
         }

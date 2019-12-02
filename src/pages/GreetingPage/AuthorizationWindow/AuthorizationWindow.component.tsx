@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StyledAuthorizationWindow from './AuthorizationWindow.styled';
 import Button from "../../../shared/components/Button";
-import { logIn } from "../../../store/currentSession/actions";
+import {logIn, showRegWindow} from "../../../store/currentSession/actions";
 import { saveState } from "../../../store/localStorage";
 import { CurrentSession, Account } from "../../../store/currentSession/actionTypes";
 import { connect } from "react-redux";
@@ -9,6 +9,7 @@ import axios from 'axios';
 // import { getDataSuccess } from "../../../store/data/actions";
 // import * as errorHandlerActions from '../../../store/errorHandler/actions';
 import Store from '../../../store/store';
+import pathHistory from "../../../pathHistory";
 
 interface IAuthWindowProps{
     isLogged: boolean,
@@ -46,13 +47,15 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 console.log('ON GET DATA, getDataSuccess', res);
                 onLogIn({
                     isLogged: res.data,
+                    signUp: false,
                     account: {
                         login: login,
                         password: password
                     }
                 });
-                saveState({isLogged: res.data, account: {login, password}});
+                saveState({isLogged: res.data, signUp: false, account: {login, password}});
                 setErr(false);
+                pathHistory.push(`/users/${login}`)
             })
             .catch(error => {
                 setErr(true);
@@ -80,6 +83,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
         setLogin(event.target.value);
         onLogIn({
             isLogged: false,
+            signUp: false,
             account:{
                 login: event.target.value,
                 password: password
@@ -106,6 +110,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
         setPassword(event.target.value);
         onLogIn({
             isLogged: false,
+            signUp: false,
             account:{
                 login: login,
                 password: event.target.value
@@ -155,6 +160,10 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 Autorization(account.login, account.password);
             }
         }
+    }
+
+    function pushTo(event: React.ChangeEvent<HTMLButtonElement>){
+        return pathHistory.push(event.target.value);
     }
 
     function validate(name: string, value: string){
@@ -221,19 +230,20 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 }
             </div>
             <div className="authorization-page__button-container">
-                    <Button
-                        color="#3E76BB"
-                        activeColor="#3E76BB"
-                        onClick={auth}
-                    >
-                        Log in
-                    </Button>
-                or
+                <Button
+                    color="#3E76BB"
+                    activeColor="#3E76BB"
+                    onClick={auth}
+                >
+                    Log in
+                </Button>
                 <Button
                     color="#FB4141"
                     activeColor="#FB4141"
+                    onClick={pushTo}
+                    value="/"
                 >
-                    Sign up
+                    Go back
                 </Button>
             </div>
         </StyledAuthorizationWindow>

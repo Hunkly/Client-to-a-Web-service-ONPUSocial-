@@ -6,10 +6,10 @@ export default styled.div`
     align-items: flex-start;
     flex-direction: column;
     
-         .profile-menu__avatar {
-            width: 150px;
-            height: 150px;
-            background-color: #9f9f9f;
-            border-radius: 50%;
-          }
+    .profile-menu__avatar {
+    width: 200px;
+    height: 200px;
+    background-color: #9f9f9f;
+    border-radius: 50%;
+    }
 `;

@@ -1,5 +1,6 @@
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
+export const SHOW_REG_WINDOW = 'SHOW_REG_WINDOW';
 
 export interface Account {
     login: string,
@@ -8,6 +9,7 @@ export interface Account {
 
 export interface CurrentSession{
     isLogged: boolean,
+    signUp: boolean
     account: Account
 }
 
@@ -19,7 +21,14 @@ export interface CurrentSession{
  interface LogOut{
     type: typeof LOG_OUT
     isLogged: boolean,
+    signUp: boolean,
     account: undefined
 }
 
-export type SessionAction = LogOut | LogIn;
+interface ShowReg{
+    type: typeof SHOW_REG_WINDOW
+    isLogged: boolean,
+    signUp: boolean
+}
+
+export type SessionAction = LogOut | LogIn | ShowReg;

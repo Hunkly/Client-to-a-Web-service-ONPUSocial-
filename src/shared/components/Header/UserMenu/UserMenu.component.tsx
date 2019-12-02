@@ -15,8 +15,8 @@ saveState(list);
 
 const UserMenu = () => {
     const [login, setLogin] = useState(list.account.login);
-    const [password, setPassword] = useState(list.account.password);
-    const [logged, setLogged] = useState(list.isLogged);
+    // const [password, setPassword] = useState(list.account.password);
+    // const [logged, setLogged] = useState(list.isLogged);
     let one = true;
 
     useEffect(
@@ -26,10 +26,10 @@ const UserMenu = () => {
             console.log('List', list);
             if(one) {
                 setLogin(list.account.login);
-                setPassword(list.account.password);
-                setLogged(list.isLogged);
+                // setPassword(list.account.password);
+                // setLogged(list.isLogged);
             }
-        }
+        }, [one]
     );
 
     return (

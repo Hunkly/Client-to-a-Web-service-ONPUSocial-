@@ -2,6 +2,7 @@ import {CurrentSession, LOG_IN, LOG_OUT, SessionAction} from "./actionTypes";
 
 export const initialState: CurrentSession = {
     isLogged: false,
+    signUp: false,
     account: {
         login: '',
         password: ''

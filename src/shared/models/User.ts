@@ -13,4 +13,5 @@ export default interface IUser {
     studygroup: IGroup;
     colleagues:  IColleague[];
     posts: IPost[];
+    username: string;
     }

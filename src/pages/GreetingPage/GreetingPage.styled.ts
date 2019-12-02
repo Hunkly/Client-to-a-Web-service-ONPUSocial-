@@ -17,14 +17,20 @@ export default styled.div<IStyledGreetingPageProps>`
         margin-top: 100px;
     }
     
+    .greeting-page__button-container{
+        button{
+            margin: 5px;
+        }
+    }
+    
     .greeting-page__title{
         font-size: 30px;
         font-weight: 600;
     }
     
     .greeting-page__text{
-    font-size: 25px;
-    font-weight: 450;
+    font-size: 20px;
+    font-weight: 200;
     }
     
     .greeting-page__link{

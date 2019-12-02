@@ -8,10 +8,14 @@ const StyledMenu = styled.nav`
   color: #fff;
   
   .menu-link {
-    font-size: 15px
+    font-size: 17px;
     color: #fff;
     text-decoration: none;
     :hover {
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease;
       color: #000;
     }
   }

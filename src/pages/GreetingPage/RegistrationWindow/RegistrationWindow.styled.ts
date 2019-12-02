@@ -9,8 +9,7 @@ export default styled.div<IStyledRegWindowProps>`
     display: flex;
     flex-direction: column;
     padding: 15px;
-    width: 365px;
-    height: 600px;
+    width: 100%;
     border-radius: 5px;
     background-color: #61BB9D;
     color: #fff;
@@ -32,6 +31,10 @@ export default styled.div<IStyledRegWindowProps>`
         flex-direction: column;
         margin: 5px;
         width: 100%;
+        
+        button{
+            width: 100%;
+        }
     }
     
     input{
@@ -43,12 +46,11 @@ export default styled.div<IStyledRegWindowProps>`
     }
     
     #${(props) => (props.id ? props.id : '1')} {
-        border: ${(props) => (props.isValid ? 'none' : '1px solid')};
-        border-color: ${(props) => (props.isValid ? 'black' : 'red')};
+        background-color: ${(props) => (props.isValid ? '#fff' : '#FF7979')};
     }
     
     .registration-page__additional-text{
-        color: red;
+        color: #1C5C37;
         font-weight: 350;
     }
     
@@ -62,11 +64,5 @@ export default styled.div<IStyledRegWindowProps>`
         align-items: center;
         height: 40px;
         width: 230px;
-    }
-    
-    select{
-        border-radius: 5px;
-        height: 35px;
-        margin-top: 3px;
     }
 `
