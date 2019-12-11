@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import StyledAuthorizationPage from './AuthorizationPage.styled';
-import AuthorizationWindow from "../GreetingPage/AuthorizationWindow";
+import AuthorizationWindow from "./AuthorizationWindow";
 
 export default function AuthorizationPage(){
 

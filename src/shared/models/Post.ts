@@ -7,4 +7,5 @@ export default interface IPost {
     user: IUser;
     restriction: number;
     date: number;
+    isImages: boolean;
 }

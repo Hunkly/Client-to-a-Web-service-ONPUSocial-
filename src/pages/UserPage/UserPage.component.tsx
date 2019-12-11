@@ -26,7 +26,7 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
                 <ProfileMenu/>
                 <PersonalInformation user={this.props.user} />
               </div>
-              <Publications/>
+              <Publications user={this.props.user}/>
             </div>
             <Friends/>
           </StyledUserPage>

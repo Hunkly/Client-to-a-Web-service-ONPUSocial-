@@ -1,6 +1,6 @@
 import React from 'react';
 import StyledRegistrationPage from './RegistrationPage.styled';
-import RegistrationWindow from "../GreetingPage/RegistrationWindow";
+import RegistrationWindow from "./RegistrationWindow";
 
 export default function RegistrationPage(){
     return (

@@ -5,37 +5,58 @@ import {connect} from "react-redux";
 import {saveState} from "../../store/localStorage";
 import Button from '../../shared/components/Button'
 import pathHistory from "../../pathHistory";
-import AuthorizationWindow from "./AuthorizationWindow";
-import RegistrationWindow from "./RegistrationWindow";
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-// interface IGreetingPageProps{
-//     isLogged: boolean,
-//     account: Account,
-// }
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
 console.log(list);
 saveState(list);
-// saveState({isLogged: false, account: { login: '', password: ''}});
 
 function GreetingPage(){
-    // const [login, setLogin] = useState(list.account.login);
-    // // const [password, setPassword] = useState(list.account.password);
     const [logged, setLogged] = useState(list.isLogged);
-    // const [signUp, setSignUp] = useState(list.signUp);
-    let one = true;
 
     useEffect(
         () => {
+            console.log(Cookies);
+            alert( document.cookie );
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
-            console.log('Greeting page -> localStorage: ', list);
-            if(one) {
-                // setLogin(list.account.login);
-                // setSignUp(list.signUp);
-                // setPassword(list.account.password);
-                setLogged(list.isLogged);
-            }
-        }
+            console.log(`Greeting page's localStorage: ${list}`);
+            // axios
+            //     .get(`http://localhost:9005/login?login=${list.account.login}&password=${list.account.password}`)
+            //     .then(res => {
+                    axios({
+                        method: 'get',
+                        url: `http://localhost:9005/authuser`,
+                        //withCredentials: true,
+                        headers: {
+                            // "Access-Control-Allow-Max-Age": 3600,
+                            "Access-Control-Allow-Credentials": true,
+                            "Access-Control-Allow-Origin": 'http://localhost:3000',
+                            'Accept': 'application/json',
+                            'Content-Type': 'x-www-form-urlencoded',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                        }
+                    })
+                        // .get(`http://localhost:9005/authuser`)
+                        .then(res => {
+                            console.log(res.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                    axios
+                        .get(`http://localhost:9005/authusers`)
+                        .then(res => {
+                            console.log(res.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                // })
+
+            setLogged(list.isLogged);
+        },[logged]
     );
 
     function pushTo(event: React.ChangeEvent<HTMLButtonElement>){
@@ -45,8 +66,6 @@ function GreetingPage(){
     return(
         <GreetingPageStyled active_color='red'>
             <div className="greeting-page__container">
-                {/*{ logged ? null : <div className = "greeting-page__title">WELCOME TO ONPU SOCIAL NETWORK </div>}*/}
-                {/*{ logged ? <div className = "greeting-page__text"> We glad to see you here, {login}. Let's begin.</div> : <div className = "greeting-page__text">Please, log in or sign up in the system</div>}*/}
                 <div className = "greeting-page__title">ONPU Social</div>
                 { logged ?
                     <div>
@@ -80,11 +99,6 @@ function GreetingPage(){
                     </div>
                 }
             </div>
-            {/*{ logged ? null : signUp ? <div className="greeting-page__container">*/}
-            {/*    <RegistrationWindow/>*/}
-            {/*</div> : <div className="greeting-page__container">*/}
-            {/*    <AuthorizationWindow/>*/}
-            {/*</div>}*/}
         </GreetingPageStyled>
     )
 }

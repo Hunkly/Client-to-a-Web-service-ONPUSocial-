@@ -7,9 +7,10 @@ export default styled.div`
     flex-direction: column;
     
     .profile-menu__avatar {
+    img{
     width: 200px;
     height: 200px;
     background-color: #9f9f9f;
-    border-radius: 50%;
+    border-radius: 50%;}
     }
 `;

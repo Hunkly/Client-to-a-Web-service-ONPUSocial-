@@ -2,6 +2,7 @@ import React from 'react';
 import StyledMenu from './Menu.styled';
 import Store from '../../../../store/store';
 import {logOut} from "../../../../store/currentSession/actions";
+import axios from 'axios';
 
 const Menu = () => (
   <StyledMenu>
@@ -22,6 +23,14 @@ const Menu = () => (
             className="menu-link"
             onClick={() => {
                 Store.dispatch(logOut());
+                axios
+                    .get(`http://localhost:9005/logout`)
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             }}
         >
           Log out

@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export default styled.div`
    color: #000;
    padding-left: 20px;
+   padding-right: 20px;
+   margin-bottom: 15px;
    
    p{
         font-weight: 100;
@@ -14,10 +16,11 @@ export default styled.div`
    }
    
    .publication-item__avatar {
+        img{
       width: 40px;
       height: 40px;
       background-color: #b9b9b9;
-      border-radius: 50%;
+      border-radius: 50%;}
    }
    .publication-item__label {
     padding-left: 15px;
@@ -38,6 +41,19 @@ export default styled.div`
     justify-content: flex-end;
     font-size: 14px;
     font-style: italic;
+  }
+  
+  .publication-item__container{
+    display: flex;
+    justify-content: space-between;
+    //align-items: center;
+  }
+  
+  .publication-item__delete-menu{
+    img{
+        margin-top: 20px;
+        height: 15px;
+    }
   }
   
   h3,p{

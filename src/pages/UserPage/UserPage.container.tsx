@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UserModel from '../../shared/models/User';
 import UserGroup from '../../shared/models/Group';
 import { match } from 'react-router-dom';
 import UserPage from './UserPage.component';
+import axios from 'axios'
 
 interface IUserPageContainerProps {
     match: match<{ id: string }>;
@@ -14,34 +15,29 @@ interface IUserPageContainerState {
     group: UserGroup | null;
 }
 
-export default class UserPageContainer extends React.PureComponent<
-    IUserPageContainerProps,
-    IUserPageContainerState
-    > {
-    public state = {
-        isLoading: false,
-        user: null,
-        group: null,
-    };
+export default function UserPageContainer({match}:IUserPageContainerProps) {
+    const [loading, setLoading] = useState (false);
+    const [user, setUser] = useState ({});
 
-    public componentDidMount(): void {
-        this.setState({ isLoading: true });
-        const ID = this.props.match.params.id;
-        fetch(`http://localhost:9005/users/`+ID)
-            .then(resp => resp.json())
-            .then((data: UserModel) => {
-                if (data.id) {
-                    this.setState({
-                        isLoading: false,
-                        user: data
-                    });
+    useEffect(()=>{
+        const ID = match.params.id;
+        axios
+            .get(`http://localhost:9005/users/${ID}`)
+            .then(res => {
+                if (res.data.id) {
+                    setLoading(false);
+                    setUser(res.data);
                 }
             })
-    }
+            .catch( error => {
+                console.log(error);
+                setLoading(true)
+            })
+    }, [loading, match.params.id]
+    );
 
-    public render() {
         return (
-            <UserPage user={this.state.user} />
+            // @ts-ignore
+            <UserPage user={user} />
         );
-    }
 }

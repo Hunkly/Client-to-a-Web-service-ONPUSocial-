@@ -6,8 +6,7 @@ import { saveState } from "../../../store/localStorage";
 import { CurrentSession, Account } from "../../../store/currentSession/actionTypes";
 import { connect } from "react-redux";
 import axios from 'axios';
-// import { getDataSuccess } from "../../../store/data/actions";
-// import * as errorHandlerActions from '../../../store/errorHandler/actions';
+
 import Store from '../../../store/store';
 import pathHistory from "../../../pathHistory";
 
@@ -40,11 +39,55 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
     const [id, setId] = useState('');
     const [emailed, setEmailed] = useState(false);
 
-    function Autorization(login: string, password: string){
-        axios
-            .get(`http://localhost:9005/login?login=${login}&password=${password}`)
+    function Authorization(login: string, password: string){
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/login?login=${login}&password=${password}`,
+            withCredentials: true,
+            headers: {
+                // "Access-Control-Allow-Max-Age": 3600,
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Content-Type': 'x-www-form-urlencoded',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            // .get(`http://localhost:9005/login?login=${login}&password=${password}`,
+            //     {
+            //         timeout: 10000,
+            //         withCredentials: false,
+            //         headers: {
+            //             'Access-Control-Allow-Origin': `JSESSIONID`,
+            //             'Access-Control-Allow-Credentials': true,
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'x-www-form-urlencoded',
+            //             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+            //         },
+            //     }
+            //     {
+            //     method: 'GET',
+            //     // mode: 'no-cors',
+            //     // credentials: 'same-origin',
+            //     url: 'http://localhost:3000',
+            //     withCredentials: true,
+            //     headers: {
+            //         // "name": "JSESSIONID",
+            //        "Access-Control-Expose-Headers": "Access-Control-*",
+            //         "Access-Control-Allow-Headers": "Access-Control-*, Origin, X-Requested-With, Content-Type, Accept",
+            //         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+            //         'Access-Control-Allow-Origin': '*',
+            //         'Access-Control-Allow-Max-Age': 86400,
+            //         'Access-Control-Allow-Credentials': true,
+            //         'Allow': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+            //         'Content-Type': 'application/json',
+            //
+            //     }
+            // }
+            // )
             .then(res => {
                 console.log('ON GET DATA, getDataSuccess', res);
+                console.log(res.config);
                 onLogIn({
                     isLogged: res.data,
                     signUp: false,
@@ -67,8 +110,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                     setErrStatus(error.response.status);
                     setErrMessage(error.response.data.message);
                 }
-            });
-        onGetData(`http://localhost:9005/login?login=${login}&password=${password}`, 'test');
+            })
     }
 
     useEffect(
@@ -76,7 +118,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
             if(!login && !password){
                 setValid(true);
             }
-        }
+        },[login,password]
     );
 
     function logInInput(event: React.ChangeEvent<HTMLInputElement>){
@@ -89,7 +131,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 password: password
             }
         });
-        //console.log('Reg exp',validate(event.target.name,event.target.value));
         if(validate(event.target.name,event.target.value)){
             if(!validate('email',event.target.value)){
                 setValid(validate(event.target.name,event.target.value));
@@ -137,10 +178,27 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
         if(valid) {
             console.log('auth emailed', emailed);
             if(emailed){
-                axios
-                    .get(`http://localhost:9005/users/getbyemail/${account.login}`)
+                axios({
+                    method: 'get',
+                    url: `http://localhost:9005/users/getbyemail/${account.login}`,
+                    //withCredentials: true,
+                    headers: {
+                        // "Access-Control-Allow-Max-Age": 3600,
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Content-Type': 'x-www-form-urlencoded',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                })
+                    // .get(`http://localhost:9005/users/getbyemail/${account.login}`, {
+                    //     withCredentials: true,
+                    //     headers: {
+                    //         Cookie: "cookie1=value; cookie2=value; cookie3=value;"
+                    //     }
+                    // })
                     .then(res => {
-                        Autorization(res.data.username, account.password);
+                        Authorization(res.data.username, account.password);
                         setErr(false);
                     })
                     .catch(error => {
@@ -155,9 +213,10 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                         }
                     });
 
-            } else {
+            }
+            else {
                 setLogin(account.login);
-                Autorization(account.login, account.password);
+                Authorization(account.login, account.password);
             }
         }
     }
@@ -176,10 +235,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(String(value).toLowerCase());
             }
-            // case 'password': {
-            //     let re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-            //     return re.test(String(value).toLowerCase());
-            // }
             default: {
                 return false;
             }
@@ -245,6 +300,63 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 >
                     Go back
                 </Button>
+                <Button
+                    color="#FB4141"
+                    activeColor="#FB4141"
+                    onClick={()=>{
+                        axios({
+                            method: 'get',
+                            url: 'http://localhost:9005/users/isfreeemail/test@gmail.com',
+                            headers: {
+                                // "Access-Control-Allow-Max-Age": 3600,
+                                "Access-Control-Allow-Credentials": true,
+                                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                                'Accept': 'application/json',
+                                'Content-Type': 'x-www-form-urlencoded',
+                                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                            }
+                        })
+                            // .get(`http://localhost:9005/isfreeemail/test@gmail.com`,
+                            // {
+                            //     timeout: 10000,
+                            //     withCredentials: true,
+                            //     headers: {
+                            //         "Access-Control-Allow-Max-Age": 3600,
+                            //         "Access-Control-Allow-Credentials": true,
+                            //         "Access-Control-Allow-Origin": 'http://localhost:3000',
+                            //         'Accept': 'application/json',
+                            //         'Content-Type': 'x-www-form-urlencoded',
+                            //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                            //
+                            //     },
+                            // })
+                            .then(res => {
+                                console.log(res);
+                                //Authorization(res.data.username, account.password);
+                                setErr(false);
+                            })
+                    }}
+                    value="/"
+                >
+                    Check
+                </Button>
+                {/*<Button*/}
+                {/*    color="#FB4141"*/}
+                {/*    activeColor="#FB4141"*/}
+                {/*    onClick={() => {*/}
+                {/*        axios*/}
+                {/*            .get(`http://localhost:9005/authuser`)*/}
+                {/*            .then(res => {*/}
+                {/*                console.log(res.data);*/}
+                {/*            })*/}
+                {/*            .catch(error => {*/}
+                {/*                console.log(error);*/}
+                {/*            });*/}
+                {/*    }}*/}
+                {/*    value="/"*/}
+                {/*>*/}
+                {/*    AuthUser*/}
+                {/*</Button>*/}
             </div>
         </StyledAuthorizationWindow>
     )
@@ -267,18 +379,18 @@ function mapDispatchToProps(dispatch: any): DispatchProps{
             //console.log('Login completed [UI]')
         },
         onGetData: async (url: string, props: any) => {
-            axios
-                .get(url)
-                .then(res => {
-                    console.log('ON GET DATA, getDataSuccess', res);
-                    // dispatch(getDataSuccess(res.data));
-                    return res.data;
-                })
-                .catch(error => {
-                    console.log('ON GET DATA, error', error);
-                    // dispatch(errorHandlerActions.handleHTTPError(error, props));
-                    return error;
-                })
+            // axios
+            //     .get(url)
+            //     .then(res => {
+            //         console.log('ON GET DATA, getDataSuccess', res);
+            //         // dispatch(getDataSuccess(res.data));
+            //         return res.data;
+            //     })
+            //     .catch(error => {
+            //         console.log('ON GET DATA, error', error);
+            //         // dispatch(errorHandlerActions.handleHTTPError(error, props));
+            //         return error;
+            //     })
         }
     }
 }

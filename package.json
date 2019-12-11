@@ -15,6 +15,7 @@
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^4.3.3",
     "axios": "^0.19.0",
+    "js-cookie": "^2.2.1",
     "react": "^16.8.6",
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.8.6",
@@ -28,9 +29,9 @@
     "typescript": "3.4.5"
   },
   "scripts": {
+    "babel": "babel --presets es2015 js/main.ts -o build/main.bundle.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "mock:api": "json-server --watch src/userlist.json --port 4000"
   },
@@ -48,5 +49,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
+    "enzyme": "^3.10.0",
+    "enzyme-to-json": "^3.4.3",
+    "react-test-renderer": "^16.12.0",
+    "typescript": "^3.4.5"
+  },
+  "proxy": "http://localhost:9005/"
 }

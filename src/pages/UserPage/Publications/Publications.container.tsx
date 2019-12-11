@@ -1,26 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import UserPost from '../../../shared/models/Post';
-import PublicationItem from '../../../shared/components/PublicationItem';
-import PageLabel from "../../../shared/components/PageLabel";
 import axios from 'axios';
 import {CurrentSession} from "../../../store/currentSession/actionTypes";
 import {saveState} from "../../../store/localStorage";
 import Store from "../../../store/store";
 import Publications from "./Publications.component";
-// import {PostData} from "./Publications.constants";
-
-// interface IPublicationProps {
-//     data?: {
-//         name_post: string,
-//         content: string,
-//         user: string,
-//         date: number,
-//     };
-// }
+import UserModel from '../../../shared/models/User';
 
 interface IPublicationsContainerState {
     //isLoading: boolean;
-    posts: UserPost[];
+    posts?: UserPost[];
+    user: UserModel,
 }
 
 let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
@@ -28,32 +18,43 @@ console.log(list);
 saveState(list);
 console.log('Store ', Store.getState());
 
-export default class PublicationsContainer extends React.PureComponent<{},
-    IPublicationsContainerState
-    > {
-    public state = {
-        //isLoading: false,
-        posts: []
-    };
+export default function PublicationsContainer({user}:IPublicationsContainerState){
+    const [posts, setPosts] = useState([]);
+    const [isLoading, setLoading] = useState(true);
 
-    public componentDidMount(): void {
-        //this.setState({ isLoading: true });
-        axios
-            .get(`http://localhost:9005/posts/user/${list.account.login}`)
+    useEffect( () => {
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/posts/user/${list.account.login}`,
+            //withCredentials: true,
+            headers: {
+                // "Access-Control-Allow-Max-Age": 3600,
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Content-Type': 'x-www-form-urlencoded',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            // .get(`http://localhost:9005/posts/user/${list.account.login}`)
             .then(res => {
                 console.log(res.data);
-                this.setState({
-                    //isLoading: false,
-                    posts: res.data.content
-                });
+                setPosts(res.data.content);
+                res.data ? setLoading(false) : setLoading(true);
             })
+            .catch(error => {
+                console.log(error);
+                setLoading(true);
+            })
+    },[isLoading]);
+
+    function loadChange(value: boolean) {
+        setLoading(value);
     }
 
-    public render() {
-        return (
-            <div>
-                <Publications posts={this.state.posts}/>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <Publications loadChange={loadChange} userId={user.id} posts={posts}/>
+        </div>
+    );
 }
