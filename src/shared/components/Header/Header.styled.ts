@@ -10,8 +10,8 @@ export default styled.div<IStyledHeaderProps>`
   display: flex;
   justify-content: ${props => (props.user ? 'space-between' : 'center')};
   ${props => (props.user ? '' : 'margin: 0 auto;')}
-  //align-items: center;
-  padding-top: 5px;
+  align-items: center;
+  // padding-top: 5px;
   }
   
   .header {

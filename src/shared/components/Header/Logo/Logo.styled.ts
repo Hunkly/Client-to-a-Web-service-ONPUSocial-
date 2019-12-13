@@ -6,7 +6,7 @@ interface IStyledLogoProps{
 
 export default styled.div<IStyledLogoProps>`
     position: relative;
-    top: -15px;
+    top: -18px;
     ${props => (props.user ? 'position: relative; right: -75px;' : '')}
     .logo__link {
         text-decoration: none;
