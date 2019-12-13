@@ -8,7 +8,7 @@ interface IUserColleagues {
     photo?: string;
 }
 
-export default class ColleagueItem extends React.PureComponent<
+export default class FriendItem extends React.PureComponent<
     IUserColleagues
     > {
 

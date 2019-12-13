@@ -10,7 +10,7 @@ import PageLabel from "../../../shared/components/PageLabel";
 // }
 
 
-export default function Colleagues() {
+export default function Friends() {
 
     return (
        <StyledColleagues>
