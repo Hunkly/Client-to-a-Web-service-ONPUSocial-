@@ -4,6 +4,7 @@ import {ColleagueData} from "./Friends.constants";
 import ColleagueItem from "./FriendItem";
 import PageLabel from "../../../shared/components/PageLabel";
 
+
 // interface IColleaguesProps {
 //     data?: {[name:string]:string;}
 // }

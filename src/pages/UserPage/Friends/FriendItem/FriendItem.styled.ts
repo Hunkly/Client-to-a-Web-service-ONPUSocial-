@@ -13,10 +13,12 @@ export default styled.div<IStyledBasicInfoItemProps>`
   padding-bottom: 20px;
 
   .colleague-item__avatar {
-    width: 50px;
-    height: 50px;
-    background-color: #9f9f9f;
-    border-radius: 50%;
+    img{
+        width: 50px;
+        height: 50px;
+        background-color: #9f9f9f;
+        border-radius: 50%;
+    }
   }
 
   .colleague-item__label {
