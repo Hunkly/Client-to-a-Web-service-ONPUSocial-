@@ -8,7 +8,10 @@ interface ILogoProps{
 const Logo = ({user}:ILogoProps) => (
   <StyledLogo user={user}>
       <a className="logo__link" href="/">
-          ONPU
+          <div className="logo-container">
+              <div className="logo">ONPU</div>
+              <p>SOCIAL</p>
+          </div>
       </a>
   </StyledLogo>
 );

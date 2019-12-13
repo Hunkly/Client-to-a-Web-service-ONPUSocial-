@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import StyledBasicInfo from './PersonalInformation.styled';
 import UserModel from '../../../shared/models/User';
-import BasicInfoItem from './PersonalInformationItem';
+import PersonalInformationItem from './PersonalInformationItem';
 import Headline from '../../../shared/components/HeadLine';
 import PageLabel from '../../../shared/components/PageLabel';
 
@@ -9,25 +9,26 @@ interface IBasicInfoProps {
     user: UserModel;
 }
 
-export default function BasicInfo({ user }: IBasicInfoProps) {
-    let date = new Date(user.birthday)
+export function calculateAge(birthday: number){
+    let today = new Date();
+    let birthDate = new Date(birthday);
+    let age_now = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+    {
+        age_now--;
+    }
+    console.log(age_now);
+    return age_now;
+}
+
+export function PersonalInformation({ user }: IBasicInfoProps) {
+    let date = new Date(user.birthday);
     const [age, setAge] = useState(0);
 
     useEffect(() => {
-        calculate_age();
-    },[date])
-    function calculate_age(){
-        var today = new Date();
-        var birthDate = new Date(user.birthday);
-        var age_now = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
-        {
-            age_now--;
-        }
-        console.log(age_now);
-        setAge(age_now);
-    }
+        setAge(calculateAge(user.birthday));
+    },[date]);
 
     return (
         <StyledBasicInfo>
@@ -35,13 +36,13 @@ export default function BasicInfo({ user }: IBasicInfoProps) {
                 <div className="basic-info__container">
                     <div className="basic-info__data">
                         <PageLabel>Personal information</PageLabel>
-                        <BasicInfoItem title="User name">{user.username}</BasicInfoItem>
-                        <BasicInfoItem title="Age">{age}</BasicInfoItem>
-                        <BasicInfoItem title="Faculty">ICS</BasicInfoItem>
-                        <BasicInfoItem title="Cafedra">SPO</BasicInfoItem>
-                        <BasicInfoItem title="Birthday">{date.toDateString()}</BasicInfoItem>
-                        <BasicInfoItem title="Group">null</BasicInfoItem>
-                        <BasicInfoItem title="Email">{user.email}</BasicInfoItem>
+                        <PersonalInformationItem title="User name">{user.username}</PersonalInformationItem>
+                        <PersonalInformationItem title="Age">{age}</PersonalInformationItem>
+                        <PersonalInformationItem title="Faculty">ICS</PersonalInformationItem>
+                        <PersonalInformationItem title="Cafedra">SPO</PersonalInformationItem>
+                        <PersonalInformationItem title="Birthday">{date.toDateString()}</PersonalInformationItem>
+                        <PersonalInformationItem title="Group">null</PersonalInformationItem>
+                        <PersonalInformationItem title="Email">{user.email}</PersonalInformationItem>
                     </div>
                     <div className="basic-info__data">
                         <PageLabel>About</PageLabel>

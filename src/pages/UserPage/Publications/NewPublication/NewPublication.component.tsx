@@ -15,20 +15,20 @@ export default function NewPublication({loadChange ,post,userId}:INewPublication
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>){
+    function setData(event: React.ChangeEvent<HTMLInputElement>){
         switch(event.target.name){
             case "title": {setTitle(event.target.value); break;}
             case "content": {setContent(event.target.value); break;}
         }
     }
 
-    function handleSubmit(){
+    function createPost(){
         let today = Date.now();
         const postForm = {
             name_post: title,
             content: content,
             user: userId,
-            studygroup: 2,
+            studygroup: 1,
             kafedra: 1,
             faculty: 1,
             subscribers: false,
@@ -38,8 +38,18 @@ export default function NewPublication({loadChange ,post,userId}:INewPublication
 
         console.log(postForm);
         if(title && content){
-            axios
-                .post(`http://localhost:9005/posts`, postForm)
+            axios({
+                method: 'post',
+                url: `http://localhost:9005/posts`,
+                withCredentials: true,
+                data: postForm,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            })
                 .then(res => {
                     console.log(res.data);
                     setTitle('');
@@ -60,7 +70,7 @@ export default function NewPublication({loadChange ,post,userId}:INewPublication
                     name="title"
                     value={title}
                     placeholder="Title"
-                    onChange={handleChange}
+                    onChange={setData}
                 />
             </div>
             <div className="new-publication__content">
@@ -68,14 +78,14 @@ export default function NewPublication({loadChange ,post,userId}:INewPublication
                     name="content"
                     value={content}
                     placeholder="Content"
-                    onChange={handleChange}
+                    onChange={setData}
                 />
             </div>
             <div className="new-publication__button-container">
                 <Button
                     color="#61BB9D"
                     activeColor="#4F977F"
-                    onClick={handleSubmit}
+                    onClick={createPost}
                 >
                     Send
                 </Button>

@@ -13,4 +13,10 @@ export default styled.div`
    .page-container{
         width: 100%;
    }
+   
+   .page__friend-box{
+        width: 100%;
+        margin-left: 80px;
+        margin-top: 75px;
+   }
 `;

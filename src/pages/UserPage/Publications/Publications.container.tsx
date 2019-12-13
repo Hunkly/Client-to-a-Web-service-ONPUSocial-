@@ -25,27 +25,38 @@ export default function PublicationsContainer({user}:IPublicationsContainerState
     useEffect( () => {
         axios({
             method: 'get',
-            url: `http://localhost:9005/posts/user/${list.account.login}`,
-            //withCredentials: true,
+            url: `http://localhost:9005/authuser/`,
+            withCredentials: true,
             headers: {
-                // "Access-Control-Allow-Max-Age": 3600,
                 "Access-Control-Allow-Credentials": true,
                 "Access-Control-Allow-Origin": 'http://localhost:3000',
                 'Accept': 'application/json',
                 'Content-Type': 'x-www-form-urlencoded',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            }
-        })
-            // .get(`http://localhost:9005/posts/user/${list.account.login}`)
-            .then(res => {
-                console.log(res.data);
-                setPosts(res.data.content);
-                res.data ? setLoading(false) : setLoading(true);
-            })
-            .catch(error => {
-                console.log(error);
-                setLoading(true);
-            })
+            }}).then(res => {
+                axios({
+                    method: 'get',
+                    url: `http://localhost:9005/posts/user/${res.data.username}`,
+                    withCredentials: true,
+                    headers: {
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Content-Type': 'x-www-form-urlencoded',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                })
+                    .then(res => {
+                        console.log(res.data);
+                        setPosts(res.data.content);
+                        res.data ? setLoading(false) : setLoading(true);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        setLoading(true);
+                    })
+            });
+
     },[isLoading]);
 
     function loadChange(value: boolean) {

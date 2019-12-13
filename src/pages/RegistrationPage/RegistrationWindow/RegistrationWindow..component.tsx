@@ -39,6 +39,30 @@ interface DispatchProps {
 
 type Props = IRegProps & DispatchProps;
 
+export function validate(name: string, value: string){
+    switch(name){
+        case 'email': {
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(value).toLowerCase());
+        }
+        case 'phone': {
+            let re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+            return re.test(String(value).toLowerCase());
+        }
+        case 'firstName':
+        case 'lastName': {
+            let re = /^[A-Za-z ]+$/;
+            return re.test(String(value).toLowerCase());
+        }
+        // case 'passwordConfirm': {
+        //    if(this.state.passwordConfirm === this.state.password){ return true } else { return false }
+        // }
+        default: {
+            return false;
+        }
+    }
+}
+
 class RegistrationWindow extends React.Component<Props,IRegState>{
     constructor(props: Props) {
         super(props);
@@ -59,19 +83,19 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
             passwordConfirm: ''
         };
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
+        this.createUser = this.createUser.bind(this);
+        this.setData = this.setData.bind(this);
+        this.setDate = this.setDate.bind(this);
     }
 
 
-    handleDateChange = (date: Date) => {
+    setDate = (date: Date) => {
         this.setState({
             birthday: date.valueOf()
         });
     };
 
-    handleSubmit(event: React.FormEvent<HTMLFormElement>){
+    createUser(event: React.FormEvent<HTMLFormElement>){
         console.log("formSubmitted");
         const userForm = {
             first_name: this.state.firstName,
@@ -86,12 +110,31 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
             username: this.state.userName,
             password: this.state.password
         };
-        axios
-            .post(`http://localhost:9005/users`, userForm)
+        axios({
+            method: 'post',
+            url: `http://localhost:9005/users`,
+            withCredentials: true,
+            data: userForm,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
             .then(res => {
                 console.log(res.data);
-                axios
-                    .get(`http://localhost:9005/login?login=${this.state.userName}&password=${this.state.password}`)
+                axios({
+                    method: 'get',
+                    url: `http://localhost:9005/login?login=${this.state.userName}&password=${this.state.password}`,
+                    withCredentials: true,
+                    headers: {
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                })
                     .then(res => {
                         console.log('ON GET DATA, getDataSuccess', res);
                         this.props.onLogIn({
@@ -121,7 +164,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
 
     public isValid = true;
     public id = '';
-    handleChange(event: React.ChangeEvent<HTMLInputElement>){
+    setData(event: React.ChangeEvent<HTMLInputElement>){
         console.log('handleChange', event);
         // @ts-ignore
         this.setState({
@@ -132,38 +175,16 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
             this.isValid = true;
         }
 
-        console.log(this.validate(event.target.name,event.target.value));
-        this.isValid = this.validate(event.target.name,event.target.value);
+        console.log(validate(event.target.name,event.target.value));
+        this.isValid = validate(event.target.name,event.target.value);
         this.id = event.target.name;
     }
 
-    pushTo(event: React.ChangeEvent<HTMLButtonElement>){
+    pushToAddress(event: React.ChangeEvent<HTMLButtonElement>){
         return pathHistory.push(event.target.value);
     }
 
-    validate(name: string, value: string){
-        switch(name){
-            case 'email': {
-                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(String(value).toLowerCase());
-            }
-            case 'phone': {
-                let re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-                return re.test(String(value).toLowerCase());
-            }
-            case 'firstName':
-            case 'lastName': {
-                let re = /^[A-Za-z ]+$/;
-                return re.test(String(value).toLowerCase());
-            }
-            // case 'passwordConfirm': {
-            //    if(this.state.passwordConfirm === this.state.password){ return true } else { return false }
-            // }
-            default: {
-                return false;
-            }
-        }
-    }
+
 
     render() {
         return (
@@ -178,7 +199,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="firstName"
                                 placeholder="First name"
                                 value={this.state.firstName}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                             {
@@ -198,7 +219,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="lastName"
                                 placeholder="Last name"
                                 value={this.state.lastName}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                             {
@@ -218,7 +239,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 startDate={null}
                                 className="registration-window__date-picker"
                                 selected={this.state.date}
-                                onChange={this.handleDateChange}
+                                onChange={this.setDate}
                             />
                         </div>
                         <div className="registration-page__element">
@@ -229,7 +250,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="phone"
                                 placeholder="Phone"
                                 value={this.state.phone}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                             {
@@ -250,7 +271,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="email"
                                 placeholder="Email"
                                 value={this.state.email}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                             {
@@ -271,7 +292,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="password"
                                 placeholder="Password"
                                 value={this.state.password}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                         </div>
@@ -283,7 +304,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="passwordConfirm"
                                 placeholder="Confirm password"
                                 value={this.state.passwordConfirm}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                             {/*{*/}
@@ -304,7 +325,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name="userName"
                                 placeholder="User name"
                                 value={this.state.userName}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 required
                             />
                         </div>
@@ -317,7 +338,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                                 name='description'
                                 placeholder="Description"
                                 value={this.state.description}
-                                onChange={this.handleChange}
+                                onChange={this.setData}
                                 maxLength={200}
                                 required={true}
                             />
@@ -332,7 +353,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                     <div className="registration-page__row">
                         <div className="registration-page__element">
                             <Button
-                                onClick={this.handleSubmit}
+                                onClick={this.createUser}
                                 color="#3E76BB"
                                 activeColor="#3E76BB"
                             >
@@ -341,7 +362,7 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
                         </div>
                         <div className="registration-page__element">
                             <Button
-                                onClick={this.pushTo}
+                                onClick={this.pushToAddress}
                                 color="#FB4141"
                                 activeColor="#FB4141"
                                 value='/'

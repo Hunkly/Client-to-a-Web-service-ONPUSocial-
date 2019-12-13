@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledPublicationItem from './PublicationItem.styled';
 import UserPost from '../../../../shared/models/Post'
-import Cross from '../../../../assets/img/cross.png';
+import Cross from '../../../../assets/img/cross.svg';
 import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
 
@@ -15,8 +15,17 @@ export default function PublicationItem({loadChange, post}:IPublicationItemProps
 
     function deletePost(){
 
-        axios
-            .delete(`http://localhost:9005/posts/${post.id}`)
+        axios({
+            method: 'delete',
+            url: `http://localhost:9005/posts/${post.id}`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
             .then(res => {
                 console.log(res.data);
                 loadChange(true);

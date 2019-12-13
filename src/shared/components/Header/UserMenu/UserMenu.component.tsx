@@ -4,6 +4,7 @@ import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
 import {CurrentSession} from "../../../../store/currentSession/actionTypes";
 import {connect} from "react-redux";
 import {saveState} from "../../../../store/localStorage";
+import axios from "axios";
 
 // interface IUserMenuProps {
 //     isLogged: boolean,
@@ -24,11 +25,25 @@ const UserMenu = () => {
             list = JSON.parse(localStorage.getItem('state') || '{}');
             saveState(list);
             console.log('List', list);
-            if(one) {
-                setLogin(list.account.login);
-                // setPassword(list.account.password);
-                // setLogged(list.isLogged);
-            }
+                axios({
+                    method: "get",
+                    url: `http://localhost:9005/authuser`,
+                    withCredentials: true,
+                    headers: {
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Content-Type': 'x-www-form-urlencoded',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                })
+                    .then(res => {
+                        console.log(res)
+                        setLogin(res.data.username);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    });
         }, [one]
     );
 

@@ -27,9 +27,7 @@ console.log(list);
 saveState(list);
 console.log('Store ', Store.getState());
 
-
-
-function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
+function AuthorizationWindow ({account, onLogIn}: Props){
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [valid, setValid] = useState(true);
@@ -45,7 +43,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
             url: `http://localhost:9005/login?login=${login}&password=${password}`,
             withCredentials: true,
             headers: {
-                // "Access-Control-Allow-Max-Age": 3600,
                 "Access-Control-Allow-Credentials": true,
                 "Access-Control-Allow-Origin": 'http://localhost:3000',
                 'Accept': 'application/json',
@@ -53,38 +50,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
             }
         })
-            // .get(`http://localhost:9005/login?login=${login}&password=${password}`,
-            //     {
-            //         timeout: 10000,
-            //         withCredentials: false,
-            //         headers: {
-            //             'Access-Control-Allow-Origin': `JSESSIONID`,
-            //             'Access-Control-Allow-Credentials': true,
-            //             'Accept': 'application/json',
-            //             'Content-Type': 'x-www-form-urlencoded',
-            //             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-            //         },
-            //     }
-            //     {
-            //     method: 'GET',
-            //     // mode: 'no-cors',
-            //     // credentials: 'same-origin',
-            //     url: 'http://localhost:3000',
-            //     withCredentials: true,
-            //     headers: {
-            //         // "name": "JSESSIONID",
-            //        "Access-Control-Expose-Headers": "Access-Control-*",
-            //         "Access-Control-Allow-Headers": "Access-Control-*, Origin, X-Requested-With, Content-Type, Accept",
-            //         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-            //         'Access-Control-Allow-Origin': '*',
-            //         'Access-Control-Allow-Max-Age': 86400,
-            //         'Access-Control-Allow-Credentials': true,
-            //         'Allow': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-            //         'Content-Type': 'application/json',
-            //
-            //     }
-            // }
-            // )
             .then(res => {
                 console.log('ON GET DATA, getDataSuccess', res);
                 console.log(res.config);
@@ -157,9 +122,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 password: event.target.value
             }
         });
-        // console.log('Reg exp',validate(event.target.name,event.target.value));
-        // setValid(validate(event.target.name,event.target.value));
-        // setId(event.target.name);
         console.log('PASSWORD', password);
         setErr(false);
     }
@@ -181,9 +143,8 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 axios({
                     method: 'get',
                     url: `http://localhost:9005/users/getbyemail/${account.login}`,
-                    //withCredentials: true,
+                    withCredentials: true,
                     headers: {
-                        // "Access-Control-Allow-Max-Age": 3600,
                         "Access-Control-Allow-Credentials": true,
                         "Access-Control-Allow-Origin": 'http://localhost:3000',
                         'Accept': 'application/json',
@@ -191,12 +152,6 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                     }
                 })
-                    // .get(`http://localhost:9005/users/getbyemail/${account.login}`, {
-                    //     withCredentials: true,
-                    //     headers: {
-                    //         Cookie: "cookie1=value; cookie2=value; cookie3=value;"
-                    //     }
-                    // })
                     .then(res => {
                         Authorization(res.data.username, account.password);
                         setErr(false);
@@ -221,7 +176,7 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
         }
     }
 
-    function pushTo(event: React.ChangeEvent<HTMLButtonElement>){
+    function pushToAddress(event: React.ChangeEvent<HTMLButtonElement>){
         return pathHistory.push(event.target.value);
     }
 
@@ -295,68 +250,11 @@ function AuthorizationWindow ({isLogged, account, onLogIn, onGetData}: Props){
                 <Button
                     color="#FB4141"
                     activeColor="#FB4141"
-                    onClick={pushTo}
+                    onClick={pushToAddress}
                     value="/"
                 >
                     Go back
                 </Button>
-                <Button
-                    color="#FB4141"
-                    activeColor="#FB4141"
-                    onClick={()=>{
-                        axios({
-                            method: 'get',
-                            url: 'http://localhost:9005/users/isfreeemail/test@gmail.com',
-                            headers: {
-                                // "Access-Control-Allow-Max-Age": 3600,
-                                "Access-Control-Allow-Credentials": true,
-                                "Access-Control-Allow-Origin": 'http://localhost:3000',
-                                'Accept': 'application/json',
-                                'Content-Type': 'x-www-form-urlencoded',
-                                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                            }
-                        })
-                            // .get(`http://localhost:9005/isfreeemail/test@gmail.com`,
-                            // {
-                            //     timeout: 10000,
-                            //     withCredentials: true,
-                            //     headers: {
-                            //         "Access-Control-Allow-Max-Age": 3600,
-                            //         "Access-Control-Allow-Credentials": true,
-                            //         "Access-Control-Allow-Origin": 'http://localhost:3000',
-                            //         'Accept': 'application/json',
-                            //         'Content-Type': 'x-www-form-urlencoded',
-                            //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                            //
-                            //     },
-                            // })
-                            .then(res => {
-                                console.log(res);
-                                //Authorization(res.data.username, account.password);
-                                setErr(false);
-                            })
-                    }}
-                    value="/"
-                >
-                    Check
-                </Button>
-                {/*<Button*/}
-                {/*    color="#FB4141"*/}
-                {/*    activeColor="#FB4141"*/}
-                {/*    onClick={() => {*/}
-                {/*        axios*/}
-                {/*            .get(`http://localhost:9005/authuser`)*/}
-                {/*            .then(res => {*/}
-                {/*                console.log(res.data);*/}
-                {/*            })*/}
-                {/*            .catch(error => {*/}
-                {/*                console.log(error);*/}
-                {/*            });*/}
-                {/*    }}*/}
-                {/*    value="/"*/}
-                {/*>*/}
-                {/*    AuthUser*/}
-                {/*</Button>*/}
             </div>
         </StyledAuthorizationWindow>
     )

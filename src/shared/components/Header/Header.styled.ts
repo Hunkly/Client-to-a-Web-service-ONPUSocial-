@@ -6,11 +6,12 @@ interface IStyledHeaderProps {
 
 export default styled.div<IStyledHeaderProps>`
   .header__subheader{
-  height: 100px;
+  height: 70px;
   display: flex;
   justify-content: ${props => (props.user ? 'space-between' : 'center')};
   ${props => (props.user ? '' : 'margin: 0 auto;')}
-  align-items: center;
+  //align-items: center;
+  padding-top: 5px;
   }
   
   .header {
