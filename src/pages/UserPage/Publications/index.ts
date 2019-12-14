@@ -1,1 +1,1 @@
-export { default } from './Publications.container';
+export { default } from './Publications.component';

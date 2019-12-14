@@ -6,11 +6,12 @@ import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
 
 interface IPublicationItemProps {
-    loadChange: (value: boolean) => void;
+    ref?: any;
+    toggleChange: (value: boolean) => void;
     post: UserPost;
 }
 
-export default function PublicationItem({loadChange, post}:IPublicationItemProps) {
+export default function PublicationItem({ref, toggleChange, post}:IPublicationItemProps) {
     let date = new Date(post.date);
 
     function deletePost(){
@@ -28,7 +29,7 @@ export default function PublicationItem({loadChange, post}:IPublicationItemProps
         })
             .then(res => {
                 console.log(res.data);
-                loadChange(true);
+                toggleChange(true);
             })
     }
 
@@ -48,7 +49,7 @@ export default function PublicationItem({loadChange, post}:IPublicationItemProps
                     <img src={Cross} alt=""/>
                 </div>
             </div>
-            <div>
+            <div ref={ref}>
                 <h3>{post.name_post}</h3>
                 <p>{post.content} </p>
             </div>
