@@ -28,9 +28,9 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
             name_post: title,
             content: content,
             user: userId,
-            studygroup: 1,
-            kafedra: 1,
-            faculty: 1,
+            studygroup: null,
+            kafedra: null,
+            faculty: null,
             subscribers: false,
             date: today.valueOf()
         };
@@ -54,7 +54,7 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
                     console.log(res.data);
                     setTitle('');
                     setContent('');
-                    toggleChange(true);
+                    // LoadPosts(0, true)
                 })
                 .catch(error => {
                     console.log(error);

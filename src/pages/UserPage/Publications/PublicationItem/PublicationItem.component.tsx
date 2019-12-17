@@ -4,6 +4,7 @@ import UserPost from '../../../../shared/models/Post'
 import Cross from '../../../../assets/img/cross.svg';
 import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
+import {LoadPosts} from "../Publications.container";
 
 interface IPublicationItemProps {
     ref?: any;
@@ -29,7 +30,7 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
         })
             .then(res => {
                 console.log(res.data);
-                toggleChange(true);
+                // LoadPosts(0, true);
             })
     }
 

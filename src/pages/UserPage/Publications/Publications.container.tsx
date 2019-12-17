@@ -1,31 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import UserPost from '../../../shared/models/Post';
 import axios from 'axios';
-import {CurrentSession} from "../../../store/currentSession/actionTypes";
-import {saveState} from "../../../store/localStorage";
-import Store from "../../../store/store";
-import Publications from "./Publications.component";
-import UserModel from '../../../shared/models/User';
 
-interface IPublicationsContainerState {
-    //isLoading: boolean;
-    posts?: UserPost[];
-    //user: UserModel,
-    pageNumber: number
-}
 
-let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
-console.log(list);
-saveState(list);
-console.log('Store ', Store.getState());
-
-export default function PublicationsContainer(pageNumber: number){
+export function LoadPosts(pageNumber: number, toggle: boolean){
     const [posts, setPosts] = useState([]);
-    //const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [hasMore, setHasMore] = useState(false);
-    const [toggle, setToggle] = useState(false);
 
     useEffect( () => {
         setLoading(true);
@@ -59,14 +40,16 @@ export default function PublicationsContainer(pageNumber: number){
                 }
             })
                 .then(res => {
-                    console.log(res.data);
+                    console.log('LoadPosts', res.data);
                     //@ts-ignore
                     setPosts( prevPosts => {
-                        // @ts-ignore
-                        return [...new Set([...res.data.content, ...prevPosts])]
-                    });
+                        //@ts-ignore
+                        return [...new Set([...prevPosts,...res.data.content])]
+                    }
+                    );
                     setHasMore(res.data.content.length > 0);
                     setLoading(false);
+                    // setToggle(toggle);
                 })
                 .catch(error => {
                     if(axios.isCancel(error)) return;
@@ -80,12 +63,7 @@ export default function PublicationsContainer(pageNumber: number){
                 }
             )
 //@ts-ignore
-    },[toggle, pageNumber]);
+    },[pageNumber]);
 
-
-    function toggleChange(value: boolean) {
-        setToggle(!value);
-    }
-
-    return { loading, error, posts, hasMore, toggleChange }
+    return { loading, error, posts, hasMore }
 }
