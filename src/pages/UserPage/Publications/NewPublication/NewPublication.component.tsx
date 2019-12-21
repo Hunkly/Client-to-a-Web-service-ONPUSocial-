@@ -54,7 +54,8 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
                     console.log(res.data);
                     setTitle('');
                     setContent('');
-                    // LoadPosts(0, true)
+                    toggleChange(true);
+                    //LoadPosts(0, true)
                 })
                 .catch(error => {
                     console.log(error);

@@ -4,11 +4,11 @@ import UserPost from '../../../../shared/models/Post'
 import Cross from '../../../../assets/img/cross.svg';
 import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import {LoadPosts} from "../Publications.container";
+import PublicationComments from "./PublicationComments";
 
 interface IPublicationItemProps {
     ref?: any;
-    toggleChange: (value: boolean) => void;
+    toggleChange: (value:boolean) => void;
     post: UserPost;
 }
 
@@ -30,6 +30,7 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
         })
             .then(res => {
                 console.log(res.data);
+                toggleChange(true);
                 // LoadPosts(0, true);
             })
     }
@@ -56,6 +57,7 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
             </div>
             {/*<div className="publication-item__picture"/>*/}
             <div className="publication-item__date">Date: {date.toDateString()}</div>
+            <PublicationComments comments={false}/>
         </StyledPublicationItem>
     );
 }

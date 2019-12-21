@@ -4,7 +4,7 @@ import StyledUserPage from './UserPage.styled';
 import { PersonalInformation } from './PersonalInformation/PersonalInformation.component';
 import ProfileMenu from "./ProfileMenu";
 import Friends from "./Friends";
-import Publications from "./Publications";
+import {PublicationsContainer} from "./Publications/Publications.container";
 
 interface IUserPageProps {
   user: UserModel | null;
@@ -26,7 +26,7 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
                 <ProfileMenu/>
                 <PersonalInformation user={this.props.user} />
               </div>
-              <Publications user={this.props.user}/>
+              <PublicationsContainer user={this.props.user}/>
             </div>
             <div className="page__friend-box">
                 <Friends/>
