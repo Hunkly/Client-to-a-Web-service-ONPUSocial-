@@ -1,11 +1,11 @@
 import React, {useRef, useState, useCallback} from 'react';
-import StyledPublications from './Publications.styled';
+import StyledPublications from './Posts.styled';
 import UserPost from "../../../shared/models/Post";
 import PageLabel from "../../../shared/components/PageLabel/PageLabel.component";
-import PublicationItem from "./PublicationItem";
-import NewPublication from './NewPublication/index';
+import PublicationItem from "./PostItem";
+import NewPublication from './NewPost/index';
 import UserModel from '../../../shared/models/User';
-import { LoadPosts } from "./Publications.container";
+import { LoadPosts } from "./Posts.container";
 
 interface IPublicationsProps {
     user: UserModel;
@@ -17,15 +17,15 @@ interface IPublicationsProps {
     toggleChange: ()=>void
 }
 
-export default function PublicationsComponent({user, posts, loading, hasMore,error, lastPostElement, toggleChange }:IPublicationsProps){
+export default function PostsComponent({user, posts, loading, hasMore,error, lastPostElement, toggleChange }:IPublicationsProps){
 
     return (
         <StyledPublications>
-            <div className="publications__label">
+            <div className="posts__label">
                 <PageLabel> Publications </PageLabel>
             </div>
             <NewPublication toggleChange={toggleChange} userId={user.id}/>
-            <div className="publications__container">
+            <div className="posts__container">
                 {posts ? posts.map((post: UserPost, index: number) => {
                     if (posts.length === index + 1) {
                        // @ts-ignore

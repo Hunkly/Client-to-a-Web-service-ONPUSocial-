@@ -10,24 +10,24 @@ export default styled.div`
         font-weight: 100;
    }
    
-   .publication-item__author{
+   .post-item__author{
         display: flex;
         align-items: center;
    }
    
-   .publication-item__avatar {
+   .post-item__avatar {
         img{
       width: 40px;
       height: 40px;
       background-color: #b9b9b9;
       border-radius: 50%;}
    }
-   .publication-item__label {
+   .post-item__label {
     padding-left: 15px;
     font-weight: 500;
   }
   
-  .publication-item__picture {
+  .post-item__picture {
       width: 700px;
       height: 200px;
       background-color: #b9b9b9;
@@ -35,7 +35,7 @@ export default styled.div`
       margin-top: 10px;
    }
    
-  .publication-item__date{
+  .post-item__date{
     padding-top: 5px;
     display: flex;
     justify-content: flex-end;
@@ -43,13 +43,13 @@ export default styled.div`
     font-style: italic;
   }
   
-  .publication-item__container{
+  .post-item__container{
     display: flex;
     justify-content: space-between;
     //align-items: center;
   }
   
-  .publication-item__delete-menu{
+  .post-item__delete-menu{
     img{
         margin-top: 20px;
         height: 15px;

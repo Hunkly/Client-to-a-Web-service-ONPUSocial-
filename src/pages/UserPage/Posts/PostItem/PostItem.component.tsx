@@ -1,10 +1,10 @@
 import React from 'react';
-import StyledPublicationItem from './PublicationItem.styled';
+import StyledPublicationItem from './PostItem.styled';
 import UserPost from '../../../../shared/models/Post'
 import Cross from '../../../../assets/img/cross.svg';
 import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import PublicationComments from "./PublicationComments";
+import PublicationComments from "./PostComments";
 
 interface IPublicationItemProps {
     ref?: any;
@@ -37,15 +37,15 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
 
     return (
         <StyledPublicationItem>
-            <div className="publication-item__container">
-                <div className="publication-item__author">
-                    <div className="publication-item__avatar">
+            <div className="post-item__container">
+                <div className="post-item__author">
+                    <div className="post-item__avatar">
                         <img src={DefaultPhoto} alt=""/>
                     </div>
-                    <div className="publication-item__label">{post.user}</div>
+                    <div className="post-item__label">{post.user}</div>
                 </div>
                 <div
-                    className="publication-item__delete-menu"
+                    className="post-item__delete-menu"
                     onClick={deletePost}
                 >
                     <img src={Cross} alt=""/>
@@ -56,7 +56,7 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
                 <p>{post.content} </p>
             </div>
             {/*<div className="publication-item__picture"/>*/}
-            <div className="publication-item__date">Date: {date.toDateString()}</div>
+            <div className="post-item__date">Date: {date.toDateString()}</div>
             <PublicationComments comments={false}/>
         </StyledPublicationItem>
     );

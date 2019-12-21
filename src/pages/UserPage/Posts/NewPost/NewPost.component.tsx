@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import StyledPublicationItem from './NewPublication.styled';
+import StyledPublicationItem from './NewPost.styled';
 import UserPost from '../../../../shared/models/Post'
 import TextArea from "../../../../shared/components/TextArea";
 import Button from "../../../../shared/components/Button";
@@ -66,7 +66,7 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
     return (
         <StyledPublicationItem>
             Create new post
-            <div className="new-publication__title">
+            <div className="new-post__title">
                 <TextArea
                     name="title"
                     value={title}
@@ -74,7 +74,7 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
                     onChange={setData}
                 />
             </div>
-            <div className="new-publication__content">
+            <div className="new-post__content">
                 <TextArea
                     name="content"
                     value={content}
@@ -82,7 +82,7 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
                     onChange={setData}
                 />
             </div>
-            <div className="new-publication__button-container">
+            <div className="new-post__button-container">
                 <Button
                     color="#61BB9D"
                     activeColor="#4F977F"

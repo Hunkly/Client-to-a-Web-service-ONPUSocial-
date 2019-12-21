@@ -15,7 +15,7 @@ export default styled.div`
         background-color: #F3F0F0;
     }
     
-    .new-publication__title{
+    .new-post__title{
         textarea{
             height: 15px;
         }
@@ -23,14 +23,14 @@ export default styled.div`
         margin-bottom: 15px;
     }
     
-    .new-publication__content{
+    .new-post__content{
         textarea{
             height: 60px;
         }
         margin-bottom: 15px;
     }
     
-    .new-publication__button-container{
+    .new-post__button-container{
         display: flex;
         justify-content: flex-end;
     }
