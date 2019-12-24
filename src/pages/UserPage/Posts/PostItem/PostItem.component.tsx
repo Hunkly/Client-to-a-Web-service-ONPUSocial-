@@ -4,15 +4,16 @@ import UserPost from '../../../../shared/models/Post'
 import Cross from '../../../../assets/img/cross.svg';
 import axios from 'axios';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import PublicationComments from "./PostComments";
+import PostComments from "./PostComments";
 
 interface IPublicationItemProps {
     ref?: any;
     toggleChange: (value:boolean) => void;
+    userID: number
     post: UserPost;
 }
 
-export default function PublicationItem({ref, toggleChange, post}:IPublicationItemProps) {
+export default function PublicationItem({userID, ref, toggleChange, post}:IPublicationItemProps) {
     let date = new Date(post.date);
 
     function deletePost(){
@@ -56,8 +57,8 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
                 <p>{post.content} </p>
             </div>
             {/*<div className="publication-item__picture"/>*/}
-            <div className="post-item__date">Date: {date.toDateString()}</div>
-            <PublicationComments comments={false}/>
+            <div className="post-item__date">{date.toDateString()}</div>
+            <PostComments postID={post.id} userID={userID}/>
         </StyledPublicationItem>
     );
 }

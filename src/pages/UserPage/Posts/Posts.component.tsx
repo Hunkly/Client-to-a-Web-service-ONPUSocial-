@@ -29,9 +29,9 @@ export default function PostsComponent({user, posts, loading, hasMore,error, las
                 {posts ? posts.map((post: UserPost, index: number) => {
                     if (posts.length === index + 1) {
                        // @ts-ignore
-                        return <div ref={lastPostElement} key={post.id}><PublicationItem toggleChange={toggleChange} post={post} key={post.id}/></div>
+                        return <div ref={lastPostElement} key={post.id}><PublicationItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/></div>
                     } else {
-                        return <PublicationItem toggleChange={toggleChange} post={post} key={post.id}/>
+                        return <PublicationItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/>
                     }
                 })
                 : null}

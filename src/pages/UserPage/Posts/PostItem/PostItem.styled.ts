@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 
 export default styled.div`
    color: #000;
-   padding-left: 20px;
-   padding-right: 20px;
+   padding: 20px;
    margin-bottom: 15px;
+   background-color: #FCFCFC;
    
    p{
         font-weight: 100;
@@ -51,7 +51,7 @@ export default styled.div`
   
   .post-item__delete-menu{
     img{
-        margin-top: 20px;
+        //margin-top: 20px;
         height: 15px;
     }
   }
