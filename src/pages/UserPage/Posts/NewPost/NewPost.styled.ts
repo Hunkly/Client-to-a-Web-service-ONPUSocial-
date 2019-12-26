@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 
 export default styled.div`
    color: #000;
-   padding-left: 20px;
-   padding-right: 20px;
-   padding-bottom: 15px;
+   padding: 20px;
    margin-bottom: 15px;
    background-color: #FCFCFC;
    
