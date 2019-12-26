@@ -10,6 +10,7 @@ interface IComments {
 
 export default function PostCommentsContainer({userID, postID}: IComments){
     const [comments, setComments] = useState([]);
+    const [toggle, setToggle] = useState(false);
 
     useEffect(
         ()=>{
@@ -31,11 +32,16 @@ export default function PostCommentsContainer({userID, postID}: IComments){
                 .catch( err => {
                     console.log('Get comments error: ', err);
                 })
-        }, [postID]
-    )
+        }, [toggle]
+    );
+
+    function toggleChange(){
+        setToggle(!toggle);
+        console.log('comment toggle changed');
+    }
 
     return(
-        <PostsComments postID={postID} userID={userID} comments={comments}/>
+        <PostsComments postID={postID} userID={userID} comments={comments} toggleChange={toggleChange}/>
     )
 
 }

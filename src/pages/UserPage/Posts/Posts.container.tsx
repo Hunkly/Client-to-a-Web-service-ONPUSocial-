@@ -4,14 +4,15 @@ import PostsComponent from './Posts.component';
 import UserModel from "../../../shared/models/User";
 
 
-export function LoadPosts(pageNumber: number){
+export function LoadPosts(pageNumber: number, mode: string, toggle:boolean){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [hasMore, setHasMore] = useState(false);
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
 
     useEffect( () => {
+        console.log('pagenumber', pageNumber);
         setLoading(true);
         setError(false);
         let cancel: any;
@@ -28,7 +29,6 @@ export function LoadPosts(pageNumber: number){
             }}).then(res => {
             axios({
                 method: 'get',
-                //@ts-ignore
                 url: `http://localhost:9005/posts/user/${res.data.username}?page=${pageNumber}`,
                 withCredentials: true,
                 //@ts-ignore
@@ -44,18 +44,18 @@ export function LoadPosts(pageNumber: number){
             })
                 .then(res => {
                     console.log('LoadPosts', res.data);
-
-                    if(!toggle){
+                    if(mode === 'scroll'){
+                        console.log('scroll mode');
                         //@ts-ignore
                         setPosts( prevPosts => {
                                 return [...new Set([...prevPosts,...res.data.content])]
                             }
                         );
-                    } else {
-                        setPosts(res.data.content);
-                        // setToggle(true);
                     }
-
+                    if(mode === 'reload'){
+                        console.log('reload mode');
+                        setPosts(res.data.content);
+                    }
                     setHasMore(res.data.content.length > 0);
                     setLoading(false);
                     // setToggle(toggle);
@@ -71,16 +71,11 @@ export function LoadPosts(pageNumber: number){
                     console.log(error)
                 }
             )
-
-    //@ts-ignore
     },[toggle, pageNumber]);
 
-    function toggleChange(value: boolean){
-        setToggle(value);
-        console.log('toggle changed');
-    }
 
-    return { loading, error, posts, hasMore, toggleChange }
+
+    return { loading, error, posts, hasMore }
 }
 
 interface IPublicationsContainerProps {
@@ -89,17 +84,26 @@ interface IPublicationsContainerProps {
 
 export function PostsContainer({user}: IPublicationsContainerProps) {
     const [pageNumber, setPageNumber] = useState(0);
+    const [mode, setMode] = useState('scroll');
+    const [toggle, setToggle] = useState(false);
 
     const {
         posts,
         hasMore,
         loading,
         error,
-        toggleChange
-    }: any = LoadPosts(pageNumber);
+        // toggleChange
+    }: any = LoadPosts(pageNumber, mode, toggle);
     const observer = useRef();
+    function toggleChange(){
+        setMode('reload');
+        setPageNumber(0);
+        setToggle(!toggle);
+        console.log('toggle changed');
+    }
     const lastPostElement = useCallback( node =>
     {
+        setMode('scroll');
         console.log(node);
         if (loading) return;
         //@ts-ignore

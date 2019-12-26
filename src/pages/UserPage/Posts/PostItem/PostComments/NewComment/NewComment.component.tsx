@@ -8,9 +8,10 @@ import axios from "axios";
 interface NewCommentProps {
     userID: number,
     postID: number;
+    toggleChange: () => void;
 }
 
-export default function NewComment({userID, postID}: NewCommentProps){
+export default function NewComment({userID, postID, toggleChange}: NewCommentProps){
     const [comment, setComment] = useState('');
 
     function setData(event: React.ChangeEvent<HTMLInputElement>){
@@ -41,8 +42,7 @@ export default function NewComment({userID, postID}: NewCommentProps){
                 .then(res => {
                     console.log(res.data);
                     setComment('');
-                    // toggleChange(true);
-                    //LoadPosts(0, true)
+                    toggleChange();
                 })
                 .catch(error => {
                     console.log(error);
@@ -62,7 +62,7 @@ export default function NewComment({userID, postID}: NewCommentProps){
                 activeColor="#4F977F"
                 onClick={createComment}
             >
-                <svg xmlns={PaperPlane}/>
+                Send
             </Button>
         </NewCommentStyled>
     )

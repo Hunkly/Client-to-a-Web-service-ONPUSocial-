@@ -8,7 +8,7 @@ import PostComments from "./PostComments";
 
 interface IPublicationItemProps {
     ref?: any;
-    toggleChange: (value:boolean) => void;
+    toggleChange: () => void;
     userID: number
     post: UserPost;
 }
@@ -31,8 +31,7 @@ export default function PublicationItem({userID, ref, toggleChange, post}:IPubli
         })
             .then(res => {
                 console.log(res.data);
-                toggleChange(true);
-                // LoadPosts(0, true);
+                toggleChange();
             })
     }
 

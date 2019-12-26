@@ -6,12 +6,12 @@ import Button from "../../../../shared/components/Button";
 import axios from "axios";
 
 interface INewPublicationProps {
-    toggleChange: (value: boolean) => void;
+    toggleChange: () => void;
     userId: number
     post?: UserPost;
 }
 
-export default function NewPublication({toggleChange ,post,userId}:INewPublicationProps) {
+export default function NewPublication({toggleChange ,post, userId}:INewPublicationProps) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
@@ -54,8 +54,7 @@ export default function NewPublication({toggleChange ,post,userId}:INewPublicati
                     console.log(res.data);
                     setTitle('');
                     setContent('');
-                    toggleChange(true);
-                    //LoadPosts(0, true)
+                    toggleChange();
                 })
                 .catch(error => {
                     console.log(error);

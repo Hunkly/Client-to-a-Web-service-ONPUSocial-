@@ -6,6 +6,7 @@ export default styled.div`
    margin-bottom: 15px;
    background-color: #FCFCFC;
    
+   
    p{
         font-weight: 100;
    }
@@ -41,6 +42,8 @@ export default styled.div`
     justify-content: flex-end;
     font-size: 14px;
     font-style: italic;
+    // padding-bottom: 15px;
+    // border-bottom: 0.1px solid #BDBDBD;
   }
   
   .post-item__container{

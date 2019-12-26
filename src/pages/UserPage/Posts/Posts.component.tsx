@@ -1,11 +1,10 @@
-import React, {useRef, useState, useCallback} from 'react';
+import React from 'react';
 import StyledPublications from './Posts.styled';
 import UserPost from "../../../shared/models/Post";
 import PageLabel from "../../../shared/components/PageLabel/PageLabel.component";
-import PublicationItem from "./PostItem";
+import PostItem from "./PostItem";
 import NewPublication from './NewPost/index';
 import UserModel from '../../../shared/models/User';
-import { LoadPosts } from "./Posts.container";
 
 interface IPublicationsProps {
     user: UserModel;
@@ -14,10 +13,10 @@ interface IPublicationsProps {
     loading: boolean,
     error: boolean,
     lastPostElement: (node:any)=>void,
-    toggleChange: ()=>void
+    toggleChange: () => void
 }
 
-export default function PostsComponent({user, posts, loading, hasMore,error, lastPostElement, toggleChange }:IPublicationsProps){
+export default function PostsComponent({user, posts, loading, error, lastPostElement, toggleChange }:IPublicationsProps){
 
     return (
         <StyledPublications>
@@ -29,9 +28,9 @@ export default function PostsComponent({user, posts, loading, hasMore,error, las
                 {posts ? posts.map((post: UserPost, index: number) => {
                     if (posts.length === index + 1) {
                        // @ts-ignore
-                        return <div ref={lastPostElement} key={post.id}><PublicationItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/></div>
+                        return <div ref={lastPostElement} key={post.id}><PostItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/></div>
                     } else {
-                        return <PublicationItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/>
+                        return <PostItem toggleChange={toggleChange} post={post} key={post.id} userID={user.id}/>
                     }
                 })
                 : null}

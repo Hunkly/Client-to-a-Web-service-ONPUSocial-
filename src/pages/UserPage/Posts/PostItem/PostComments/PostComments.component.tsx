@@ -8,18 +8,19 @@ interface IComments {
     userID: number,
     postID: number,
     comments: IComment[] | null
+    toggleChange: () => void
 }
 
-export default function PublicationComments({userID, postID, comments}: IComments){
+export default function PublicationComments({userID, postID, comments, toggleChange}: IComments){
     console.log('comments', comments);
     if(comments){
         return (
             <StyledPublicationComments>
-                <div className='post-comments__title'>Comments:</div>
+                {/*<div className='post-comments__title'>Comments:</div>*/}
                 { comments.map((comment: IComment) => {
                     return <PostCommentItem comment={comment} key={comment.id}/>
                 }) }
-                <NewComment postID={postID} userID={userID}/>
+                <NewComment postID={postID} userID={userID} toggleChange={toggleChange}/>
             </StyledPublicationComments>
         )
     } else {

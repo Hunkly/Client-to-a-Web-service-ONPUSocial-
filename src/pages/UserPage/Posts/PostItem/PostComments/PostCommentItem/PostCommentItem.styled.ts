@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
 export default styled.div`
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
 
     .post-comment__author{
