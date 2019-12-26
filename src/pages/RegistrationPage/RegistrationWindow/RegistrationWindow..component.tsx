@@ -124,9 +124,15 @@ class RegistrationWindow extends React.Component<Props,IRegState>{
         })
             .then(res => {
                 console.log(res.data);
+                const authForm = {
+                    login: this.state.userName,
+                    pass: this.state.password
+                };
+                console.log('AUTHFORM', authForm);
                 axios({
-                    method: 'get',
-                    url: `http://localhost:9005/login?login=${this.state.userName}&password=${this.state.password}`,
+                    method: 'post',
+                    url: `http://localhost:9005/login`,
+                    data: authForm,
                     withCredentials: true,
                     headers: {
                         "Access-Control-Allow-Credentials": true,

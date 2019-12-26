@@ -38,15 +38,20 @@ function AuthorizationWindow ({account, onLogIn}: Props){
     const [emailed, setEmailed] = useState(false);
 
     function Authorization(login: string, password: string){
+        const authForm = {
+            login: login,
+            pass: password
+        };
+        console.log('AUTHFORM', authForm);
         axios({
-            method: 'get',
-            url: `http://localhost:9005/login?login=${login}&password=${password}`,
+            method: 'post',
+            url: `http://localhost:9005/login`,
+            data: authForm,
             withCredentials: true,
             headers: {
                 "Access-Control-Allow-Credentials": true,
                 "Access-Control-Allow-Origin": 'http://localhost:3000',
                 'Accept': 'application/json',
-                'Content-Type': 'x-www-form-urlencoded',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
             }
         })
