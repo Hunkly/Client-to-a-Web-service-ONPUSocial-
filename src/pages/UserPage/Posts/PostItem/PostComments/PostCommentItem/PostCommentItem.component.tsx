@@ -1,23 +1,125 @@
-import React from 'react';
+import React, {useState} from 'react';
 import StyledPostCommentItem from './PostCommentItem.styled';
 import IComment from "../../../../../../shared/models/Comment";
 import DefaultPhoto from "../../../../../../assets/img/DefaultPhoto.png";
+import Cross from "../../../../../../assets/img/cross.svg";
+import axios from "axios";
+import Edit from "../../../../../../assets/img/editPen.svg";
+import TextArea from "../../../../../../shared/components/TextArea/TextArea.component";
+import Button from "../../../../../../shared/components/Button/Button.component";
 
 interface PostComment {
-    comment: IComment
+    comment: IComment,
+    toggleChange: () => void
 }
 
-export default function PostCommentItem({comment}: PostComment){
+export default function PostCommentItem({comment, toggleChange}: PostComment){
+    const [editMode, setEditMode] = useState(false);
+    const [content, setContent] = useState(comment.content);
+
+    function setData(event: React.ChangeEvent<HTMLInputElement>){
+        switch(event.target.name){
+            case "content": {setContent(event.target.value); break;}
+        }
+    }
+
+    function deleteComment() {
+        axios({
+            method: 'delete',
+            url: `http://localhost:9005/postscomments/${comment.id}`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            .then(res => {
+                console.log(res.data);
+                toggleChange();
+            })
+    }
+
+    function editComment() {
+        setEditMode(!editMode);
+    }
+
+    function saveChanges() {
+        const commentForm = {
+            content: content,
+            user: comment.user.id,
+            post: comment.post.id
+        };
+        console.log('comment form: ', commentForm);
+        axios({
+            method: 'put',
+            url: `http://localhost:9005/postscomments/${comment.id} `,
+            withCredentials: true,
+            data: commentForm,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            .then(res => {
+                console.log('updated successfully: ',res.data);
+                setContent(comment.content);
+                setEditMode(false);
+                toggleChange();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
     return(
         <StyledPostCommentItem>
-            <div className="post-comment__author">
-                <div className="post-comment__author-avatar">
-                    <img src={DefaultPhoto} alt=""/>
+            <div className="post-comment__container">
+                <div className="post-comment__author">
+                    <div className="post-comment__author-avatar">
+                        <img src={DefaultPhoto} alt=""/>
+                    </div>
+                    <div className="post-comment__author-label">{comment.user.username}</div>
                 </div>
-                <div className="post-comment__author-label">{comment.user.username}</div>
+                <div className="post-comment-item__menu">
+                    <div
+                        className="post-comment-item__menu-item"
+                        onClick={editComment}
+                    >
+                        <img src={Edit} alt=""/>
+                    </div>
+                    <div
+                        className="post-comment-item__menu-item"
+                        onClick={deleteComment}
+                    >
+                        <img src={Cross} alt=""/>
+                    </div>
+                </div>
             </div>
-            <div>{comment.content}</div>
+            {
+                editMode ?
+                    <div>
+                        <div className="post-comment__content">
+                            <TextArea
+                                name="content"
+                                value={content}
+                                placeholder="Content"
+                                onChange={setData}
+                            />
+                        </div>
+                        <Button
+                            color="#61BB9D"
+                            activeColor="#4F977F"
+                            onClick={saveChanges}
+                        >
+                            Save changes
+                        </Button>
+                    </div> :
+                    <div>{comment.content}</div>
+            }
         </StyledPostCommentItem>
     )
 }

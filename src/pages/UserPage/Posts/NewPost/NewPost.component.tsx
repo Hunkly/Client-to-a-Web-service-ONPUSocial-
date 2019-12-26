@@ -11,7 +11,7 @@ interface INewPublicationProps {
     post?: UserPost;
 }
 
-export default function NewPublication({toggleChange ,post, userId}:INewPublicationProps) {
+export default function NewPost({toggleChange , userId}:INewPublicationProps) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
@@ -37,7 +37,7 @@ export default function NewPublication({toggleChange ,post, userId}:INewPublicat
 
 
         console.log(postForm);
-        if(title && content){
+        if(content){
             axios({
                 method: 'post',
                 url: `http://localhost:9005/posts`,

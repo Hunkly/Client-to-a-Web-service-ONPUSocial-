@@ -18,7 +18,7 @@ export default function PublicationComments({userID, postID, comments, toggleCha
             <StyledPublicationComments>
                 {/*<div className='post-comments__title'>Comments:</div>*/}
                 { comments.map((comment: IComment) => {
-                    return <PostCommentItem comment={comment} key={comment.id}/>
+                    return <PostCommentItem comment={comment} toggleChange={toggleChange} key={comment.id}/>
                 }) }
                 <NewComment postID={postID} userID={userID} toggleChange={toggleChange}/>
             </StyledPublicationComments>
