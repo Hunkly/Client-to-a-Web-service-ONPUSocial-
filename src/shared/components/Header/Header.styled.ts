@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 interface IStyledHeaderProps {
-    user?: boolean
+    user?: boolean | null
 }
 
 export default styled.div<IStyledHeaderProps>`
@@ -17,5 +17,6 @@ export default styled.div<IStyledHeaderProps>`
   .header {
   background-color: #61BB9D;
   width: 100%;
+  box-shadow: 0px 0px 5px rgba(0,0,0,.8);
   }
 `;

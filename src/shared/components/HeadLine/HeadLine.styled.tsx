@@ -7,7 +7,7 @@ export default styled.div`
   .headline__label {
     color: #000;
     padding-left: 15px;
-    font-size: 23px;
+    font-size: 30px;
     font-weight: 50;
   }
 `;

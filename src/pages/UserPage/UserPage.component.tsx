@@ -1,10 +1,10 @@
 import React from 'react';
 import UserModel from '../../shared/models/User';
 import StyledUserPage from './UserPage.styled';
-import { PersonalInformation } from './PersonalInformation/PersonalInformation.component';
-import ProfileMenu from "./ProfileMenu";
-import Friends from "./Friends";
-import {PostsContainer} from "./Posts/Posts.container";
+import { PersonalInformation } from '../../shared/components/PersonalInformation/PersonalInformation.component';
+import ProfileMenu from "../../shared/components/ProfileMenu";
+import Friends from "../../shared/components/Friends";
+import {PostsContainer} from "../../shared/components/Posts/Posts.container";
 
 interface IUserPageProps {
   user: UserModel | null;
@@ -28,9 +28,9 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
               </div>
               <PostsContainer user={this.props.user}/>
             </div>
-            <div className="page__friend-box">
-                <Friends/>
-            </div>
+            {/*<div className="page__friend-box">*/}
+            {/*    <Friends/>*/}
+            {/*</div>*/}
           </StyledUserPage>
     );
   }

@@ -12,7 +12,7 @@ const defaultProps: IHeadLineProps = {
 export default function PageLabel({ children }: IHeadLineProps) {
     return (
         <StyledPageLabel>
-            <h3 className="pageLabel__label">{children}</h3>
+            {children}
         </StyledPageLabel>
     );
 }

@@ -4,53 +4,73 @@ import UserMenu from './UserMenu';
 import Container from '../Container';
 import Logo from './Logo';
 import Menu from './Menu';
-import {CurrentSession} from "../../../store/currentSession/actionTypes";
+import axios from "axios";
+import {ICurrent, logIn} from "../../../actions/current";
 import {connect} from "react-redux";
-import {saveState} from "../../../store/localStorage";
 
+console.log('Компонент хэдэра');
 
-let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
-saveState(list);
+interface IProps {
+    isAuthenticated: boolean | null
+}
 
+function Header({isAuthenticated}: IProps) {
+    let auth = JSON.parse(localStorage.getItem('state') || '{}');
+    const [logged, setLogged] = useState(auth.authenticated);
+    function LoggedChange(){
+        console.log('Сработала функция LoggedChange');
+        setLogged(!logged);
+    }
 
-function Header() {
-    const [logged, setLogged] = useState(list.isLogged);
-    let one = true;
 
     useEffect(
         () => {
-            list = JSON.parse(localStorage.getItem('state') || '{}');
-            saveState(list);
-            console.log('Header -> localStorage: ', list);
-            if(one) {
-                setLogged(list.isLogged);
-            }
-        }
+            auth = JSON.parse(localStorage.getItem('state') || '{}');
+            axios({
+                method: "get",
+                url: `http://localhost:9005/authuser`,
+                withCredentials: true,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Content-Type': 'x-www-form-urlencoded',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    setLogged(true);
+                })
+                .catch(error => {
+                    console.log(error)
+                    setLogged(false);
+                });
+        }, [isAuthenticated]
     );
 
     return (
-        <StyledHeader user={list.isLogged}>
+        <StyledHeader user={logged}>
             <div className = "header">
                 <Container>
                     <div className = "header__subheader">
                         {logged ? <UserMenu/> : null}
                         <Logo user={logged}/>
-                        {logged ? <Menu/> : null}
+                        {logged ? <Menu onLoggedChange={LoggedChange}/> : null}
                     </div>
                 </Container>
             </div>
         </StyledHeader>
     );
 }
+const mapStateToProps = (state: ICurrent) => ({
+    isAuthenticated: state.isAuthenticated
+});
 
-function mapStateToProps(state: CurrentSession){
-    return {
-        isLogged: state.isLogged,
-        account: {
-            login: state.account.login,
-            password: state.account.password
-        }
-    }
-}
+export default connect(
+    mapStateToProps,
+    {},
+)(Header);
 
-export default connect(mapStateToProps)(Header)
+
+

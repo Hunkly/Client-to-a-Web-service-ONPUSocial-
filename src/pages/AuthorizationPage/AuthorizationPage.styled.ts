@@ -12,5 +12,6 @@ export default styled.div`
     
     .authorization-page__window{
         font-size: 15px;
+        padding: 15px;
     }
 `

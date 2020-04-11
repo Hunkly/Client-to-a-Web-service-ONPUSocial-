@@ -1,29 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import GreetingPageStyled from './GreetingPage.styled';
-import {CurrentSession} from "../../store/currentSession/actionTypes";
-import {connect} from "react-redux";
-import {saveState} from "../../store/localStorage";
-import Button from '../../shared/components/Button'
+import Button from '../../shared/components/Button';
 import pathHistory from "../../pathHistory";
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import {checkAuthentication, ICurrent, LocalStorage} from "../../actions/current";
+import axios from "axios";
+import {connect} from "react-redux";
 
-let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
-console.log(list);
-saveState(list);
+interface IProps {
+    isAuthenticated: boolean | null;
+}
 
-function GreetingPage(){
-    const [logged, setLogged] = useState(list.isLogged);
-    const [userName, setUserName] = useState('');
+function GreetingPage({isAuthenticated}: IProps){
+    let auth: LocalStorage = JSON.parse(localStorage.getItem('state') || '{}');
+    const [logged, setLogged] = useState(auth.authenticated);
+    const [login, setLogin] = useState(auth.login);
 
     useEffect(
         () => {
-            list = JSON.parse(localStorage.getItem('state') || '{}');
-            saveState(list);
-            console.log(`Greeting page's localStorage: ${list}`);
-            if(list.isLogged){
+            checkAuthentication();
             axios({
-                method: 'get',
+                method: "get",
                 url: `http://localhost:9005/authuser`,
                 withCredentials: true,
                 headers: {
@@ -35,29 +31,16 @@ function GreetingPage(){
                 }
             })
                 .then(res => {
-                    console.log(res.data);
-                    setUserName(res.data.username);
-                    setLogged(true)
+                    console.log(res);
+                    setLogin(res.data.username);
+                    setLogged(true);
                 })
                 .catch(error => {
                     console.log(error);
+                    setLogged(false);
                 });
-            axios
-                .get(`http://localhost:9005/authusers`)
-                .then(res => {
-                    console.log(res.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            }
-            setLogged(list.isLogged);
-        },[logged]
+        },[isAuthenticated]
     );
-
-    function pushToAdress(event: React.ChangeEvent<HTMLButtonElement>){
-        return pathHistory.push(event.target.value);
-    }
 
     return(
         <GreetingPageStyled active_color='red'>
@@ -66,32 +49,37 @@ function GreetingPage(){
                 { logged ?
                     <div>
                         <div className = "greeting-page__text">
-                            We glad to see you here, {userName}. Let's begin.
+                            We glad to see you here, {login}. Let's begin.
                         </div>
                         <div className= "greeting-page__button-container">
                             <Button
-                                onClick={pushToAdress}
-                                value={`/users/${userName}`}
+                                onClick={() => {pathHistory.push(`/users/${login}`)}}
+                                value={`/users/${login}`}
                                 color="#3E76BB"
                                 activeColor="#3E76BB"
-                            >My profile</Button>
+                            >
+                                My profile
+                            </Button>
                         </div>
                     </div>
-
                     :
-                    <div className= "greeting-page__button-container">
+                    <div className="greeting-page__button-container">
                         <Button
-                            onClick={pushToAdress}
-                            value="/auth"
+                            onClick={() => {pathHistory.push('/auth/login')}}
+                            value="/auth/login"
                             color="#3E76BB"
                             activeColor="#3E76BB"
-                        >Sign in</Button>
+                        >
+                            Sign in
+                        </Button>
                         <Button
-                            onClick={pushToAdress}
-                            value="/signup"
+                            onClick={() => {pathHistory.push('/auth/registration')}}
+                            value="/auth/registration"
                             color="#FB4141"
                             activeColor="#FB4141"
-                        >Sign Up</Button>
+                        >
+                            Sign Up
+                        </Button>
                     </div>
                 }
             </div>
@@ -99,15 +87,11 @@ function GreetingPage(){
     )
 }
 
-function mapStateToProps(state: CurrentSession){
-    return {
-        isLogged: state.isLogged,
-        signUp: state.signUp,
-        account: {
-            login: state.account.login,
-            password: state.account.password
-        }
-    }
-}
+const mapStateToProps = (state: ICurrent) => ({
+    isAuthenticated: state.isAuthenticated
+});
 
-export default connect(mapStateToProps)(GreetingPage)
+export default connect(
+    mapStateToProps,
+    {},
+)(GreetingPage);

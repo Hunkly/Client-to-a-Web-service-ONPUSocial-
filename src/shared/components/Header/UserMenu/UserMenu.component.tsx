@@ -1,55 +1,44 @@
 import React, {useEffect, useState} from 'react';
 import StyledUserMenu from './UserMenu.styled';
 import DefaultPhoto from '../../../../assets/img/DefaultPhoto.png';
-import {CurrentSession} from "../../../../store/currentSession/actionTypes";
-import {connect} from "react-redux";
-import {saveState} from "../../../../store/localStorage";
 import axios from "axios";
+import {ICurrent, LocalStorage} from "../../../../actions/current";
+import {connect} from "react-redux";
 
-// interface IUserMenuProps {
-//     isLogged: boolean,
-//     fullName: UserName
-// }
-
-let list: CurrentSession = JSON.parse(localStorage.getItem('state') || '{}');
-saveState(list);
-
-const UserMenu = () => {
-    const [login, setLogin] = useState(list.account.login);
-    // const [password, setPassword] = useState(list.account.password);
-    // const [logged, setLogged] = useState(list.isLogged);
-    let one = true;
+interface IProps {
+    isAuthenticated: boolean | null;
+}
+function UserMenu ({isAuthenticated}:IProps) {
+    const auth: LocalStorage = JSON.parse(localStorage.getItem('state') || '{}');
+    const [login, setLogin] = useState(auth.login);
 
     useEffect(
         () => {
-            list = JSON.parse(localStorage.getItem('state') || '{}');
-            saveState(list);
-            console.log('List', list);
-                axios({
-                    method: "get",
-                    url: `http://localhost:9005/authuser`,
-                    withCredentials: true,
-                    headers: {
-                        "Access-Control-Allow-Credentials": true,
-                        "Access-Control-Allow-Origin": 'http://localhost:3000',
-                        'Accept': 'application/json',
-                        'Content-Type': 'x-www-form-urlencoded',
-                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    }
+            axios({
+                method: "get",
+                url: `http://localhost:9005/authuser`,
+                withCredentials: true,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Content-Type': 'x-www-form-urlencoded',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    setLogin(res.data.username);
                 })
-                    .then(res => {
-                        console.log(res)
-                        setLogin(res.data.username);
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    });
-        }, [one]
+                .catch(error => {
+                    console.log(error)
+                });
+        }, [isAuthenticated]
     );
 
     return (
         <StyledUserMenu>
-            <a className="user-menu__link" href="/">
+            <a className="user-menu__link" href={`/users/${login}`}>
                 <img
                     className="user-menu__avatar"
                     src={DefaultPhoto}
@@ -63,15 +52,11 @@ const UserMenu = () => {
     );
 };
 
-function mapStateToProps(state: CurrentSession){
-    console.log('Session', state);
-    return {
-        isLogged: state.isLogged,
-        account: {
-            login: state.account.login,
-            password: state.account.password
-        }
-    }
-}
+const mapStateToProps = (state: ICurrent) => ({
+    isAuthenticated: state.isAuthenticated
+});
 
-export default connect(mapStateToProps)(UserMenu)
+export default connect(
+    mapStateToProps,
+    {},
+)(UserMenu);

@@ -11,6 +11,8 @@ export default function UserPageContainer({match}:IUserPageContainerProps) {
     const [loading, setLoading] = useState (false);
     const [user, setUser] = useState (null);
 
+
+
     useEffect(()=>{
         const id = match.params.id;
         axios({
@@ -26,8 +28,10 @@ export default function UserPageContainer({match}:IUserPageContainerProps) {
             }
         })
         .then(res => {
+            console.log('User page', res);
             if (res.data.id) {
                 setLoading(false);
+                console.log('User page', res.data);
                 setUser(res.data);
             }
         })
