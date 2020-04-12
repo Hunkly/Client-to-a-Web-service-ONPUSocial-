@@ -39,6 +39,7 @@ export default function UserPageContainer({match}:IUserPageContainerProps) {
             console.log(error);
             setLoading(true)
         })
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading]
     );
 

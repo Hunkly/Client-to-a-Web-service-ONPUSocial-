@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StyledAuthorizationPage from './AuthorizationPage.styled';
 import AuthorizationWindow from "../../shared/components/AuthorizationWindow";
 

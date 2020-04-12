@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import NewCommentStyled from './NewComment.styled'
 import TextArea from "../../../../TextArea";
 import Button from "../../../../Button/Button.component";
-import PaperPlane from '../../../../../../assets/img/paperPlane.svg';
 import axios from "axios";
 
 interface NewCommentProps {

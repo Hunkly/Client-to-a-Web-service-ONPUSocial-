@@ -5,7 +5,7 @@ import Container from '../Container';
 import Logo from './Logo';
 import Menu from './Menu';
 import axios from "axios";
-import {ICurrent, logIn} from "../../../actions/current";
+import {ICurrent} from "../../../actions/current";
 import {connect} from "react-redux";
 
 console.log('Компонент хэдэра');
@@ -25,6 +25,7 @@ function Header({isAuthenticated}: IProps) {
 
     useEffect(
         () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             auth = JSON.parse(localStorage.getItem('state') || '{}');
             axios({
                 method: "get",

@@ -28,6 +28,7 @@ export function PersonalInformation({ user }: IBasicInfoProps) {
 
     useEffect(() => {
         setAge(calculateAge(user.birthday));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[date]);
 
     return (

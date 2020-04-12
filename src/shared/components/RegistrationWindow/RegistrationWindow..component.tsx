@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import StyledRegistrationPage from './RegistrationWindow.styled'
 import Button from "../Button";
-import DatePicker from "react-datepicker";
 import TextArea from "../TextArea/TextArea.component";
 import axios from 'axios';
-
 import "react-datepicker/dist/react-datepicker.css";
 import pathHistory from "../../../pathHistory";
-import {authenticate, checkAuthentication, IAuthenticate, ICurrent} from "../../../actions/current";
+import {authenticate, IAuthenticate, ICurrent} from "../../../actions/current";
 import {ThunkDispatch as Dispatch} from "redux-thunk";
 import {connect} from "react-redux";
 
@@ -15,29 +13,31 @@ interface DispatchProps {
     onLogIn: (username: string) => void;
 }
 
-interface IRegState{
-    firstName: string,
-    lastName: string,
-    birthday: number,
-    email: string,
-    phone: string,
-    description: string,
-    photo: string,
-    studyGroup: string,
-    starosta: boolean,
-    userName: string,
-    password: string,
-    date: Date,
-    passwordConfirm: string
-}
+// interface IRegState{
+//     firstName: string,
+//     lastName: string,
+//     birthday: number,
+//     email: string,
+//     phone: string,
+//     description: string,
+//     photo: string,
+//     studyGroup: string,
+//     starosta: boolean,
+//     userName: string,
+//     password: string,
+//     date: Date,
+//     passwordConfirm: string
+// }
 
 export function validate(name: string, value: string){
     switch(name){
         case 'email': {
+            // eslint-disable-next-line no-useless-escape
             let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(value).toLowerCase());
         }
         case 'phone': {
+            // eslint-disable-next-line no-useless-escape
             let re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
             return re.test(String(value).toLowerCase());
         }
@@ -69,8 +69,8 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [isStudent, setStudent] = useState(true);
     const [isStarosta, setStarosta] = useState(false);
     const [studyGroup, setGroup] = useState('');
-    const [faculty, setFaculty] = useState('');
-    const [cafedra, setCafedra] = useState('');
+    // const [faculty, setFaculty] = useState('');
+    // const [cafedra, setCafedra] = useState('');
 
     function createUser(event: React.FormEvent<HTMLFormElement>){
         console.log("formSubmitted");
@@ -240,7 +240,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                             {
                                 !firstName ? null :
                                     isValid ? null :
-                                        id == 'firstName' ?
+                                        id === 'firstName' ?
                                             <div className="registration-page__additional-text">
                                                 Данные некорректны
                                             </div> : null
@@ -346,7 +346,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                         type="text"
                                         name="faculty"
                                         placeholder="Факультет"
-                                        value={faculty}
+                                        // value={faculty}
                                         onChange={setData}
                                         required
                                     />
@@ -358,7 +358,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                         type="text"
                                         name="cafedra"
                                         placeholder="Кафедра"
-                                        value={cafedra}
+                                        // value={cafedra}
                                         onChange={setData}
                                         required
                                     />

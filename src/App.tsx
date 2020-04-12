@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Router, Switch, Route } from 'react-router-dom';
 import Container from './shared/components/Container';
 import Header from './shared/components/Header';
-import HeaderProtected from './shared/components/HeaderProtected';
 import UserPage from './pages/UserPage';
 import GreetingPage from './pages/GreetingPage';
 import AuthorizationPage from './pages/AuthorizationPage';
@@ -11,7 +10,6 @@ import NewsPage from "./pages/NewsPage";
 import Chat from "./shared/components/Chat";
 import pathHistory from "./pathHistory";
 import './App.css';
-// import axios from "axios";
 import { connect } from "react-redux";
 import { checkAuthentication } from "./actions/current";
 import { ICurrent } from "./actions/current";
@@ -24,52 +22,17 @@ const Error = () => <p>404 NOT FOUND</p>;
 
 interface IProps {
     checkAuthenticationConnect: () => void;
-    isAuthenticated: boolean | null;
 }
 
-function App({ checkAuthenticationConnect, isAuthenticated}: IProps) {
+function App({ checkAuthenticationConnect}: IProps) {
     let auth = JSON.parse(localStorage.getItem('state') || "{}");
-    const [logged, setLogged] = useState(auth.authenticated);
-    const [toggle, setToggle] = useState(false);
-
-
-    // function LoggedChange(){
-    //     console.log('Сработала функция LoggedChange');
-    //     setLogged(!logged);
-    // }
+    // const [toggle, setToggle] = useState(false);
 
     useEffect(
         () => {
             checkAuthenticationConnect();
-            setToggle(!toggle);
-            // axios({
-            //     method: 'get',
-            //     url: `http://localhost:9005/authuser`,
-            //     withCredentials: true,
-            //     headers: {
-            //     "Access-Control-Allow-Credentials": true,
-            //     "Access-Control-Allow-Origin": 'http://localhost:3000',
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'x-www-form-urlencoded',
-            //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            // }
-            // })
-            // .then(res => {
-            //     console.log('App HTTP request auth user', res.data);
-            //     setLogged(true);
-            //     })
-            // .catch(error => {
-            //     console.log(error);
-            //     setLogged(false);
-            // });
-            // axios
-            // .get(`http://localhost:9005/authusers`)
-            // .then(res => {
-            //     console.log('App HTTP request auth users', res.data);
-            //     })
-            // .catch(error => {
-            // console.log(error);
-            // });
+            // setToggle(!toggle);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         },[auth.authenticated]
     );
     return (
@@ -91,7 +54,7 @@ function App({ checkAuthenticationConnect, isAuthenticated}: IProps) {
             </Container>
         </div>
     );
-};
+}
 
 const mapStateToProps = (state: ICurrent) => ({
     isAuthenticated: state.isAuthenticated

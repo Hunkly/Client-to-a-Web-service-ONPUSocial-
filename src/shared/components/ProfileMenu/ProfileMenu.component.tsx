@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from "../Button/Button.component";
+// import Button from "../Button/Button.component";
 import StyledProfileMenu from './ProfileMenu.styled';
 import DefaultPhoto from '../../../assets/img/DefaultPhoto.png';
 

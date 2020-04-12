@@ -1,16 +1,15 @@
 import React from 'react';
 import StyledMenu from './Menu.styled';
 import axios from 'axios';
-import {ICurrent, logIn, logOut} from "../../../../actions/current";
+import {ICurrent, logOut} from "../../../../actions/current";
 import {pushToAddress} from "../../../../pathHistory";
 import {connect} from "react-redux";
 
 interface IProps {
-    isAuthenticated: boolean | null;
     onLoggedChange: () => void;
 }
 
-function Menu ({onLoggedChange,  isAuthenticated}: IProps) {
+function Menu ({onLoggedChange}: IProps) {
 return (
   <StyledMenu>
     <a

@@ -4,11 +4,8 @@ import Button from "../Button";
 import axios from 'axios';
 import pathHistory from "../../../pathHistory";
 import {
-    logIn,
     ICurrent,
-    checkAuthentication,
     IAuthenticate,
-    AuthenticationAction,
     authenticate
 } from "../../../actions/current";
 import {connect} from "react-redux";
@@ -26,7 +23,7 @@ interface DispatchProps {
 
 type Props = IProps & DispatchProps;
 
-function AuthorizationWindow ({ onLogIn, isAuthenticated}: Props){
+function AuthorizationWindow ({ onLogIn}: Props){
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [valid, setValid] = useState(true);
@@ -153,6 +150,7 @@ function AuthorizationWindow ({ onLogIn, isAuthenticated}: Props){
                 return re.test(String(value).toLowerCase());
             }
             case 'email': {
+                // eslint-disable-next-line no-useless-escape
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(String(value).toLowerCase());
             }

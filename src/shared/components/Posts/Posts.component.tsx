@@ -4,7 +4,6 @@ import UserPost from "../../models/Post";
 import PageLabel from "../PageLabel/PageLabel.component";
 import PostItem from "./PostItem";
 import NewPublication from './NewPost';
-import UserModel from '../../models/User';
 import IUser from "../../models/User";
 
 interface IPublicationsProps {

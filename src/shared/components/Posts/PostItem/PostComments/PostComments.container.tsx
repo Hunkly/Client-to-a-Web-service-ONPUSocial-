@@ -32,6 +32,7 @@ export default function PostCommentsContainer({userID, postID}: IComments){
                 .catch( err => {
                     console.log('Get comments error: ', err);
                 })
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [toggle]
     );
 

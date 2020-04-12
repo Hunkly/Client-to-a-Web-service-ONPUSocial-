@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import axios from 'axios';
 import PostsComponent from './Posts.component';
-import UserModel from "../../models/User";
 
 
 export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, viewMode: 'news' | 'profile'){
@@ -18,6 +17,7 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, view
         console.log('pagenumber', pageNumber);
         setLoading(true);
         setError(false);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let cancel: any;
         axios({
             method: 'get',
@@ -82,6 +82,7 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, view
                     console.log(error)
                 }
             )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[toggle, pageNumber]);
 
 

@@ -3,7 +3,7 @@ import UserModel from '../../shared/models/User';
 import StyledUserPage from './UserPage.styled';
 import { PersonalInformation } from '../../shared/components/PersonalInformation/PersonalInformation.component';
 import ProfileMenu from "../../shared/components/ProfileMenu";
-import Friends from "../../shared/components/Friends";
+// import Friends from "../../shared/components/Friends";
 import {PostsContainer} from "../../shared/components/Posts/Posts.container";
 
 interface IUserPageProps {
