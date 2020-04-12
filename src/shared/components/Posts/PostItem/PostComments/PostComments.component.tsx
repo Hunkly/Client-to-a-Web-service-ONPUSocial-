@@ -18,7 +18,13 @@ export default function PublicationComments({userID, postID, comments, toggleCha
             <StyledPublicationComments>
                 {/*<div className='post-comments__title'>Comments:</div>*/}
                 { comments.map((comment: IComment) => {
-                    return <PostCommentItem comment={comment} toggleChange={toggleChange} key={comment.id}/>
+                    let mode: 'own' | 'notOwn' = 'notOwn';
+                    if(comment.user.id === userID) {
+                        mode = 'own'
+                    } else {
+                        mode = 'notOwn'
+                    }
+                    return <PostCommentItem viewMode={mode} comment={comment} toggleChange={toggleChange} key={comment.id}/>
                 }) }
                 <NewComment postID={postID} userID={userID} toggleChange={toggleChange}/>
             </StyledPublicationComments>

@@ -4,12 +4,15 @@ import PostsComponent from './Posts.component';
 import UserModel from "../../models/User";
 
 
-export function LoadPosts(pageNumber: number, mode: string, toggle:boolean){
+export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, viewMode: 'news' | 'profile'){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [hasMore, setHasMore] = useState(false);
+    const [currUser, setCurrUser] = useState({});
     // const [toggle, setToggle] = useState(false);
+
+
 
     useEffect( () => {
         console.log('pagenumber', pageNumber);
@@ -27,9 +30,17 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean){
                 'Content-Type': 'x-www-form-urlencoded',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
             }}).then(res => {
+            setCurrUser(res.data);
+            let config = {
+                method: 'get',
+                url: ``,
+                withCredentials: true,
+                };
+            if(viewMode === 'news') config.url = `http://localhost:9005/posts/`; else config.url = `http://localhost:9005/posts/user/${res.data.username}?page=${pageNumber}`;
+            console.log('config url', config.url);
             axios({
                 method: 'get',
-                url: `http://localhost:9005/posts/user/${res.data.username}?page=${pageNumber}`,
+                url: config.url,
                 withCredentials: true,
                 //@ts-ignore
                 params: { page: pageNumber },
@@ -75,14 +86,14 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean){
 
 
 
-    return { loading, error, posts, hasMore }
+    return { loading, error, posts, hasMore, currUser }
 }
 
 interface IPublicationsContainerProps {
-    user: UserModel;
+    viewMode: 'news' | 'profile';
 }
 
-export function PostsContainer({user}: IPublicationsContainerProps) {
+export function PostsContainer({viewMode}: IPublicationsContainerProps) {
     const [pageNumber, setPageNumber] = useState(0);
     const [mode, setMode] = useState('scroll');
     const [toggle, setToggle] = useState(false);
@@ -92,8 +103,9 @@ export function PostsContainer({user}: IPublicationsContainerProps) {
         hasMore,
         loading,
         error,
+        currUser
         // toggleChange
-    }: any = LoadPosts(pageNumber, mode, toggle);
+    }: any = LoadPosts(pageNumber, mode, toggle, viewMode);
     const observer = useRef();
     function toggleChange(){
         setMode('reload');
@@ -119,6 +131,6 @@ export function PostsContainer({user}: IPublicationsContainerProps) {
     }, [loading, hasMore]);
 
     return (
-        <PostsComponent user={user} posts={posts} hasMore={hasMore} loading={loading} error={error} lastPostElement={lastPostElement} toggleChange={toggleChange}/>
+        <PostsComponent currUser={currUser} posts={posts} hasMore={hasMore} loading={loading} error={error} lastPostElement={lastPostElement} toggleChange={toggleChange}/>
     );
 }

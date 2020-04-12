@@ -26,7 +26,7 @@ export default function PostCommentsContainer({userID, postID}: IComments){
                     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 }
             }).then( res => {
-                console.log('Get comments from server: ', res.data)
+                console.log('Get comments from server: ', res.data);
                 setComments(res.data.content);
             })
                 .catch( err => {

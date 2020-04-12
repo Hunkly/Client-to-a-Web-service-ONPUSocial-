@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import StyledPublicationItem from './PostItem.styled';
 import UserPost from '../../../models/Post'
 import Cross from '../../../../assets/img/cross.svg';
@@ -13,12 +13,36 @@ interface IPublicationItemProps {
     ref?: any;
     toggleChange: () => void;
     post: UserPost;
+    viewMode: 'own' | 'notOwn'
 }
 
-export default function PublicationItem({ref, toggleChange, post}:IPublicationItemProps) {
+export default function PublicationItem({viewMode,ref, toggleChange, post}:IPublicationItemProps) {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(post.name_post);
     const [content, setContent] = useState(post.content);
+    const [userId, setUserId] = useState(0);
+    console.log('post user', post);
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/authuser`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Content-Type': 'x-www-form-urlencoded',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            .then(res => {
+                console.log('Компонент PublicationItem, проверка на авторизацию: ', res.data);
+                setUserId(res.data.id);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },[]);
 
     function setData(event: React.ChangeEvent<HTMLInputElement>){
         switch(event.target.name){
@@ -53,11 +77,12 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
     }
 
     function saveChanges() {
+        console.log('edit post', post);
         let today = Date.now();
         const postForm = {
             name_post: title,
             content: content,
-            user: post.user.id,
+            user: post.user_idfield,
             studygroup: null,
             kafedra: null,
             faculty: null,
@@ -98,20 +123,22 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
                     </div>
                     <div className="post-item__label">{post.user}</div>
                 </div>
-                <div className="post-item__menu">
-                    <div
-                        className="post-item__menu-item"
-                        onClick={editPost}
-                    >
-                        <img src={Edit} alt=""/>
-                    </div>
-                    <div
-                        className="post-item__menu-item"
-                        onClick={deletePost}
-                    >
-                        <img src={Cross} alt=""/>
-                    </div>
-                </div>
+                {
+                    viewMode === 'own' ? <div className="post-item__menu">
+                        <div
+                            className="post-item__menu-item"
+                            onClick={editPost}
+                        >
+                            <img src={Edit} alt=""/>
+                        </div>
+                        <div
+                            className="post-item__menu-item"
+                            onClick={deletePost}
+                        >
+                            <img src={Cross} alt=""/>
+                        </div>
+                    </div> : null
+                }
             </div>
             {
                 editMode ?
@@ -147,7 +174,7 @@ export default function PublicationItem({ref, toggleChange, post}:IPublicationIt
             }
             {/*<div className="publication-item__picture"/>*/}
             <div className="post-item__date">{date.toDateString()}</div>
-            <PostComments postID={post.id} userID={post.user.id}/>
+            <PostComments postID={post.id} userID={userId}/>
         </StyledPublicationItem>
     );
 }

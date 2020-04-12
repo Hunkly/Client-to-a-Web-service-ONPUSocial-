@@ -10,10 +10,11 @@ import Button from "../../../../Button/Button.component";
 
 interface PostComment {
     comment: IComment,
-    toggleChange: () => void
+    toggleChange: () => void,
+    viewMode: 'own' | 'notOwn'
 }
 
-export default function PostCommentItem({comment, toggleChange}: PostComment){
+export default function PostCommentItem({viewMode, comment, toggleChange}: PostComment){
     const [editMode, setEditMode] = useState(false);
     const [content, setContent] = useState(comment.content);
 
@@ -84,7 +85,9 @@ export default function PostCommentItem({comment, toggleChange}: PostComment){
                     </div>
                     <div className="post-comment__author-label">{comment.user.username}</div>
                 </div>
-                <div className="post-comment-item__menu">
+                {
+                    viewMode === 'own' ?
+                    <div className="post-comment-item__menu">
                     <div
                         className="post-comment-item__menu-item"
                         onClick={editComment}
@@ -97,7 +100,8 @@ export default function PostCommentItem({comment, toggleChange}: PostComment){
                     >
                         <img src={Cross} alt=""/>
                     </div>
-                </div>
+                </div> : null
+                }
             </div>
             {
                 editMode ?

@@ -82,7 +82,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
             phone: phone,
             description: description,
             photo: '/photo/test.png',
-            studygroup: studyGroup,
+            studygroup: null,
             starosta: isStarosta,
             username: userName,
             password: password

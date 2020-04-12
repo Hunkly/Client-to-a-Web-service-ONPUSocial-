@@ -3,6 +3,7 @@ import StyledNewsPage from './NewsPage.styled';
 import axios from "axios";
 import UserPost from "../../shared/models/Post";
 import PostItem from "../../shared/components/Posts/PostItem/PostItem.component";
+import {PostsContainer} from "../../shared/components/Posts/Posts.container";
 
 export default function NewsPage(){
     const [posts, setPosts] = useState([]);
@@ -33,6 +34,7 @@ export default function NewsPage(){
         <StyledNewsPage>
             <div className="news-page__window">
                 News
+                <PostsContainer viewMode='news'/>
                 {/*{posts ? posts.map((post: UserPost, index: number) => {*/}
                 {/*        if (posts.length === index + 1) {*/}
                 {/*            // @ts-ignore*/}

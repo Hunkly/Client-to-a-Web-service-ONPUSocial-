@@ -26,7 +26,7 @@ export default class UserPage extends React.PureComponent<IUserPageProps> {
                 <ProfileMenu/>
                 <PersonalInformation user={this.props.user} />
               </div>
-              <PostsContainer user={this.props.user}/>
+              <PostsContainer viewMode='profile'/>
             </div>
             {/*<div className="page__friend-box">*/}
             {/*    <Friends/>*/}

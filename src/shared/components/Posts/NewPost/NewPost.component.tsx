@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import StyledPublicationItem from './NewPost.styled';
-import UserPost from '../../../models/Post'
 import TextArea from "../../TextArea";
 import Button from "../../Button";
 import axios from "axios";
@@ -8,17 +7,13 @@ import axios from "axios";
 interface INewPublicationProps {
     toggleChange: () => void;
     userId: number
-    post?: UserPost;
 }
 
-export default function NewPost({toggleChange , userId}:INewPublicationProps) {
+export default function NewPost({userId, toggleChange }:INewPublicationProps) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [user, setUser] = useState({});
 
-    useEffect(() => {
 
-    })
 
     function setData(event: React.ChangeEvent<HTMLInputElement>){
         switch(event.target.name){
