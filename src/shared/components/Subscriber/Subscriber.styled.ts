@@ -9,7 +9,7 @@ export default styled.div<IStyledBasicInfoItemProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  Padding-left: 15px;
+  padding-left: 15px;
   padding-bottom: 20px;
 
   .colleague-item__avatar {
@@ -19,6 +19,11 @@ export default styled.div<IStyledBasicInfoItemProps>`
         background-color: #9f9f9f;
         border-radius: 50%;
     }
+  }
+  
+  a {
+    display: flex;
+    align-items: center;
   }
 
   .colleague-item__label {

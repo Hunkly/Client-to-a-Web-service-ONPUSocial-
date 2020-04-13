@@ -6,6 +6,11 @@ export default styled.div`
    // margin-top: 75px;
    // margin-left: 80px;
    
+   a{
+    text-decoration: none;
+    color: #000;
+   }
+   
    .friends__container{
         margin-top: 15px;
    }

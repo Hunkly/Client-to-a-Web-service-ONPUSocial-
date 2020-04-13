@@ -1,37 +1,67 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import UserModel from '../../shared/models/User';
 import StyledUserPage from './UserPage.styled';
 import { PersonalInformation } from '../../shared/components/PersonalInformation/PersonalInformation.component';
 import ProfileMenu from "../../shared/components/ProfileMenu";
-// import Friends from "../../shared/components/Friends";
+import Subscribers from "../../shared/components/Subscribers";
+import Subscriptions from "../../shared/components/Subscriptions";
 import {PostsContainer} from "../../shared/components/Posts/Posts.container";
+import axios from "axios";
+import {checkAuthentication} from "../../actions/current";
 
 interface IUserPageProps {
   user: UserModel | null;
 }
 
-export default class UserPage extends React.PureComponent<IUserPageProps> {
-  public render() {
-    if (!this.props.user) {
+export default function UserPage({user}: IUserPageProps){
+    const [userId, setUserId] = useState(0);
+    useEffect(() => {
+        checkAuthentication();
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/authuser`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Content-Type': 'x-www-form-urlencoded',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+            .then(res => {
+                setUserId(res.data.id);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },[]);
+    if (!user) {
       return (
           <StyledUserPage>
             <div>Loading...</div>
           </StyledUserPage>
       );
     }
+    let mode: 'own' | 'notOwn' = 'notOwn';
+    if(user.id === userId) {
+        mode = 'own'
+    } else {
+        mode = 'notOwn'
+    }
     return (
           <StyledUserPage>
             <div className="page-container">
               <div className = "page-information-box">
-                <ProfileMenu/>
-                <PersonalInformation user={this.props.user} />
+                <ProfileMenu viewMode={mode} user={user}/>
+                <PersonalInformation viewMode={mode} user={user} />
               </div>
               <PostsContainer viewMode='profile'/>
             </div>
-            {/*<div className="page__friend-box">*/}
-            {/*    <Friends/>*/}
-            {/*</div>*/}
+            <div className="page__friend-box">
+                <Subscribers user={user}/>
+                <Subscriptions user={user} />
+            </div>
           </StyledUserPage>
     );
-  }
 }
