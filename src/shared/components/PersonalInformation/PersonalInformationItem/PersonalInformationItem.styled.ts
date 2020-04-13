@@ -12,7 +12,7 @@ export default styled.div<IStyledBasicInfoItemProps>`
   padding-left: 20px;
 
   .basic-info-item__title {
-    min-width: 90px;
+    min-width: 145px;
   }
 
   .basic-info-item__text {

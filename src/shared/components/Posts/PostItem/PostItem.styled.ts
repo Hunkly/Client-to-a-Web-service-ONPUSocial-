@@ -5,6 +5,10 @@ export default styled.div`
     padding: 20px;
     background-color: #FCFCFC;
     
+    a{
+        text-decoration: none;
+        color: #000;
+    }
     
     p{
         font-weight: 100;

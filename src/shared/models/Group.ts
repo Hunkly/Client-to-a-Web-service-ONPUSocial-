@@ -1,9 +1,10 @@
+import ICafedra from './Cafedra'
+
 export default interface IGroup {
     id: number;
     name_group: string;
-    captain: number;
     description_group: string;
-    id_specialty: number;
+    kafedra: ICafedra;
     course: number;
     stream: number;
 }

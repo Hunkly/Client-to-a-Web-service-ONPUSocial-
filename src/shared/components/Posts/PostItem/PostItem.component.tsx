@@ -117,12 +117,14 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
     return (
         <StyledPublicationItem>
             <div className="post-item__container">
-                <div className="post-item__author">
-                    <div className="post-item__avatar">
-                        <img src={DefaultPhoto} alt=""/>
+                <a href={`/users/${post.user}`}>
+                    <div className="post-item__author">
+                        <div className="post-item__avatar">
+                            <img src={DefaultPhoto} alt=""/>
+                        </div>
+                        <div className="post-item__label">{post.user}</div>
                     </div>
-                    <div className="post-item__label">{post.user}</div>
-                </div>
+                </a>
                 {
                     viewMode === 'own' ? <div className="post-item__menu">
                         <div

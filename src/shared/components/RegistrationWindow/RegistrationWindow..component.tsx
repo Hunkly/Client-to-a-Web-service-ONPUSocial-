@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import StyledRegistrationPage from './RegistrationWindow.styled'
+import StyledDialogBox from './DialogBox.styled'
 import Button from "../Button";
 import TextArea from "../TextArea/TextArea.component";
 import axios from 'axios';
@@ -8,27 +9,20 @@ import pathHistory from "../../../pathHistory";
 import {authenticate, IAuthenticate, ICurrent} from "../../../actions/current";
 import {ThunkDispatch as Dispatch} from "redux-thunk";
 import {connect} from "react-redux";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import IFaculty from '../../models/Faculty';
+import ICafedra from "../../models/Cafedra";
+import IGroup from "../../models/Group";
 
 interface DispatchProps {
     onLogIn: (username: string) => void;
 }
 
-// interface IRegState{
-//     firstName: string,
-//     lastName: string,
-//     birthday: number,
-//     email: string,
-//     phone: string,
-//     description: string,
-//     photo: string,
-//     studyGroup: string,
-//     starosta: boolean,
-//     userName: string,
-//     password: string,
-//     date: Date,
-//     passwordConfirm: string
-// }
-
+// Функция валидации данных
 export function validate(name: string, value: string){
     switch(name){
         case 'email': {
@@ -56,6 +50,13 @@ export function validate(name: string, value: string){
 }
 
 function RegistrationWindow({onLogIn}: DispatchProps){
+
+    // Переключатели
+    const [toggle, setToggle] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [dialogMode, setDialogMode] = useState('');
+
+    // Данные о пользователе
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -68,13 +69,296 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [date, setDate] = useState('');
     const [isStudent, setStudent] = useState(true);
     const [isStarosta, setStarosta] = useState(false);
-    const [studyGroup, setGroup] = useState('');
-    // const [faculty, setFaculty] = useState('');
-    // const [cafedra, setCafedra] = useState('');
+
+    // Данные о факультете
+    const [faculty, setFaculty] = useState({});
+    const [faculties, setFaculties] = useState([]);
+    const [facultyName, setFacultyName] = useState('');
+    const [descFaculty, setDescFaculty] = useState('');
+    const [facultyID, setFacultyID] = useState(0);
+    const [facultyChecked, setFacultyChecked] = useState(false);
+
+    // Данные о кафедре
+    const [cafedra, setCafedra] = useState({});
+    const [cafedras, setCafedras] = useState([]);
+    const [cafedraName, setCafedraName] = useState('');
+    const [descCafedra, setDescCafedra] = useState('');
+    const [cafedraID, setCafedraID] = useState(0);
+    const [cafedraChecked, setCafedraChecked] = useState(false);
+
+    // Данные о группе
+    const [group, setGroup] = useState({});
+    const [groups, setGroups] = useState([]);
+    const [nameGroup, setNameGroup] = useState('');
+    const [descGroup, setDescGroup] = useState('');
+    const [groupID, setGroupID] = useState(0);
+    const [course, setCourse] = useState(0);
+    const [groupChecked, setGroupChecked] = useState(false);
+
+
+    // Функция открытия модального окна
+    function openWindow() {
+        setOpen(true)
+    }
+
+    // Функция закрытия модального окна
+    function closeWindow() {
+        setOpen(false)
+    }
+
+    function getFaculties(){
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/faculties`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then( res => {
+            console.log('Факультеты', res.data);
+            setFaculties(res.data.content);
+        }).catch( err => {
+            console.log('Факультеты', err);
+        })
+    }
+
+    function getCafedras(){
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/departments`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then( res => {
+            console.log('Кафедры', res.data);
+            setCafedras(res.data.content);
+        }).catch( err => {
+            console.log('Кафедры', err);
+        })
+    }
+
+    function getGroups(){
+        axios({
+            method: 'get',
+            url: `http://localhost:9005/studygroups`,
+            withCredentials: true,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then( res => {
+            console.log('Группы', res.data);
+            setGroups(res.data.content);
+        }).catch( err => {
+            console.log('Группы', err);
+        })
+    }
+
+    useEffect(() => {
+        // Выдать список факультетов
+        getFaculties();
+        getCafedras();
+        getGroups();
+
+    },[toggle]);
+
+    function onChangeFaculty(event: React.ChangeEvent<HTMLSelectElement>){
+        if(event.target.value === "null"){
+            setDialogMode('faculty');
+            setOpen(true);
+            setFacultyChecked(false);
+        } else {
+            if(event.target.value === "") {
+                setFacultyChecked(false);
+            }
+            else
+                {
+                    setFacultyChecked(true);
+                    console.log('АЙДИ ФАКУЛЬТЕТА', event.target.value);
+                    axios({
+                        method: 'get',
+                        url: `http://localhost:9005/faculties/${event.target.value} `,
+                        withCredentials: true,
+                        headers: {
+                            "Access-Control-Allow-Credentials": true,
+                            "Access-Control-Allow-Origin": 'http://localhost:3000',
+                            'Accept': 'application/json',
+                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                        }
+                    }).then( res => {
+                        console.log('Факультет', res.data);
+                        setFaculty(res.data);
+                        setFacultyID(res.data.id);
+                        console.log('Кафедра', cafedras);
+                        getCafedras();
+                    }).catch( err => {
+                        console.log('Факультет', err);
+                    })
+                }
+        }
+
+    }
+
+    function onChangeCafedra(event: React.ChangeEvent<HTMLSelectElement>){
+        if(event.target.value === "null"){
+            setDialogMode('cafedra');
+            setOpen(true);
+            setCafedraChecked(false);
+        } else {
+            if(event.target.value === "") {
+                setCafedraChecked(false); } else
+            {
+                setCafedra(event.target.value);
+                setCafedraChecked(true);
+                console.log('АЙДИ КАФДЕРЫ', event.target.value);
+                axios({
+                    method: 'get',
+                    url: `http://localhost:9005/departments/${event.target.value}  `,
+                    withCredentials: true,
+                    headers: {
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                }).then( res => {
+                    console.log('Кафедра', res.data);
+                    setCafedra(res.data);
+                    setCafedraID(res.data.id);
+                    getGroups();
+                }).catch( err => {
+                    console.log('Кафедра', err);
+                })
+            }
+        }
+    }
+
+    function onChangeGroup(event: React.ChangeEvent<HTMLSelectElement>){
+        if(event.target.value === "null"){
+            setDialogMode('group');
+            setOpen(true);
+            setGroupChecked(false);
+        } else {
+            if(event.target.value === "") {
+                setGroupChecked(false); } else
+            {
+                setGroup(event.target.value);
+                setGroupChecked(true);
+                console.log('АЙДИ ГРУППЫ', event.target.value);
+                axios({
+                    method: 'get',
+                    url: `http://localhost:9005/studygroups/${event.target.value}  `,
+                    withCredentials: true,
+                    headers: {
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": 'http://localhost:3000',
+                        'Accept': 'application/json',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    }
+                }).then( res => {
+                    console.log('Группа', res.data);
+                    setGroup(res.data);
+                    setGroupID(res.data.id);
+                }).catch( err => {
+                    console.log('Группа', err);
+                })
+            }
+        }
+    }
+
+    function createFaculty(){
+        const facultyForm = {
+            faculty_name: facultyName,
+            faculty_description: descFaculty
+        };
+        console.log('CREATE FACULTY', facultyForm);
+        if(facultyName && descFaculty){
+            axios({
+                method: 'post',
+                url: `http://localhost:9005/faculties`,
+                withCredentials: true,
+                data: facultyForm,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then(res => {
+                console.log('Добавлен факультет', res.data);
+                setToggle(!toggle);
+            })
+        }
+    }
+
+    function createCafedra(){
+        const cafedraForm = {
+            nameKafedra: cafedraName,
+            descriptionKafedra: descCafedra,
+            faculty_id: facultyID
+        };
+        console.log('CREATE CAFEDRA', cafedraForm);
+        if(cafedraName && descCafedra && facultyID){
+            axios({
+                method: 'post',
+                url: `http://localhost:9005/departments`,
+                withCredentials: true,
+                data: cafedraForm,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then(res => {
+                console.log('Добавлена кафедра', res.data);
+                setToggle(!toggle);
+            })
+        }
+    }
+
+    function createGroup(){
+        const groupForm = {
+            nameGroup: nameGroup,
+            descriptionGroup: descGroup,
+            kafedra: cafedraID,
+            course: course,
+            stream: 0
+        };
+        console.log('CREATE GROUP', groupForm);
+        if(nameGroup && descGroup && cafedraID){
+            axios({
+                method: 'post',
+                url: `http://localhost:9005/studygroups`,
+                withCredentials: true,
+                data: groupForm,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then(res => {
+                console.log('Добавлена кафедра', res.data);
+                setToggle(!toggle);
+            })
+        }
+    }
 
     function createUser(event: React.FormEvent<HTMLFormElement>){
         console.log("formSubmitted");
-        const userForm = {
+        var studygroup;
+        if(isStudent) {studygroup = groupID;} else studygroup = null
+        let userForm = {
             first_name: firstName,
             last_name: lastName,
             birthday: birthday,
@@ -82,11 +366,12 @@ function RegistrationWindow({onLogIn}: DispatchProps){
             phone: phone,
             description: description,
             photo: '/photo/test.png',
-            studygroup: null,
+            studygroup: studygroup,
             starosta: isStarosta,
             username: userName,
             password: password
         };
+
         console.log("userForm", userForm);
         axios({
             method: 'post',
@@ -136,6 +421,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
 
     let isValid = true;
     let id = '';
+
     function setData(event: React.ChangeEvent<HTMLInputElement>){
         console.log('handleChange', event);
         switch (event.target.name) {
@@ -213,6 +499,39 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 id = event.target.name;
                 break;
             }
+            case 'nameFaculty': {
+                setFacultyName(event.target.value);
+                break;
+            }
+            case 'descFaculty': {
+                setDescFaculty(event.target.value);
+                break;
+            }
+            case 'cafedraName': {
+                setCafedraName(event.target.value);
+                break;
+            }
+            case 'descCafedra': {
+                setDescCafedra(event.target.value);
+                break;
+            }
+            case 'nameGroup': {
+                setNameGroup(event.target.value);
+                break;
+            }
+            case 'descGroup': {
+                setDescGroup(event.target.value);
+                break;
+            }
+            case 'course': {
+                if(event.target.value == '1') setCourse(1); else
+                if(event.target.value == '2') setCourse(2); else
+                if(event.target.value == '3') setCourse(3); else
+                if(event.target.value == '4') setCourse(4); else
+                if(event.target.value == '5') setCourse(5); else
+                if(event.target.value == '6') setCourse(6); else setCourse(0);
+                break;
+            }
         }
 
         if(event.target.value === '') {
@@ -222,8 +541,184 @@ function RegistrationWindow({onLogIn}: DispatchProps){
 
     }
 
-        return (
+    return (
             <StyledRegistrationPage id={id} isValid={isValid}>
+                <Dialog className='dialog-box' open={open} onClose={closeWindow} aria-labelledby="form-dialog-title">
+                    {
+                        dialogMode === 'faculty' ?
+                            <StyledDialogBox>
+                                <DialogTitle id="form-dialog-title">Добавить факультет</DialogTitle>
+                                <DialogContent>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Название факультета
+                                        </DialogContentText>
+                                        <input
+                                            id="nameFaculty"
+                                            type="text"
+                                            name="nameFaculty"
+                                            placeholder="Введите название факультета"
+                                            onChange={setData}
+                                            value={facultyName}
+                                            required
+                                        />
+
+                                    </div>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Описание
+                                        </DialogContentText>
+                                        <TextArea
+                                            id="descFaculty"
+                                            name='descFaculty'
+                                            placeholder="Введите описание"
+                                            value={descFaculty}
+                                            onChange={setData}
+                                            maxLength={200}
+                                            required={true}
+                                        />
+                                        {
+                                            description.length<200 ? null :
+                                                <div className="registration-page__additional-text">
+                                                    Данные чересчур длинные
+                                                </div>
+                                        }
+                                    </div>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        color="#3E76BB"
+                                        activeColor="#3E76BB"
+                                        onClick={createFaculty}
+                                    >
+                                        Отправить
+                                    </Button>
+                                </DialogActions>
+                            </StyledDialogBox>
+                            : dialogMode === 'cafedra' ?
+                            <StyledDialogBox>
+                                <DialogTitle id="form-dialog-title">Добавить кафедру</DialogTitle>
+                                <DialogContent>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Название кафедры
+                                        </DialogContentText>
+                                        <input
+                                            id="cafedraName"
+                                            type="text"
+                                            name="cafedraName"
+                                            placeholder="Введите название кафедры"
+                                            onChange={setData}
+                                            value={cafedraName}
+                                            required
+                                        />
+
+                                    </div>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Описание
+                                        </DialogContentText>
+                                        <TextArea
+                                            id="descCafedra"
+                                            name='descCafedra'
+                                            placeholder="Введите описание"
+                                            value={descCafedra}
+                                            onChange={setData}
+                                            maxLength={200}
+                                            required={true}
+                                        />
+                                        {
+                                            description.length<200 ? null :
+                                                <div className="registration-page__additional-text">
+                                                    Данные чересчур длинные
+                                                </div>
+                                        }
+                                    </div>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        color="#3E76BB"
+                                        activeColor="#3E76BB"
+                                        onClick={createCafedra}
+                                    >
+                                        Отправить
+                                    </Button>
+                                </DialogActions>
+                            </StyledDialogBox>
+                            :
+                            <StyledDialogBox>
+                                <DialogTitle id="form-dialog-title">Добавить группу</DialogTitle>
+                                <DialogContent>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Название группы
+                                        </DialogContentText>
+                                        <input
+                                            id="nameGroup"
+                                            type="text"
+                                            name="nameGroup"
+                                            placeholder="Введите название группы"
+                                            onChange={setData}
+                                            value={nameGroup}
+                                            required
+                                        />
+
+                                    </div>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Курс
+                                        </DialogContentText>
+                                        <input
+                                            id="course"
+                                            type="number"
+                                            name="course"
+                                            placeholder="Введите номер курса"
+                                            onChange={setData}
+                                            value={course}
+                                            required
+                                        />
+                                        {/*<select value={course} onChange={(event) => { setCourse(event.target.value); }}>*/}
+                                        {/*    <option value={1}>1-й курс</option>*/}
+                                        {/*    <option value={2}>2-й курс</option>*/}
+                                        {/*    <option value={3}>3-й курс</option>*/}
+                                        {/*    <option value={4}>4-й курс</option>*/}
+                                        {/*    <option value={5}>5-й курс</option>*/}
+                                        {/*    <option value={6}>6-й курс</option>*/}
+                                        {/*</select>*/}
+                                    </div>
+                                    <div className="dialog-box">
+                                        <DialogContentText>
+                                            Описание
+                                        </DialogContentText>
+                                        <TextArea
+                                            id="descGroup"
+                                            name='descGroup'
+                                            placeholder="Введите описание"
+                                            value={descGroup}
+                                            onChange={setData}
+                                            maxLength={200}
+                                            required={true}
+                                        />
+                                        {
+                                            description.length<200 ? null :
+                                                <div className="registration-page__additional-text">
+                                                    Данные чересчур длинные
+                                                </div>
+                                        }
+                                    </div>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        color="#3E76BB"
+                                        activeColor="#3E76BB"
+                                        onClick={createGroup}
+                                    >
+                                        Отправить
+                                    </Button>
+                                </DialogActions>
+                            </StyledDialogBox>
+                    }
+                </Dialog>
                 <form action="">
                     <div className="registration-page__row">
                         <div className="registration-page__element">
@@ -232,7 +727,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 id="firstName"
                                 type="text"
                                 name="firstName"
-                                placeholder="First name"
+                                placeholder="Введите имя"
                                 value={firstName}
                                 onChange={setData}
                                 required
@@ -252,7 +747,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 id="lastName"
                                 type="text"
                                 name="lastName"
-                                placeholder="Last name"
+                                placeholder="Введите фамилию"
                                 value={lastName}
                                 onChange={setData}
                                 required
@@ -266,7 +761,6 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                             }
                         </div>
                     </div>
-
                     <div className="registration-page__row">
                         <div className="registration-page__element">
                             Дата рождения
@@ -286,7 +780,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 id="phone"
                                 type="text"
                                 name="phone"
-                                placeholder="Телефон"
+                                placeholder="Введите номер телефона"
                                 value={phone}
                                 onChange={setData}
                                 required
@@ -307,7 +801,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 id="email"
                                 type="email"
                                 name="email"
-                                placeholder="E-mail"
+                                placeholder="Введите E-mail"
                                 value={email}
                                 onChange={setData}
                                 required
@@ -320,48 +814,46 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                         </div> : null
                             }
                         </div>
-                       {(
-                            isStudent ? <div className="registration-page__element">
-                                            Группа
-                                            <input
-                                                id="studyGroup"
-                                                type="text"
-                                                name="studyGroup"
-                                                placeholder="Группа"
-                                                value={studyGroup}
-                                                onChange={setData}
-                                                required
-                                            />
-                                        </div> 
-                            : null
-                       )}
+
                     </div>
                     {(
                         isStudent ?
                             <div className="registration-page__row">
                                 <div className="registration-page__element">
                                     Факультет
-                                    <input
-                                        id="faculty"
-                                        type="text"
-                                        name="faculty"
-                                        placeholder="Факультет"
-                                        // value={faculty}
-                                        onChange={setData}
-                                        required
-                                    />
+                                    <select value={facultyID} onChange={onChangeFaculty}>
+                                        <option value="">Выберите факультет</option>
+                                        <option value="null">Моего факультета нет в списке</option>
+                                        {
+                                            faculties.map((data: IFaculty) => (
+                                                <option key={data.id} value={data.id}>{data.faculty_name}</option>
+                                            ))}
+                                        }
+                                    </select>
                                 </div>
                                 <div className="registration-page__element">
                                     Кафедра
-                                    <input
-                                        id="cafedra"
-                                        type="text"
-                                        name="cafedra"
-                                        placeholder="Кафедра"
-                                        // value={cafedra}
-                                        onChange={setData}
-                                        required
-                                    />
+                                    <select onChange={onChangeCafedra} disabled={!facultyChecked}>
+                                        <option value="">Выберите кафедру</option>
+                                        <option value="null">Моей кафедры нет в списке</option>
+                                        {
+                                            cafedras.map((data: ICafedra) => (
+                                                <option key={data.id} value={data.id}>{data.name_kafedra}</option>
+                                            ))}
+                                        }
+                                    </select>
+                                </div>
+                                <div className="registration-page__element">
+                                    Группа
+                                    <select onChange={onChangeGroup} disabled={!cafedraChecked}>
+                                        <option value="">Выберите группу</option>
+                                        <option value="null">Моей группы нет в списке</option>
+                                        {
+                                            groups.map((data: IGroup) => (
+                                                <option key={data.id} value={data.id}>{data.name_group}</option>
+                                            ))}
+                                        }
+                                    </select>
                                 </div>
                             </div> 
                         : null

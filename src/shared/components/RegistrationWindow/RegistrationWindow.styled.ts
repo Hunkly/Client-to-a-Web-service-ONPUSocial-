@@ -72,4 +72,10 @@ export default styled.div<IStyledRegWindowProps>`
         height: 40px;
         width: 230px;
     }
+    
+    .dialog-box {
+        width: 400px;
+        height: 400px;
+        padding: 20px;
+    }
 `
