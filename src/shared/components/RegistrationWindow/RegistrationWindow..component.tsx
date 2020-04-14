@@ -125,10 +125,10 @@ function RegistrationWindow({onLogIn}: DispatchProps){
         })
     }
 
-    function getCafedras(){
+    function getCafedras(id: number){
         axios({
             method: 'get',
-            url: `http://localhost:9005/departments`,
+            url: `http://localhost:9005/departments/faculty?facultyid=${id}`,
             withCredentials: true,
             headers: {
                 "Access-Control-Allow-Credentials": true,
@@ -144,10 +144,10 @@ function RegistrationWindow({onLogIn}: DispatchProps){
         })
     }
 
-    function getGroups(){
+    function getGroups(id: number){
         axios({
             method: 'get',
-            url: `http://localhost:9005/studygroups`,
+            url: `http://localhost:9005/studygroups/kafedra?kafedraid=${id}`,
             withCredentials: true,
             headers: {
                 "Access-Control-Allow-Credentials": true,
@@ -166,9 +166,6 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     useEffect(() => {
         // Выдать список факультетов
         getFaculties();
-        getCafedras();
-        getGroups();
-
     },[toggle]);
 
     function onChangeFaculty(event: React.ChangeEvent<HTMLSelectElement>){
@@ -183,7 +180,6 @@ function RegistrationWindow({onLogIn}: DispatchProps){
             else
                 {
                     setFacultyChecked(true);
-                    console.log('АЙДИ ФАКУЛЬТЕТА', event.target.value);
                     axios({
                         method: 'get',
                         url: `http://localhost:9005/faculties/${event.target.value} `,
@@ -199,7 +195,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                         setFaculty(res.data);
                         setFacultyID(res.data.id);
                         console.log('Кафедра', cafedras);
-                        getCafedras();
+                        getCafedras(res.data.id);
                     }).catch( err => {
                         console.log('Факультет', err);
                     })
@@ -234,7 +230,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                     console.log('Кафедра', res.data);
                     setCafedra(res.data);
                     setCafedraID(res.data.id);
-                    getGroups();
+                    getGroups(res.data.id);
                 }).catch( err => {
                     console.log('Кафедра', err);
                 })
@@ -302,9 +298,9 @@ function RegistrationWindow({onLogIn}: DispatchProps){
 
     function createCafedra(){
         const cafedraForm = {
-            nameKafedra: cafedraName,
-            descriptionKafedra: descCafedra,
-            faculty_id: facultyID
+            name_kafedra: cafedraName,
+            description_kafedra: descCafedra,
+            faculty: facultyID
         };
         console.log('CREATE CAFEDRA', cafedraForm);
         if(cafedraName && descCafedra && facultyID){
@@ -321,6 +317,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 }
             }).then(res => {
                 console.log('Добавлена кафедра', res.data);
+                getCafedras(facultyID);
                 setToggle(!toggle);
             })
         }
@@ -328,8 +325,8 @@ function RegistrationWindow({onLogIn}: DispatchProps){
 
     function createGroup(){
         const groupForm = {
-            nameGroup: nameGroup,
-            descriptionGroup: descGroup,
+            name_group: nameGroup,
+            description_group: descGroup,
             kafedra: cafedraID,
             course: course,
             stream: 0
@@ -349,6 +346,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 }
             }).then(res => {
                 console.log('Добавлена кафедра', res.data);
+                getGroups(cafedraID);
                 setToggle(!toggle);
             })
         }
