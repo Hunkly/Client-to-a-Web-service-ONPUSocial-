@@ -43,11 +43,11 @@ export default function UserPage({user}: IUserPageProps){
           </StyledUserPage>
       );
     }
-    let mode: 'own' | 'notOwn' = 'notOwn';
+    let mode: 'profile' | 'otherProfile' = 'otherProfile';
     if(user.id === userId) {
-        mode = 'own'
+        mode = 'profile'
     } else {
-        mode = 'notOwn'
+        mode = 'otherProfile'
     }
     return (
           <StyledUserPage>
@@ -56,7 +56,7 @@ export default function UserPage({user}: IUserPageProps){
                 <ProfileMenu viewMode={mode} user={user}/>
                 <PersonalInformation viewMode={mode} user={user} />
               </div>
-              <PostsContainer viewMode='profile'/>
+              <PostsContainer viewMode={mode} user={user}/>
             </div>
             <div className="page__friend-box">
                 <Subscribers user={user}/>

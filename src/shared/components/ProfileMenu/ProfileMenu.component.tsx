@@ -7,7 +7,7 @@ import UserModel from '../../../shared/models/User';
 
 interface IProps {
     user: UserModel;
-    viewMode: 'own' | 'notOwn'
+    viewMode: 'profile' | 'otherProfile';
 }
 
 export default function ProfileMenu({user, viewMode}:IProps) {
@@ -32,6 +32,7 @@ export default function ProfileMenu({user, viewMode}:IProps) {
             .catch( err => {
                 console.log('Check subscribe error: ', err);
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[subscribed]);
 
     function subscribe(){
@@ -62,7 +63,7 @@ export default function ProfileMenu({user, viewMode}:IProps) {
             </div>
             <div>
                 {
-                    viewMode === 'own' ?
+                    viewMode === 'profile' ?
                         <Button color="#61BB9D" activeColor="#4F977F">
                             Редактировать профиль
                         </Button> :

@@ -13,7 +13,7 @@ interface IPublicationItemProps {
     ref?: any;
     toggleChange: () => void;
     post: UserPost;
-    viewMode: 'own' | 'notOwn'
+    viewMode: 'profile' | 'otherProfile'
 }
 
 export default function PublicationItem({viewMode,ref, toggleChange, post}:IPublicationItemProps) {
@@ -126,7 +126,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
                     </div>
                 </a>
                 {
-                    viewMode === 'own' ? <div className="post-item__menu">
+                    viewMode === 'profile' ? <div className="post-item__menu">
                         <div
                             className="post-item__menu-item"
                             onClick={editPost}

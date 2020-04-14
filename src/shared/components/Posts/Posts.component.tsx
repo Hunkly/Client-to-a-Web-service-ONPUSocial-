@@ -7,6 +7,7 @@ import NewPublication from './NewPost';
 import IUser from "../../models/User";
 
 interface IPublicationsProps {
+    viewMode: 'news' | 'profile' | 'otherProfile',
     posts: [],
     currUser: IUser,
     hasMore: boolean,
@@ -16,21 +17,23 @@ interface IPublicationsProps {
     toggleChange: () => void
 }
 
-export default function PostsComponent({currUser, posts, loading, error, lastPostElement, toggleChange }:IPublicationsProps){
+export default function PostsComponent({viewMode , currUser, posts, loading, error, lastPostElement, toggleChange }:IPublicationsProps){
 
     return (
         <StyledPublications>
             <div className="posts__label">
                 <PageLabel> Publications </PageLabel>
             </div>
-            <NewPublication userId={currUser.id} toggleChange={toggleChange}/>
+            {
+                viewMode === 'otherProfile' ? null : <NewPublication userId={currUser.id} toggleChange={toggleChange}/>
+            }
             <div className="posts__container">
                 {posts ? posts.map((post: UserPost, index: number) => {
-                    let mode: 'own' | 'notOwn' = 'notOwn';
+                    let mode: 'profile' | 'otherProfile' = 'otherProfile';
                     if(post.user_idfield === currUser.id) {
-                        mode = 'own'
+                        mode = 'profile'
                     } else {
-                        mode = 'notOwn'
+                        mode = 'otherProfile'
                     }
                     if (posts.length === index + 1) {
                        // @ts-ignore

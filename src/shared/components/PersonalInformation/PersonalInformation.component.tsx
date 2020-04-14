@@ -7,7 +7,7 @@ import PageLabel from '../PageLabel';
 
 interface IBasicInfoProps {
     user: UserModel;
-    viewMode: 'own' | 'notOwn';
+    viewMode: 'profile' | 'otherProfile';
 }
 
 export function calculateAge(birthday: number){
@@ -35,7 +35,7 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     return (
         <StyledBasicInfo>
             {
-                viewMode === 'own' ?
+                viewMode === 'profile' ?
             <Headline>{user.first_name} {user.last_name} (Это Вы)</Headline> : <Headline>{user.first_name} {user.last_name}</Headline>
             }
             <PageLabel>Личная информация</PageLabel>

@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import axios from 'axios';
 import PostsComponent from './Posts.component';
+import UserModel from "../../models/User";
 
 
-export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, viewMode: 'news' | 'profile'){
+export function LoadPosts(pageNumber: number, mode: string, toggle: boolean, viewMode: 'news' | 'profile' | 'otherProfile', user: UserModel | undefined){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -36,7 +37,12 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, view
                 url: ``,
                 withCredentials: true,
                 };
-            if(viewMode === 'news') config.url = `http://localhost:9005/posts/`; else config.url = `http://localhost:9005/posts/user/${res.data.username}?page=${pageNumber}`;
+            if(viewMode === 'news') config.url = `http://localhost:9005/posts/`; else {
+                if(viewMode === 'profile') config.url = `http://localhost:9005/posts/user/${res.data.username}?page=${pageNumber}`;
+                else if(user) {
+                    config.url = `http://localhost:9005/posts/user/${user.username}?page=${pageNumber}`
+                }
+            }
             console.log('config url', config.url);
             axios({
                 method: 'get',
@@ -91,10 +97,11 @@ export function LoadPosts(pageNumber: number, mode: string, toggle:boolean, view
 }
 
 interface IPublicationsContainerProps {
-    viewMode: 'news' | 'profile';
+    viewMode: 'news' | 'profile' | 'otherProfile';
+    user?: UserModel;
 }
 
-export function PostsContainer({viewMode}: IPublicationsContainerProps) {
+export function PostsContainer({viewMode, user}: IPublicationsContainerProps) {
     const [pageNumber, setPageNumber] = useState(0);
     const [mode, setMode] = useState('scroll');
     const [toggle, setToggle] = useState(false);
@@ -106,7 +113,7 @@ export function PostsContainer({viewMode}: IPublicationsContainerProps) {
         error,
         currUser
         // toggleChange
-    }: any = LoadPosts(pageNumber, mode, toggle, viewMode);
+    }: any = LoadPosts(pageNumber, mode, toggle, viewMode, user);
     const observer = useRef();
     function toggleChange(){
         setMode('reload');
@@ -132,6 +139,6 @@ export function PostsContainer({viewMode}: IPublicationsContainerProps) {
     }, [loading, hasMore]);
 
     return (
-        <PostsComponent currUser={currUser} posts={posts} hasMore={hasMore} loading={loading} error={error} lastPostElement={lastPostElement} toggleChange={toggleChange}/>
+        <PostsComponent viewMode={viewMode} currUser={currUser} posts={posts} hasMore={hasMore} loading={loading} error={error} lastPostElement={lastPostElement} toggleChange={toggleChange}/>
     );
 }

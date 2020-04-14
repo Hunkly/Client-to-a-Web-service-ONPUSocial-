@@ -71,7 +71,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [isStarosta, setStarosta] = useState(false);
 
     // Данные о факультете
-    const [faculty, setFaculty] = useState({});
+    // const [faculty, setFaculty] = useState({});
     const [faculties, setFaculties] = useState([]);
     const [facultyName, setFacultyName] = useState('');
     const [descFaculty, setDescFaculty] = useState('');
@@ -79,7 +79,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [facultyChecked, setFacultyChecked] = useState(false);
 
     // Данные о кафедре
-    const [cafedra, setCafedra] = useState({});
+    // const [cafedra, setCafedra] = useState({});
     const [cafedras, setCafedras] = useState([]);
     const [cafedraName, setCafedraName] = useState('');
     const [descCafedra, setDescCafedra] = useState('');
@@ -87,19 +87,19 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [cafedraChecked, setCafedraChecked] = useState(false);
 
     // Данные о группе
-    const [group, setGroup] = useState({});
+    // const [group, setGroup] = useState({});
     const [groups, setGroups] = useState([]);
     const [nameGroup, setNameGroup] = useState('');
     const [descGroup, setDescGroup] = useState('');
     const [groupID, setGroupID] = useState(0);
     const [course, setCourse] = useState(0);
-    const [groupChecked, setGroupChecked] = useState(false);
+    // const [groupChecked, setGroupChecked] = useState(false);
 
 
     // Функция открытия модального окна
-    function openWindow() {
-        setOpen(true)
-    }
+    // function openWindow() {
+    //     setOpen(true)
+    // }
 
     // Функция закрытия модального окна
     function closeWindow() {
@@ -192,7 +192,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                         }
                     }).then( res => {
                         console.log('Факультет', res.data);
-                        setFaculty(res.data);
+                        // setFaculty(res.data);
                         setFacultyID(res.data.id);
                         console.log('Кафедра', cafedras);
                         getCafedras(res.data.id);
@@ -213,7 +213,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
             if(event.target.value === "") {
                 setCafedraChecked(false); } else
             {
-                setCafedra(event.target.value);
+                // setCafedra(event.target.value);
                 setCafedraChecked(true);
                 console.log('АЙДИ КАФДЕРЫ', event.target.value);
                 axios({
@@ -228,7 +228,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                     }
                 }).then( res => {
                     console.log('Кафедра', res.data);
-                    setCafedra(res.data);
+                    // setCafedra(res.data);
                     setCafedraID(res.data.id);
                     getGroups(res.data.id);
                 }).catch( err => {
@@ -242,13 +242,14 @@ function RegistrationWindow({onLogIn}: DispatchProps){
         if(event.target.value === "null"){
             setDialogMode('group');
             setOpen(true);
-            setGroupChecked(false);
+            // setGroupChecked(false);
         } else {
             if(event.target.value === "") {
-                setGroupChecked(false); } else
+                // setGroupChecked(false);
+            } else
             {
-                setGroup(event.target.value);
-                setGroupChecked(true);
+                // setGroup(event.target.value);
+                // setGroupChecked(true);
                 console.log('АЙДИ ГРУППЫ', event.target.value);
                 axios({
                     method: 'get',
@@ -262,7 +263,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                     }
                 }).then( res => {
                     console.log('Группа', res.data);
-                    setGroup(res.data);
+                    // setGroup(res.data);
                     setGroupID(res.data.id);
                 }).catch( err => {
                     console.log('Группа', err);
@@ -480,7 +481,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 break;
             }
             case 'studyGroup': {
-                setGroup(event.target.value);
+                // setGroup(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
                 id = event.target.name;
@@ -522,12 +523,12 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 break;
             }
             case 'course': {
-                if(event.target.value == '1') setCourse(1); else
-                if(event.target.value == '2') setCourse(2); else
-                if(event.target.value == '3') setCourse(3); else
-                if(event.target.value == '4') setCourse(4); else
-                if(event.target.value == '5') setCourse(5); else
-                if(event.target.value == '6') setCourse(6); else setCourse(0);
+                if(event.target.value === '1') setCourse(1); else
+                if(event.target.value === '2') setCourse(2); else
+                if(event.target.value === '3') setCourse(3); else
+                if(event.target.value === '4') setCourse(4); else
+                if(event.target.value === '5') setCourse(5); else
+                if(event.target.value === '6') setCourse(6); else setCourse(0);
                 break;
             }
         }

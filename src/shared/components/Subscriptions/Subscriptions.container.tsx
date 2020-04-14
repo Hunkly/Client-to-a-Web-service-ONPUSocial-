@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import SubscribersComponent from './Subscribers.component';
+import SubscriptionsComponent from './Subscriptions.component';
 import UserModel from '../../../shared/models/User';
 import axios from "axios";
 
@@ -7,13 +7,13 @@ interface IProps {
   user: UserModel
 }
 
-export default function SubscribersContainer({user}: IProps){
-  const [subscribers, setSubscribers] = useState([]);
+export default function SubscriptionsContainer({user}: IProps){
+  const [subscriptions, setSubscriptions] = useState([]);
 
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:9005/users/${user.username}/subscribers`,
+      url: `http://localhost:9005/users/${user.username}/subscriptions`,
       withCredentials: true,
       headers: {
         "Access-Control-Allow-Credentials": true,
@@ -23,17 +23,17 @@ export default function SubscribersContainer({user}: IProps){
         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       }
     }).then( res => {
-      console.log('Subsribers list: ', res.data);
-      setSubscribers(res.data);
+      console.log('Subscriptions list: ', res.data);
+      setSubscriptions(res.data);
     })
         .catch( err => {
-          console.log('Subsribers list error: ', err);
+          return err
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   return(
       <div>
-        <SubscribersComponent  subscribers={subscribers}/>
+        <SubscriptionsComponent subscriptions={subscriptions}/>
       </div>
   )
 }
