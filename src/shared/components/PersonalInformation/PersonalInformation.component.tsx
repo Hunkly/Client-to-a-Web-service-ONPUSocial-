@@ -92,7 +92,14 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     const [groups, setGroups] = useState([]);
     const [nameGroup, setNameGroup] = useState('');
     const [descGroup, setDescGroup] = useState('');
-    const [groupID, setGroupID] = useState(0);
+    var ID;
+    if(user.studygroup == null){
+        ID = 0;
+    } else {
+        ID = user.studygroup.id
+    }
+    const [groupID, setGroupID] = useState(ID);
+
     const [course, setCourse] = useState(0);
 
     useEffect(() => {
@@ -124,35 +131,19 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
 
     function updateUser(){
         var studygroup;
-        var userForm
-        if(isStudent) {
-            userForm = {
-                first_name: firstName,
-                last_name: lastName,
-                birthday: birthday,
-                email: email,
-                phone: phone,
-                description: description,
-                photo: '/photo/test.png',
-                starosta: isStarosta,
-                username: userName,
-                // password: password
-            };
-        } else {
-            userForm = {
-                first_name: firstName,
-                last_name: lastName,
-                birthday: birthday,
-                email: email,
-                phone: phone,
-                description: description,
-                photo: '/photo/test.png',
-                studygroup: null,
-                starosta: isStarosta,
-                username: userName,
-                // password: password
-            };
-        }
+        if(isStudent) {studygroup = groupID;} else{ studygroup = null;}
+        let userForm = {
+            first_name: firstName,
+            last_name: lastName,
+            birthday: birthday,
+            email: email,
+            phone: phone,
+            description: description,
+            photo: '/photo/test.png',
+            studygroup: studygroup,
+            starosta: isStarosta,
+            username: userName
+        };
 
 
         console.log("userForm", userForm);
