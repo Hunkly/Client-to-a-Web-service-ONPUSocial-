@@ -14,7 +14,7 @@ export default styled.div`
         height: 30px;
         width: 97%;
         border-radius: 5px;
-        border: 1px solid #000;
+        border: 1px solid #61BB9D;
         margin-top: 5px;
     }
     

@@ -49,7 +49,7 @@ export function validate(name: string, value: string){
     }
 }
 
-export function createFaculty(facultyName: string, descFaculty: string, toggle: boolean, setToggle: (toggle: boolean) => void){
+export function createFaculty(facultyName: string, descFaculty: string, toggle: boolean, setToggle: (toggle: boolean) => void, closeWindow: () => void){
     const facultyForm = {
         faculty_name: facultyName,
         faculty_description: descFaculty
@@ -70,11 +70,12 @@ export function createFaculty(facultyName: string, descFaculty: string, toggle: 
         }).then(res => {
             console.log('Добавлен факультет', res.data);
             setToggle(!toggle);
+            closeWindow();
         })
     }
 }
 
-export function createCafedra(cafedraName: string, descCafedra: string, facultyID: number, toggle: boolean, setToggle: (toggle: boolean) => void, getCafedras: (id: number, setCafedras: (array: []) => void) => void, setCafedras: (array: []) => void){
+export function createCafedra(cafedraName: string, descCafedra: string, facultyID: number, toggle: boolean, setToggle: (toggle: boolean) => void, getCafedras: (id: number, setCafedras: (array: []) => void) => void, setCafedras: (array: []) => void, closeWindow: () => void){
     const cafedraForm = {
         name_kafedra: cafedraName,
         description_kafedra: descCafedra,
@@ -97,11 +98,12 @@ export function createCafedra(cafedraName: string, descCafedra: string, facultyI
             console.log('Добавлена кафедра', res.data);
             getCafedras(facultyID, setCafedras);
             setToggle(!toggle);
+            closeWindow();
         })
     }
 }
 
-export function createGroup(nameGroup: string, descGroup: string, cafedraID: number, course: number, getGroups: (id: number, setGroups: (array: []) => void) => void, toggle: boolean, setToggle: (toggle: boolean) => void, setGroups: (array: []) => void){
+export function createGroup(nameGroup: string, descGroup: string, cafedraID: number, course: number, getGroups: (id: number, setGroups: (array: []) => void) => void, toggle: boolean, setToggle: (toggle: boolean) => void, setGroups: (array: []) => void, closeWindow: () => void){
     const groupForm = {
         name_group: nameGroup,
         description_group: descGroup,
@@ -126,6 +128,7 @@ export function createGroup(nameGroup: string, descGroup: string, cafedraID: num
             console.log('Добавлена кафедра', res.data);
             getGroups(cafedraID, setGroups);
             setToggle(!toggle);
+            closeWindow();
         })
     }
 }
@@ -572,6 +575,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                             onChange={setData}
                                             maxLength={200}
                                             required={true}
+                                            borderColor="#61BB9D"
                                         />
                                         {
                                             description.length<200 ? null :
@@ -585,7 +589,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={() => {createFaculty(facultyName, descFaculty, toggle, setToggle)}}
+                                        onClick={() => {createFaculty(facultyName, descFaculty, toggle, setToggle, closeWindow)}}
                                     >
                                         Отправить
                                     </Button>
@@ -622,6 +626,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                             onChange={setData}
                                             maxLength={200}
                                             required={true}
+                                            borderColor="#61BB9D"
                                         />
                                         {
                                             description.length<200 ? null :
@@ -635,7 +640,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={() => {createCafedra(cafedraName, descCafedra, facultyID, toggle, setToggle, getCafedras, setCafedras)}}
+                                        onClick={() => {createCafedra(cafedraName, descCafedra, facultyID, toggle, setToggle, getCafedras, setCafedras, closeWindow)}}
                                     >
                                         Отправить
                                     </Button>
@@ -673,14 +678,6 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                             value={course}
                                             required
                                         />
-                                        {/*<select value={course} onChange={(event) => { setCourse(event.target.value); }}>*/}
-                                        {/*    <option value={1}>1-й курс</option>*/}
-                                        {/*    <option value={2}>2-й курс</option>*/}
-                                        {/*    <option value={3}>3-й курс</option>*/}
-                                        {/*    <option value={4}>4-й курс</option>*/}
-                                        {/*    <option value={5}>5-й курс</option>*/}
-                                        {/*    <option value={6}>6-й курс</option>*/}
-                                        {/*</select>*/}
                                     </div>
                                     <div className="dialog-box">
                                         <DialogContentText>
@@ -694,6 +691,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                             onChange={setData}
                                             maxLength={200}
                                             required={true}
+                                            borderColor="#61BB9D"
                                         />
                                         {
                                             description.length<200 ? null :
@@ -707,7 +705,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={() => {createGroup(nameGroup, descGroup, cafedraID, course, getGroups, toggle, setToggle, setGroups)}}
+                                        onClick={() => {createGroup(nameGroup, descGroup, cafedraID, course, getGroups, toggle, setToggle, setGroups, closeWindow)}}
                                     >
                                         Отправить
                                     </Button>

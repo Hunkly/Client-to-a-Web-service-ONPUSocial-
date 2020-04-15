@@ -108,11 +108,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
         setEditMode(false);
     }
 
-
-    function closeWindow() {
-        setOpen(false)
-    }
-
     function updateUser(){
         var studygroup;
         if(isStudent) {studygroup = groupID;} else{ studygroup = null;}
@@ -150,6 +145,10 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    function closeWindow() {
+        setOpen(false)
     }
 
     return (
@@ -200,7 +199,7 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                                 <Button
                                     color="#3E76BB"
                                     activeColor="#3E76BB"
-                                    onClick={() => {createFaculty(facultyName, descFaculty, toggle, setToggle)}}
+                                    onClick={() => {createFaculty(facultyName, descFaculty, toggle, setToggle, closeWindow)}}
                                 >
                                     Отправить
                                 </Button>
@@ -250,7 +249,7 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                                 <Button
                                     color="#3E76BB"
                                     activeColor="#3E76BB"
-                                    onClick={() => {createCafedra(cafedraName, descCafedra, facultyID, toggle, setToggle, getCafedras, setCafedras)}}
+                                    onClick={() => {createCafedra(cafedraName, descCafedra, facultyID, toggle, setToggle, getCafedras, setCafedras, closeWindow)}}
                                 >
                                     Отправить
                                 </Button>
@@ -328,7 +327,7 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                                 <Button
                                     color="#3E76BB"
                                     activeColor="#3E76BB"
-                                    onClick={() => {createGroup(nameGroup, descGroup, cafedraID, course, getGroups, toggle, setToggle, setGroups)}}
+                                    onClick={() => {createGroup(nameGroup, descGroup, cafedraID, course, getGroups, toggle, setToggle, setGroups, closeWindow)}}
                                 >
                                     Отправить
                                 </Button>
