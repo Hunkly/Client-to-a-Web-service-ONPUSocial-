@@ -91,9 +91,7 @@ export function LoadPosts(pageNumber: number, mode: string, toggle: boolean, vie
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[toggle, pageNumber]);
 
-
-
-    return { loading, error, posts, hasMore, currUser }
+ return { loading, error, posts, hasMore, currUser }
 }
 
 interface IPublicationsContainerProps {

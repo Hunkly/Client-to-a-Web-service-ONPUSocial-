@@ -44,10 +44,10 @@ function UserMenu ({isAuthenticated}:IProps) {
                     src={DefaultPhoto}
                     alt="user"
                 />
+                <div className="user-menu__wrapper">
+                    <div className="user-menu__name">{login}</div>
+                </div>
             </a>
-            <div className="user-menu__wrapper">
-                <div className="user-menu__name">{login}</div>
-            </div>
         </StyledUserMenu>
     );
 };

@@ -4,6 +4,7 @@ import StyledNewsPage from './NewsPage.styled';
 // import UserPost from "../../shared/models/Post";
 // import PostItem from "../../shared/components/Posts/PostItem/PostItem.component";
 import {PostsContainer} from "../../shared/components/Posts/Posts.container";
+import HeadLine from "../../shared/components/HeadLine";
 
 export default function NewsPage(){
     // const [posts, setPosts] = useState([]);
@@ -33,8 +34,12 @@ export default function NewsPage(){
     return (
         <StyledNewsPage>
             <div className="news-page__window">
-                News
-                <PostsContainer viewMode='news'/>
+                <div className='title'>Новостная лента</div>
+                <p>О чём говорят другие пользователи?</p>
+                <div className="post-container">
+                    <PostsContainer viewMode='news'/>
+                </div>
+
                 {/*{posts ? posts.map((post: UserPost, index: number) => {*/}
                 {/*        if (posts.length === index + 1) {*/}
                 {/*            // @ts-ignore*/}

@@ -14,7 +14,11 @@ export default function SubscribersComponent({subscribers}: IProps) {
        <StyledSubscribers>
            <PageLabel>Подписчики</PageLabel>
            <div className="friends__container">
-               {subscribers.map((data) => (
+               {
+                   subscribers.length === 0 ?  <p>Пока что пусто.</p> : null
+               }
+               {
+                   subscribers.map((data) => (
                <Subscriber user={data} key={data.id}/>
            ))}
            </div>

@@ -52,7 +52,7 @@ export default function NewComment({userID, postID, toggleChange}: NewCommentPro
     return(
         <NewCommentStyled>
             <TextArea
-                placeholder="Leave your comment here"
+                placeholder="Оставьте ваш комментарий"
                 value={comment}
                 onChange={setData}
             />
@@ -61,7 +61,7 @@ export default function NewComment({userID, postID, toggleChange}: NewCommentPro
                 activeColor="#4F977F"
                 onClick={createComment}
             >
-                Send
+                Отправить
             </Button>
         </NewCommentStyled>
     )

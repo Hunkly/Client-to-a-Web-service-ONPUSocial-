@@ -6,6 +6,10 @@ export default styled.div`
    // margin-top: 75px;
    // margin-left: 80px;
    
+   p{
+    margin-left: 10px;
+   }
+   
    a{
     text-decoration: none;
     color: #000;

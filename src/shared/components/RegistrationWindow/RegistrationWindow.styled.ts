@@ -9,11 +9,12 @@ export default styled.div<IStyledRegWindowProps>`
     display: flex;
     flex-direction: column;
     padding: 15px;
-    width: 100%;
+    width: 700px;
     border-radius: 5px;
     background-color: #61BB9D;
     color: #fff;
     font-weight: 600;
+    margin-top: 100px;
     
     .registration-window__date-picker{
         border-radius: 5px;
@@ -44,7 +45,7 @@ export default styled.div<IStyledRegWindowProps>`
         margin: 5px;
     }
     
-    input{
+    input, select{
         padding-left: 10px;
         height: 30px;
         border-radius: 5px;

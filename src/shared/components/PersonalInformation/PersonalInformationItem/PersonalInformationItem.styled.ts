@@ -8,6 +8,7 @@ export default styled.div<IStyledBasicInfoItemProps>`
   color: #000;
   display: flex;
   flex-direction: ${props => (props.multiline ? 'column' : 'row')};
+  align-items: center;
   padding-bottom: 10px;
   padding-left: 20px;
 

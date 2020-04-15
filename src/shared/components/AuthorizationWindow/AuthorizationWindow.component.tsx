@@ -163,12 +163,12 @@ function AuthorizationWindow ({ onLogIn}: Props){
     return(
         <StyledAuthorizationWindow id={id} isValid={valid} isErr={err}>
             <div className="authorization-page__container">
-                Login or email
+                Логин или e-mail
                 <input
                     id="login"
                     name="login"
                     type="text"
-                    placeholder="Login or email"
+                    placeholder="Введите логин или email"
                     value={login}
                     onChange={logInInput}
                 />
@@ -176,7 +176,7 @@ function AuthorizationWindow ({ onLogIn}: Props){
                     valid || !login ? null :
                         id === 'login' ?
                             <div className="auth-window__additional-text">
-                                Login must have only latin letters
+                                Логин должен содержать только латинские символы
                             </div> : null
                 }
             </div>
@@ -186,7 +186,7 @@ function AuthorizationWindow ({ onLogIn}: Props){
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     value={password}
                     onChange={passInput}
                 />
@@ -194,7 +194,7 @@ function AuthorizationWindow ({ onLogIn}: Props){
                     valid || !password ? null :
                         id === 'password' ?
                             <div className="auth-window__additional-text">
-                                Password must have only latin letters
+                                Пароль должен содержать только латинские символы
                             </div> : null
                 }
                 {
@@ -209,7 +209,7 @@ function AuthorizationWindow ({ onLogIn}: Props){
                     activeColor="#3E76BB"
                     onClick={auth}
                 >
-                    Log in
+                    Отправить
                 </Button>
                 <Button
                     color="#FB4141"
@@ -217,7 +217,7 @@ function AuthorizationWindow ({ onLogIn}: Props){
                     onClick={() => {pathHistory.push('/')}}
                     value="/"
                 >
-                    Go back
+                    Назад
                 </Button>
             </div>
         </StyledAuthorizationWindow>

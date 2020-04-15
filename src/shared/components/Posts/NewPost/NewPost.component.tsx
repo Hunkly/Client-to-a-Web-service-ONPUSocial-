@@ -64,12 +64,12 @@ export default function NewPost({userId, toggleChange }:INewPublicationProps) {
 
     return (
         <StyledPublicationItem>
-            Create new post
+            Создайте новый пост
             <div className="new-post__title">
                 <TextArea
                     name="title"
                     value={title}
-                    placeholder="Title"
+                    placeholder="Введите заголовок"
                     onChange={setData}
                 />
             </div>
@@ -77,7 +77,7 @@ export default function NewPost({userId, toggleChange }:INewPublicationProps) {
                 <TextArea
                     name="content"
                     value={content}
-                    placeholder="Content"
+                    placeholder="Расскажите о чём-нибудь"
                     onChange={setData}
                 />
             </div>
@@ -87,7 +87,7 @@ export default function NewPost({userId, toggleChange }:INewPublicationProps) {
                     activeColor="#4F977F"
                     onClick={createPost}
                 >
-                    Send
+                    Отправить
                 </Button>
             </div>
         </StyledPublicationItem>

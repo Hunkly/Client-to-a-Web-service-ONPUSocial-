@@ -33,8 +33,6 @@ import axios from "axios";
 interface IBasicInfoProps {
     user: UserModel;
     viewMode: 'profile' | 'otherProfile' | 'editProfile' | 'news';
-    // editMode?: () => void;
-    // cancelEdit?: () => void;
 }
 
 export function calculateAge(birthday: number){
@@ -64,7 +62,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     const [phone, setPhone] = useState(user.phone);
     const [description, setDescription] = useState(user.description);
     const [userName, setUserName] = useState(user.username);
-    // const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [birthday, setBirthday] = useState(user.birthday);
     const [date, setDate] = useState('');
@@ -72,7 +69,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     const [isStarosta, setStarosta] = useState(false);
 
     // Данные о факультете
-    // const [faculty, setFaculty] = useState({});
     const [faculties, setFaculties] = useState([]);
     const [facultyName, setFacultyName] = useState('');
     const [descFaculty, setDescFaculty] = useState('');
@@ -80,7 +76,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     const [facultyChecked, setFacultyChecked] = useState(false);
 
     // Данные о кафедре
-    // const [cafedra, setCafedra] = useState({});
     const [cafedras, setCafedras] = useState([]);
     const [cafedraName, setCafedraName] = useState('');
     const [descCafedra, setDescCafedra] = useState('');
@@ -88,7 +83,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     const [cafedraChecked, setCafedraChecked] = useState(false);
 
     // Данные о группе
-    // const [group, setGroup] = useState({});
     const [groups, setGroups] = useState([]);
     const [nameGroup, setNameGroup] = useState('');
     const [descGroup, setDescGroup] = useState('');
@@ -134,7 +128,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
             starosta: isStarosta,
             username: userName
         };
-
 
         console.log("userForm", userForm);
         axios({
@@ -344,26 +337,28 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                 }
             </Dialog>
             <ProfileMenu viewMode={viewMode} user={user} editMode={editMode} setEditMode={setEditMode} cancelEdit={cancelEdit} updateUser={updateUser}/>
-            <div>
+            <div className='personal-info__box'>
                 {
                     viewMode === 'profile' ?
                         editMode ?
                             <Headline>
                                 <input
+                                    className='headline-input'
                                     type="text"
                                     value={firstName}
                                     onChange={(event) => { setFirstName(event.target.value) }}
                                 /> <input
-                                type="text"
-                                value={lastName}
-                                onChange={(event) => { setLastName(event.target.value) }}
-                            />
+                                        className='headline-input'
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(event) => { setLastName(event.target.value) }}
+                                    />
                             </Headline> :
-                    <Headline>{user.first_name} {user.last_name} (Это Вы)</Headline> :
-                        <Headline>{user.first_name} {user.last_name}</Headline>
+                                <Headline>{user.first_name} {user.last_name} (Это Вы)</Headline> :
+                                    <Headline>{user.first_name} {user.last_name}</Headline>
                 }
                 <PageLabel>Личная информация</PageLabel>
-                <div className="basic-info__container">
+                <div className="personal-info__container">
                     <div className="basic-info__data">
                         {
                                 editMode ?
@@ -376,7 +371,13 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                                             />
                                         </PersonalInformationItem>
                                         <PersonalInformationItem title="Я не студент">
-                                            <input type="checkbox" id="student" name="student" onChange={() => {console.log('is student', !isStudent); setStudent(!isStudent)}} defaultChecked={false}/>
+                                            <input
+                                                type="checkbox"
+                                                id="student"
+                                                name="student"
+                                                onChange={() => {console.log('is student', !isStudent); setStudent(!isStudent)}}
+                                                defaultChecked={false}
+                                            />
                                         </PersonalInformationItem>
                                         <PersonalInformationItem title="Дата рождения">
                                             <input
@@ -386,46 +387,43 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                                             />
                                         </PersonalInformationItem>
                                         {
-                                            isStudent ? <div className="registration-page__row">
-                                                <div className="registration-page__element">
-                                                    Факультет
-                                                    <select value={facultyID} onChange={(event) => {onChangeFaculty(event, setDialogMode, setOpen, setFacultyChecked, setFacultyID, setCafedras)}}>
-                                                        <option value="">Выберите факультет</option>
-                                                        <option value="null">Моего факультета нет в списке</option>
-                                                        {
-                                                            faculties.map((data: IFaculty) => (
-                                                                <option key={data.id} value={data.id}>{data.faculty_name}</option>
-                                                            ))}
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <div className="registration-page__element">
-                                                    Кафедра
-                                                    <select onChange={(event) => {onChangeCafedra(event, setDialogMode, setOpen, setCafedraChecked, setCafedraID, setGroups)}} disabled={!facultyChecked}>
-                                                        <option value="">Выберите кафедру</option>
-                                                        <option value="null">Моей кафедры нет в списке</option>
-                                                        {
-                                                            cafedras.map((data: ICafedra) => (
-                                                                <option key={data.id} value={data.id}>{data.name_kafedra}</option>
-                                                            ))}
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <div className="registration-page__element">
-                                                    Группа
-                                                    <select onChange={(event) => {onChangeGroup(event, setDialogMode, setOpen, setGroupID)}} disabled={!cafedraChecked}>
-                                                        <option value="">Выберите группу</option>
-                                                        <option value="null">Моей группы нет в списке</option>
-                                                        {
-                                                            groups.map((data: IGroup) => (
-                                                                <option key={data.id} value={data.id}>{data.name_group}</option>
-                                                            ))}
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div> : null
+                                            isStudent ?
+                                                <div>
+                                                    <PersonalInformationItem title="Факультет">
+                                                        <select value={facultyID} onChange={(event) => {onChangeFaculty(event, setDialogMode, setOpen, setFacultyChecked, setFacultyID, setCafedras)}}>
+                                                            <option value="">Выберите факультет</option>
+                                                            <option value="null">Моего факультета нет в списке</option>
+                                                            {
+                                                                faculties.map((data: IFaculty) => (
+                                                                    <option key={data.id} value={data.id}>{data.faculty_name}</option>
+                                                                ))}
+                                                            }
+                                                        </select>
+                                                    </PersonalInformationItem>
+                                                    <PersonalInformationItem title="Кафедра">
+                                                        <select onChange={(event) => {onChangeCafedra(event, setDialogMode, setOpen, setCafedraChecked, setCafedraID, setGroups)}} disabled={!facultyChecked}>
+                                                            <option value="">Выберите кафедру</option>
+                                                            <option value="null">Моей кафедры нет в списке</option>
+                                                            {
+                                                                cafedras.map((data: ICafedra) => (
+                                                                    <option key={data.id} value={data.id}>{data.name_kafedra}</option>
+                                                                ))}
+                                                            }
+                                                        </select>
+                                                    </PersonalInformationItem>
+                                                    <PersonalInformationItem title="Группа">
+                                                        <select onChange={(event) => {onChangeGroup(event, setDialogMode, setOpen, setGroupID)}} disabled={!cafedraChecked}>
+                                                            <option value="">Выберите группу</option>
+                                                            <option value="null">Моей группы нет в списке</option>
+                                                            {
+                                                                groups.map((data: IGroup) => (
+                                                                    <option key={data.id} value={data.id}>{data.name_group}</option>
+                                                                ))}
+                                                            }
+                                                        </select>
+                                                    </PersonalInformationItem>
+                                                </div> : null
                                         }
-
                                         <PersonalInformationItem title="E-mail">
                                             <input
                                                 type="email"
@@ -451,22 +449,21 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                     </div>
                 </div>
                 <PageLabel>О себе</PageLabel>
-                <div className="basic-info__container">
-                    <div className="basic-info__data">
-                        {
-                            editMode ?
-                                <div className="basic-info__about">
-                                    <TextArea
-                                        value={description}
-                                        onChange={(event) => { setDescription(event.target.value);}}
-                                        maxLength={200}
-                                    >
-                                        {user.description}
-                                    </TextArea>
-                                </div> :
-                                <div className="basic-info__about">{user.description}</div>
-                        }
-                    </div>
+                <div className="personal-info__container">
+                    {
+                        editMode ?
+                            <div className="personal-info__about">
+                                <TextArea
+                                    borderColor='#61BB9D'
+                                    value={description}
+                                    onChange={(event) => { setDescription(event.target.value);}}
+                                    maxLength={200}
+                                >
+                                    {user.description}
+                                </TextArea>
+                            </div> :
+                            <div className="personal-info__about">{user.description}</div>
+                    }
                 </div>
             </div>
         </StyledBasicInfo>

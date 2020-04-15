@@ -16,13 +16,13 @@ return (
         href="/"
         className="menu-link"
     >
-      Home
+      Домашняя страница
     </a>
     <a
         href="/news"
         className="menu-link"
     >
-      News
+      Новости
     </a>
     <a
         href="/"
@@ -52,7 +52,7 @@ return (
             })
         }}
     >
-      Log out
+      Выйти
     </a>
   </StyledMenu>
     );

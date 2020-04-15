@@ -97,7 +97,7 @@ function GreetingPage({isAuthenticated}: IProps){
                 { logged ?
                     <div>
                         <div className = "greeting-page__text">
-                            We glad to see you here, {login}. Let's begin.
+                            Хорошо, что вы тут, {login}! Начнём?
                         </div>
                         <div className= "greeting-page__button-container">
                             <Button
@@ -106,7 +106,7 @@ function GreetingPage({isAuthenticated}: IProps){
                                 color="#3E76BB"
                                 activeColor="#3E76BB"
                             >
-                                My profile
+                                Моя страница
                             </Button>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ function GreetingPage({isAuthenticated}: IProps){
                             color="#3E76BB"
                             activeColor="#3E76BB"
                         >
-                            Sign in
+                            Авторизация
                         </Button>
                         <Button
                             onClick={() => {pathHistory.push('/auth/registration')}}
@@ -134,7 +134,7 @@ function GreetingPage({isAuthenticated}: IProps){
                             color="#FB4141"
                             activeColor="#FB4141"
                         >
-                            Sign Up
+                            Регистрация
                         </Button>
                     </div>
                 }

@@ -65,25 +65,25 @@ export default function ProfileMenu({updateUser,setEditMode,cancelEdit,editMode,
             <div className="profile-menu__avatar">
                 <img src={DefaultPhoto} alt=""/>
             </div>
-            <div>
+            <div className="profile-menu__button-box">
                 {
                     viewMode === 'profile' ?
                     !editMode ?
-                        <Button color="#61BB9D" activeColor="#4F977F" onClick={() => {setEditMode(true)}}>
+                        <Button color="#B0B0B0" activeColor="#868585" onClick={() => {setEditMode(true)}}>
                             Редактировать профиль
                         </Button> :
                             <div>
-                                <Button color="#61BB9D" activeColor="#4F977F" onClick={updateUser}>
+                                <Button color="#58CA6B" activeColor="#439650" onClick={updateUser}>
                                     Сохранить редактирование
                                 </Button>
-                                <Button color="#61BB9D" activeColor="#4F977F" onClick={cancelEdit}>
+                                <Button color="#B94D4D" activeColor="#974141" onClick={cancelEdit}>
                                     Отменить редактирование
                                 </Button>
                             </div> : !subscribed ?
-                        <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
+                        <Button color="#58CA6B" activeColor="#439650" onClick={subscribe}>
                             Подписаться
                         </Button> :
-                        <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
+                        <Button color="#B94D4D" activeColor="#974141" onClick={subscribe}>
                             Отписаться
                         </Button>
                     }

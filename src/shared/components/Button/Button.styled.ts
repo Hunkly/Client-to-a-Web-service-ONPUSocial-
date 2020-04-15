@@ -10,7 +10,7 @@ export default styled.button<IStyledButtonProps>`
     background-color: ${props =>( props.color ? props.color : "#e9e9e9")};
     color: #fff;
     border: none;
-    max-height: 40px;
+    max-height: 60px;
     border-radius: 5px;
     min-width: 150px;
     padding: 10px 30px 10px 30px;

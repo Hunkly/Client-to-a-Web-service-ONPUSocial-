@@ -4,6 +4,8 @@ export default styled.div`
     color: #000;
     padding: 20px;
     background-color: #FCFCFC;
+    margin-top: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
     
     a{
         text-decoration: none;
@@ -47,14 +49,11 @@ export default styled.div`
         justify-content: flex-end;
         font-size: 14px;
         font-style: italic;
-        // padding-bottom: 15px;
-        // border-bottom: 0.1px solid #BDBDBD;
     }
     
     .post-item__container{
         display: flex;
         justify-content: space-between;
-        //align-items: center;
     }
           
     .post-item__menu{

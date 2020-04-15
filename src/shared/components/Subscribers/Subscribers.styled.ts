@@ -5,6 +5,11 @@ export default styled.div`
    // width: 100%;
    // margin-top: 75px;
    // margin-left: 80px;
+   min-height: 350px;
+   
+   p{
+    margin-left: 10px;
+   }
    
    a{
     text-decoration: none;

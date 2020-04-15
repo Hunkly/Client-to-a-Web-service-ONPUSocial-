@@ -10,11 +10,12 @@ interface ITextAreaProps {
     onChange?: (event: any) => void;
     required?: boolean;
     maxLength?: number;
+    borderColor?: string;
 }
 
-export default function TextArea ( {id, name, value, placeholder, children, onChange, required, maxLength}: ITextAreaProps) {
+export default function TextArea ( {id, name, value, placeholder, children, onChange, required, maxLength, borderColor}: ITextAreaProps) {
         return (
-            <LongText id={id} name={name} value={value} placeholder={placeholder} onChange={onChange} required={required} maxLength={maxLength}>
+            <LongText id={id} name={name} value={value} placeholder={placeholder} onChange={onChange} required={required} maxLength={maxLength} borderColor={borderColor}>
                 {children}
             </LongText>
         );

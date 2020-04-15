@@ -290,7 +290,8 @@ export function onChangeCafedra(event: React.ChangeEvent<HTMLSelectElement>, set
 }
 
 function RegistrationWindow({onLogIn}: DispatchProps){
-
+    let isValid = true;
+    let id = '';
     // Переключатели
     const [toggle, setToggle] = useState(false);
     const [open, setOpen] = useState(false);
@@ -415,8 +416,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
         event.preventDefault();
     }
 
-    let isValid = true;
-    let id = '';
+
 
     function setData(event: React.ChangeEvent<HTMLInputElement>){
         console.log('handleChange', event);
@@ -730,11 +730,13 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                             />
                             {
                                 !firstName ? null :
-                                    isValid ? null :
-                                        id === 'firstName' ?
+                                    !isValid ?
+                                        // null :
+                                        // id === 'firstName' ?
                                             <div className="registration-page__additional-text">
                                                 Данные некорректны
-                                            </div> : null
+                                            </div>
+                                : null
                             }
                         </div>
                         <div className="registration-page__element">

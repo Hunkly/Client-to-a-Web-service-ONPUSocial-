@@ -119,7 +119,7 @@ export default function PostCommentItem({viewMode, comment, toggleChange}: PostC
                             activeColor="#4F977F"
                             onClick={saveChanges}
                         >
-                            Save changes
+                            Сохранить изменения
                         </Button>
                     </div> :
                     <div>{comment.content}</div>

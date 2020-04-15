@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import UserModel from '../../shared/models/User';
 import StyledUserPage from './UserPage.styled';
 import { PersonalInformation } from '../../shared/components/PersonalInformation/PersonalInformation.component';
-import ProfileMenu from "../../shared/components/ProfileMenu";
 import Subscribers from "../../shared/components/Subscribers";
 import Subscriptions from "../../shared/components/Subscriptions";
 import {PostsContainer} from "../../shared/components/Posts/Posts.container";
@@ -52,27 +51,12 @@ export default function UserPage({user}: IUserPageProps){
         mode = 'otherProfile'
     }
     console.log('ПРОВЕРКА НА РЕЖИМ ОТОБРАЖЕНИЯ', mode);
-    // function editMode(){
-    //     mode = 'editProfile';
-    //     console.log('editProfile', mode);
-    // }
-
-    // function editMode(){
-    //     mode = 'editProfile';
-    // }
-    //
-    // function cancelEdit(){
-    //     mode = 'profile';
-    // }
 
     return (
           <StyledUserPage>
             <div className="page-container">
-              {/*<div className = "page-information-box">*/}
-                {/*<ProfileMenu viewMode={mode} user={user} editMode={editMode}/>*/}
                 <PersonalInformation  viewMode={mode} user={user} />
-              {/*</div>*/}
-              <PostsContainer viewMode={mode} user={user}/>
+                <PostsContainer viewMode={mode} user={user}/>
             </div>
             <div className="page__friend-box">
                 <Subscribers user={user}/>

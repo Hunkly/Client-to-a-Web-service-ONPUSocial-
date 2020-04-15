@@ -9,6 +9,7 @@ export default styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    color: #fff;
       
     .user-menu__avatar {
       height: 40px;

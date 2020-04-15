@@ -149,7 +149,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
                         <TextArea
                             name="title"
                             value={title}
-                            placeholder="Title"
+                            placeholder="Введите заголовок"
                             onChange={setData}
                         />
                     </div>
@@ -157,7 +157,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
                         <TextArea
                             name="content"
                             value={content}
-                            placeholder="Content"
+                            placeholder="Расскажите о чём-нибудь"
                             onChange={setData}
                         />
                     </div>
@@ -166,7 +166,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
                         activeColor="#4F977F"
                         onClick={saveChanges}
                     >
-                        Save changes
+                        Сохранить изменения
                     </Button>
                 </div> :
                 <div ref={ref}>

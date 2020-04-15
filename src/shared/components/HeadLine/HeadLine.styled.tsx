@@ -6,7 +6,7 @@ export default styled.div`
 
   .headline__label {
     color: #000;
-    padding-left: 15px;
+    padding-left: 10px;
     font-size: 30px;
     font-weight: 50;
   }

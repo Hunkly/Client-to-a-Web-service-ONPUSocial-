@@ -22,7 +22,7 @@ export default function PostsComponent({viewMode , currUser, posts, loading, err
     return (
         <StyledPublications>
             <div className="posts__label">
-                <PageLabel> Publications </PageLabel>
+                <PageLabel> Публикации </PageLabel>
             </div>
             {
                 viewMode === 'otherProfile' ? null : <NewPublication userId={currUser.id} toggleChange={toggleChange}/>

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 const StyledMenu = styled.nav`
-  width: 200px;
+  width: 350px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
