@@ -49,6 +49,246 @@ export function validate(name: string, value: string){
     }
 }
 
+export function createFaculty(facultyName: string, descFaculty: string, toggle: boolean, setToggle: (toggle: boolean) => void){
+    const facultyForm = {
+        faculty_name: facultyName,
+        faculty_description: descFaculty
+    };
+    console.log('CREATE FACULTY', facultyForm);
+    if(facultyName && descFaculty){
+        axios({
+            method: 'post',
+            url: `http://localhost:9005/faculties`,
+            withCredentials: true,
+            data: facultyForm,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then(res => {
+            console.log('Добавлен факультет', res.data);
+            setToggle(!toggle);
+        })
+    }
+}
+
+export function createCafedra(cafedraName: string, descCafedra: string, facultyID: number, toggle: boolean, setToggle: (toggle: boolean) => void, getCafedras: (id: number, setCafedras: (array: []) => void) => void, setCafedras: (array: []) => void){
+    const cafedraForm = {
+        name_kafedra: cafedraName,
+        description_kafedra: descCafedra,
+        faculty: facultyID
+    };
+    console.log('CREATE CAFEDRA', cafedraForm);
+    if(cafedraName && descCafedra && facultyID){
+        axios({
+            method: 'post',
+            url: `http://localhost:9005/departments`,
+            withCredentials: true,
+            data: cafedraForm,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then(res => {
+            console.log('Добавлена кафедра', res.data);
+            getCafedras(facultyID, setCafedras);
+            setToggle(!toggle);
+        })
+    }
+}
+
+export function createGroup(nameGroup: string, descGroup: string, cafedraID: number, course: number, getGroups: (id: number, setGroups: (array: []) => void) => void, toggle: boolean, setToggle: (toggle: boolean) => void, setGroups: (array: []) => void){
+    const groupForm = {
+        name_group: nameGroup,
+        description_group: descGroup,
+        kafedra: cafedraID,
+        course: course,
+        stream: 0
+    };
+    console.log('CREATE GROUP', groupForm);
+    if(nameGroup && descGroup && cafedraID){
+        axios({
+            method: 'post',
+            url: `http://localhost:9005/studygroups`,
+            withCredentials: true,
+            data: groupForm,
+            headers: {
+                "Access-Control-Allow-Credentials": true,
+                "Access-Control-Allow-Origin": 'http://localhost:3000',
+                'Accept': 'application/json',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        }).then(res => {
+            console.log('Добавлена кафедра', res.data);
+            getGroups(cafedraID, setGroups);
+            setToggle(!toggle);
+        })
+    }
+}
+
+export function getFaculties(setFaculties: (array: []) => void){
+    axios({
+        method: 'get',
+        url: `http://localhost:9005/faculties`,
+        withCredentials: true,
+        headers: {
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Origin": 'http://localhost:3000',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+    }).then( res => {
+        console.log('Факультеты', res.data);
+        setFaculties(res.data.content);
+    }).catch( err => {
+        console.log('Факультеты', err);
+    })
+}
+
+export function getCafedras(id: number, setCafedras: (array: []) => void){
+    axios({
+        method: 'get',
+        url: `http://localhost:9005/departments/faculty?facultyid=${id}`,
+        withCredentials: true,
+        headers: {
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Origin": 'http://localhost:3000',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+    }).then( res => {
+        console.log('Кафедры', res.data);
+        setCafedras(res.data.content);
+    }).catch( err => {
+        console.log('Кафедры', err);
+    })
+}
+
+export function getGroups(id: number, setGroups: (array: []) => void){
+    axios({
+        method: 'get',
+        url: `http://localhost:9005/studygroups/kafedra?kafedraid=${id}`,
+        withCredentials: true,
+        headers: {
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Origin": 'http://localhost:3000',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+    }).then( res => {
+        console.log('Группы', res.data);
+        setGroups(res.data.content);
+    }).catch( err => {
+        console.log('Группы', err);
+    })
+}
+
+export function onChangeFaculty(event: React.ChangeEvent<HTMLSelectElement>, setDialogMode: (mode: string) => void, setOpen: (mode: boolean) => void, setFacultyChecked: (mode: boolean) => void, setFacultyID: (id: number) => void, setCafedras: (array: []) => void){
+    if(event.target.value === "null"){
+        setDialogMode('faculty');
+        setOpen(true);
+        setFacultyChecked(false);
+    } else {
+        if(event.target.value === "") {
+            setFacultyChecked(false);
+        }
+        else
+        {
+            setFacultyChecked(true);
+            axios({
+                method: 'get',
+                url: `http://localhost:9005/faculties/${event.target.value} `,
+                withCredentials: true,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then( res => {
+                console.log('Факультет', res.data);
+                // setFaculty(res.data);
+                setFacultyID(res.data.id);
+                getCafedras(res.data.id, setCafedras);
+            }).catch( err => {
+                console.log('Факультет', err);
+            })
+        }
+    }
+}
+
+export function onChangeGroup(event: React.ChangeEvent<HTMLSelectElement>, setDialogMode: (mode: string) => void, setOpen: (mode: boolean) => void, setGroupID: (id: number) => void){
+    if(event.target.value === "null"){
+        setDialogMode('group');
+        setOpen(true);
+        // setGroupChecked(false);
+    } else {
+        if(event.target.value === "") {
+            // setGroupChecked(false);
+        } else
+        {
+            // setGroup(event.target.value);
+            // setGroupChecked(true);
+            console.log('АЙДИ ГРУППЫ', event.target.value);
+            axios({
+                method: 'get',
+                url: `http://localhost:9005/studygroups/${event.target.value}  `,
+                withCredentials: true,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then( res => {
+                console.log('Группа', res.data);
+                // setGroup(res.data);
+                setGroupID(res.data.id);
+            }).catch( err => {
+                console.log('Группа', err);
+            })
+        }
+    }
+}
+
+export function onChangeCafedra(event: React.ChangeEvent<HTMLSelectElement>, setDialogMode: (mode: string) => void, setOpen: (mode: boolean) => void, setCafedraChecked: (mode: boolean) => void, setCafedraID: (id: number) => void, setGroups: (array: []) => void){
+    if(event.target.value === "null"){
+        setDialogMode('cafedra');
+        setOpen(true);
+        setCafedraChecked(false);
+    } else {
+        if(event.target.value === "") {
+            setCafedraChecked(false); } else
+        {
+            // setCafedra(event.target.value);
+            setCafedraChecked(true);
+            console.log('АЙДИ КАФДЕРЫ', event.target.value);
+            axios({
+                method: 'get',
+                url: `http://localhost:9005/departments/${event.target.value}  `,
+                withCredentials: true,
+                headers: {
+                    "Access-Control-Allow-Credentials": true,
+                    "Access-Control-Allow-Origin": 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            }).then( res => {
+                console.log('Кафедра', res.data);
+                // setCafedra(res.data);
+                setCafedraID(res.data.id);
+                getGroups(res.data.id, setGroups);
+            }).catch( err => {
+                console.log('Кафедра', err);
+            })
+        }
+    }
+}
+
 function RegistrationWindow({onLogIn}: DispatchProps){
 
     // Переключатели
@@ -95,7 +335,6 @@ function RegistrationWindow({onLogIn}: DispatchProps){
     const [course, setCourse] = useState(0);
     // const [groupChecked, setGroupChecked] = useState(false);
 
-
     // Функция открытия модального окна
     // function openWindow() {
     //     setOpen(true)
@@ -106,252 +345,10 @@ function RegistrationWindow({onLogIn}: DispatchProps){
         setOpen(false)
     }
 
-    function getFaculties(){
-        axios({
-            method: 'get',
-            url: `http://localhost:9005/faculties`,
-            withCredentials: true,
-            headers: {
-                "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Origin": 'http://localhost:3000',
-                'Accept': 'application/json',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            }
-        }).then( res => {
-            console.log('Факультеты', res.data);
-            setFaculties(res.data.content);
-        }).catch( err => {
-            console.log('Факультеты', err);
-        })
-    }
-
-    function getCafedras(id: number){
-        axios({
-            method: 'get',
-            url: `http://localhost:9005/departments/faculty?facultyid=${id}`,
-            withCredentials: true,
-            headers: {
-                "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Origin": 'http://localhost:3000',
-                'Accept': 'application/json',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            }
-        }).then( res => {
-            console.log('Кафедры', res.data);
-            setCafedras(res.data.content);
-        }).catch( err => {
-            console.log('Кафедры', err);
-        })
-    }
-
-    function getGroups(id: number){
-        axios({
-            method: 'get',
-            url: `http://localhost:9005/studygroups/kafedra?kafedraid=${id}`,
-            withCredentials: true,
-            headers: {
-                "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Origin": 'http://localhost:3000',
-                'Accept': 'application/json',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            }
-        }).then( res => {
-            console.log('Группы', res.data);
-            setGroups(res.data.content);
-        }).catch( err => {
-            console.log('Группы', err);
-        })
-    }
-
     useEffect(() => {
         // Выдать список факультетов
-        getFaculties();
+        getFaculties(setFaculties);
     },[toggle]);
-
-    function onChangeFaculty(event: React.ChangeEvent<HTMLSelectElement>){
-        if(event.target.value === "null"){
-            setDialogMode('faculty');
-            setOpen(true);
-            setFacultyChecked(false);
-        } else {
-            if(event.target.value === "") {
-                setFacultyChecked(false);
-            }
-            else
-                {
-                    setFacultyChecked(true);
-                    axios({
-                        method: 'get',
-                        url: `http://localhost:9005/faculties/${event.target.value} `,
-                        withCredentials: true,
-                        headers: {
-                            "Access-Control-Allow-Credentials": true,
-                            "Access-Control-Allow-Origin": 'http://localhost:3000',
-                            'Accept': 'application/json',
-                            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                        }
-                    }).then( res => {
-                        console.log('Факультет', res.data);
-                        // setFaculty(res.data);
-                        setFacultyID(res.data.id);
-                        console.log('Кафедра', cafedras);
-                        getCafedras(res.data.id);
-                    }).catch( err => {
-                        console.log('Факультет', err);
-                    })
-                }
-        }
-
-    }
-
-    function onChangeCafedra(event: React.ChangeEvent<HTMLSelectElement>){
-        if(event.target.value === "null"){
-            setDialogMode('cafedra');
-            setOpen(true);
-            setCafedraChecked(false);
-        } else {
-            if(event.target.value === "") {
-                setCafedraChecked(false); } else
-            {
-                // setCafedra(event.target.value);
-                setCafedraChecked(true);
-                console.log('АЙДИ КАФДЕРЫ', event.target.value);
-                axios({
-                    method: 'get',
-                    url: `http://localhost:9005/departments/${event.target.value}  `,
-                    withCredentials: true,
-                    headers: {
-                        "Access-Control-Allow-Credentials": true,
-                        "Access-Control-Allow-Origin": 'http://localhost:3000',
-                        'Accept': 'application/json',
-                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    }
-                }).then( res => {
-                    console.log('Кафедра', res.data);
-                    // setCafedra(res.data);
-                    setCafedraID(res.data.id);
-                    getGroups(res.data.id);
-                }).catch( err => {
-                    console.log('Кафедра', err);
-                })
-            }
-        }
-    }
-
-    function onChangeGroup(event: React.ChangeEvent<HTMLSelectElement>){
-        if(event.target.value === "null"){
-            setDialogMode('group');
-            setOpen(true);
-            // setGroupChecked(false);
-        } else {
-            if(event.target.value === "") {
-                // setGroupChecked(false);
-            } else
-            {
-                // setGroup(event.target.value);
-                // setGroupChecked(true);
-                console.log('АЙДИ ГРУППЫ', event.target.value);
-                axios({
-                    method: 'get',
-                    url: `http://localhost:9005/studygroups/${event.target.value}  `,
-                    withCredentials: true,
-                    headers: {
-                        "Access-Control-Allow-Credentials": true,
-                        "Access-Control-Allow-Origin": 'http://localhost:3000',
-                        'Accept': 'application/json',
-                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    }
-                }).then( res => {
-                    console.log('Группа', res.data);
-                    // setGroup(res.data);
-                    setGroupID(res.data.id);
-                }).catch( err => {
-                    console.log('Группа', err);
-                })
-            }
-        }
-    }
-
-    function createFaculty(){
-        const facultyForm = {
-            faculty_name: facultyName,
-            faculty_description: descFaculty
-        };
-        console.log('CREATE FACULTY', facultyForm);
-        if(facultyName && descFaculty){
-            axios({
-                method: 'post',
-                url: `http://localhost:9005/faculties`,
-                withCredentials: true,
-                data: facultyForm,
-                headers: {
-                    "Access-Control-Allow-Credentials": true,
-                    "Access-Control-Allow-Origin": 'http://localhost:3000',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                }
-            }).then(res => {
-                console.log('Добавлен факультет', res.data);
-                setToggle(!toggle);
-            })
-        }
-    }
-
-    function createCafedra(){
-        const cafedraForm = {
-            name_kafedra: cafedraName,
-            description_kafedra: descCafedra,
-            faculty: facultyID
-        };
-        console.log('CREATE CAFEDRA', cafedraForm);
-        if(cafedraName && descCafedra && facultyID){
-            axios({
-                method: 'post',
-                url: `http://localhost:9005/departments`,
-                withCredentials: true,
-                data: cafedraForm,
-                headers: {
-                    "Access-Control-Allow-Credentials": true,
-                    "Access-Control-Allow-Origin": 'http://localhost:3000',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                }
-            }).then(res => {
-                console.log('Добавлена кафедра', res.data);
-                getCafedras(facultyID);
-                setToggle(!toggle);
-            })
-        }
-    }
-
-    function createGroup(){
-        const groupForm = {
-            name_group: nameGroup,
-            description_group: descGroup,
-            kafedra: cafedraID,
-            course: course,
-            stream: 0
-        };
-        console.log('CREATE GROUP', groupForm);
-        if(nameGroup && descGroup && cafedraID){
-            axios({
-                method: 'post',
-                url: `http://localhost:9005/studygroups`,
-                withCredentials: true,
-                data: groupForm,
-                headers: {
-                    "Access-Control-Allow-Credentials": true,
-                    "Access-Control-Allow-Origin": 'http://localhost:3000',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                }
-            }).then(res => {
-                console.log('Добавлена кафедра', res.data);
-                getGroups(cafedraID);
-                setToggle(!toggle);
-            })
-        }
-    }
 
     function createUser(event: React.FormEvent<HTMLFormElement>){
         console.log("formSubmitted");
@@ -588,7 +585,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={createFaculty}
+                                        onClick={() => {createFaculty(facultyName, descFaculty, toggle, setToggle)}}
                                     >
                                         Отправить
                                     </Button>
@@ -638,7 +635,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={createCafedra}
+                                        onClick={() => {createCafedra(cafedraName, descCafedra, facultyID, toggle, setToggle, getCafedras, setCafedras)}}
                                     >
                                         Отправить
                                     </Button>
@@ -710,7 +707,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                     <Button
                                         color="#3E76BB"
                                         activeColor="#3E76BB"
-                                        onClick={createGroup}
+                                        onClick={() => {createGroup(nameGroup, descGroup, cafedraID, course, getGroups, toggle, setToggle, setGroups)}}
                                     >
                                         Отправить
                                     </Button>
@@ -820,7 +817,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                             <div className="registration-page__row">
                                 <div className="registration-page__element">
                                     Факультет
-                                    <select value={facultyID} onChange={onChangeFaculty}>
+                                    <select value={facultyID} onChange={(event) => {onChangeFaculty(event, setDialogMode, setOpen, setFacultyChecked, setFacultyID, setCafedras)}}>
                                         <option value="">Выберите факультет</option>
                                         <option value="null">Моего факультета нет в списке</option>
                                         {
@@ -832,7 +829,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 </div>
                                 <div className="registration-page__element">
                                     Кафедра
-                                    <select onChange={onChangeCafedra} disabled={!facultyChecked}>
+                                    <select onChange={(event) => {onChangeCafedra(event, setDialogMode, setOpen, setCafedraChecked, setCafedraID, setGroups)}} disabled={!facultyChecked}>
                                         <option value="">Выберите кафедру</option>
                                         <option value="null">Моей кафедры нет в списке</option>
                                         {
@@ -844,7 +841,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 </div>
                                 <div className="registration-page__element">
                                     Группа
-                                    <select onChange={onChangeGroup} disabled={!cafedraChecked}>
+                                    <select onChange={(event) => {onChangeGroup(event, setDialogMode, setOpen, setGroupID)}} disabled={!cafedraChecked}>
                                         <option value="">Выберите группу</option>
                                         <option value="null">Моей группы нет в списке</option>
                                         {

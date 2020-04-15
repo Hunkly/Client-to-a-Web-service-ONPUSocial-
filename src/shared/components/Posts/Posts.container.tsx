@@ -4,7 +4,7 @@ import PostsComponent from './Posts.component';
 import UserModel from "../../models/User";
 
 
-export function LoadPosts(pageNumber: number, mode: string, toggle: boolean, viewMode: 'news' | 'profile' | 'otherProfile', user: UserModel | undefined){
+export function LoadPosts(pageNumber: number, mode: string, toggle: boolean, viewMode: 'news' | 'profile' | 'otherProfile' | 'editProfile', user: UserModel | undefined){
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -97,7 +97,7 @@ export function LoadPosts(pageNumber: number, mode: string, toggle: boolean, vie
 }
 
 interface IPublicationsContainerProps {
-    viewMode: 'news' | 'profile' | 'otherProfile';
+    viewMode: 'news' | 'profile' | 'otherProfile' | 'editProfile';
     user?: UserModel;
 }
 

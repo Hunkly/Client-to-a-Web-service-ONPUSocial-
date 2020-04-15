@@ -43,19 +43,35 @@ export default function UserPage({user}: IUserPageProps){
           </StyledUserPage>
       );
     }
-    let mode: 'profile' | 'otherProfile' = 'otherProfile';
+    let mode: 'profile' | 'otherProfile' | 'editProfile' = 'profile';
     if(user.id === userId) {
-        mode = 'profile'
+        console.log('ЮЗЕР МОД ПРОФИЛЬ')
+        mode = 'profile';
     } else {
+        console.log('ЮЗЕР МОД ПРОФИЛЬ')
         mode = 'otherProfile'
     }
+    console.log('ПРОВЕРКА НА РЕЖИМ ОТОБРАЖЕНИЯ', mode);
+    // function editMode(){
+    //     mode = 'editProfile';
+    //     console.log('editProfile', mode);
+    // }
+
+    // function editMode(){
+    //     mode = 'editProfile';
+    // }
+    //
+    // function cancelEdit(){
+    //     mode = 'profile';
+    // }
+
     return (
           <StyledUserPage>
             <div className="page-container">
-              <div className = "page-information-box">
-                <ProfileMenu viewMode={mode} user={user}/>
-                <PersonalInformation viewMode={mode} user={user} />
-              </div>
+              {/*<div className = "page-information-box">*/}
+                {/*<ProfileMenu viewMode={mode} user={user} editMode={editMode}/>*/}
+                <PersonalInformation  viewMode={mode} user={user} />
+              {/*</div>*/}
               <PostsContainer viewMode={mode} user={user}/>
             </div>
             <div className="page__friend-box">

@@ -7,10 +7,14 @@ import UserModel from '../../../shared/models/User';
 
 interface IProps {
     user: UserModel;
-    viewMode: 'profile' | 'otherProfile';
+    viewMode: 'profile' | 'otherProfile' | 'editProfile' | 'news';
+    editMode: boolean;
+    setEditMode: (mode: boolean) => void;
+    cancelEdit?: () => void;
+    saveEdit?: () => void
 }
 
-export default function ProfileMenu({user, viewMode}:IProps) {
+export default function ProfileMenu({setEditMode,saveEdit,cancelEdit,editMode, user, viewMode}:IProps) {
     const [subscribed, setSubscribed] = useState(false);
 
     useEffect(() => {
@@ -64,17 +68,25 @@ export default function ProfileMenu({user, viewMode}:IProps) {
             <div>
                 {
                     viewMode === 'profile' ?
-                        <Button color="#61BB9D" activeColor="#4F977F">
+                    !editMode ?
+                        <Button color="#61BB9D" activeColor="#4F977F" onClick={() => {setEditMode(true)}}>
                             Редактировать профиль
                         </Button> :
-                        !subscribed ?
-                <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
-                    Подписаться
-                </Button> :
-                <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
-                    Отписаться
-                </Button>
-                }
+                            <div>
+                                <Button color="#61BB9D" activeColor="#4F977F" onClick={saveEdit}>
+                                    Сохранить редактирование
+                                </Button>
+                                <Button color="#61BB9D" activeColor="#4F977F" onClick={cancelEdit}>
+                                    Отменить редактирование
+                                </Button>
+                            </div> : !subscribed ?
+                        <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
+                            Подписаться
+                        </Button> :
+                        <Button color="#61BB9D" activeColor="#4F977F" onClick={subscribe}>
+                            Отписаться
+                        </Button>
+                    }
             </div>
         </StyledProfileMenu>
     )};

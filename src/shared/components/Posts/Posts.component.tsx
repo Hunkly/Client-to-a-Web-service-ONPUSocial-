@@ -7,7 +7,7 @@ import NewPublication from './NewPost';
 import IUser from "../../models/User";
 
 interface IPublicationsProps {
-    viewMode: 'news' | 'profile' | 'otherProfile',
+    viewMode: 'news' | 'profile' | 'otherProfile' | 'editProfile',
     posts: [],
     currUser: IUser,
     hasMore: boolean,

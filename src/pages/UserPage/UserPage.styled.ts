@@ -15,7 +15,7 @@ export default styled.div`
    }
    
    .page__friend-box{
-        width: 100%;
+        width: 35%;
         margin-left: 80px;
         margin-top: 99px;
    }

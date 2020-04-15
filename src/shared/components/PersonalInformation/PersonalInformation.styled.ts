@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
 
 export default styled.div`
+    display: flex;
+    margin: 0;
    color: #000;
-   width: 460px;
-   
-  // .basic-info__data {
-  //   width: 100%;
-  //   margin-bottom: 30px;
-  // }
 
   .basic-info__avatar {
     width: 150px;
@@ -16,12 +12,12 @@ export default styled.div`
     border-radius: 50%;
   }
   
-  .basic-info__left-container {
-    margin-right: 50px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  // .basic-info__left-container {
+  //   margin-right: 50px;
+  //   display: flex;
+  //   align-items: flex-start;
+  //   flex-direction: column;
+  // }
   
   .basic-info__container {
     margin-top: 10px;
