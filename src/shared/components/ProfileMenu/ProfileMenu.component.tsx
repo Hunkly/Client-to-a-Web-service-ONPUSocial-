@@ -11,10 +11,10 @@ interface IProps {
     editMode: boolean;
     setEditMode: (mode: boolean) => void;
     cancelEdit?: () => void;
-    saveEdit?: () => void
+    updateUser?: () => void;
 }
 
-export default function ProfileMenu({setEditMode,saveEdit,cancelEdit,editMode, user, viewMode}:IProps) {
+export default function ProfileMenu({updateUser,setEditMode,cancelEdit,editMode, user, viewMode}:IProps) {
     const [subscribed, setSubscribed] = useState(false);
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export default function ProfileMenu({setEditMode,saveEdit,cancelEdit,editMode, u
                             Редактировать профиль
                         </Button> :
                             <div>
-                                <Button color="#61BB9D" activeColor="#4F977F" onClick={saveEdit}>
+                                <Button color="#61BB9D" activeColor="#4F977F" onClick={updateUser}>
                                     Сохранить редактирование
                                 </Button>
                                 <Button color="#61BB9D" activeColor="#4F977F" onClick={cancelEdit}>

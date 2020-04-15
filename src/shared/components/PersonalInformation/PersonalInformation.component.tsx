@@ -109,16 +109,6 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
     },[toggle]);
 
 
-    function saveEdit(){
-        // viewMode = 'editProfile';
-        updateUser();
-        // setMode(viewMode);
-        // console.log('editProfile', mode);
-    }
-
-    // function editMode(){
-    //     mode = 'editProfile';
-    // }
 
     function cancelEdit(){
         setEditMode(false);
@@ -353,7 +343,7 @@ export function PersonalInformation({viewMode, user }: IBasicInfoProps) {
                         </StyledDialogBox>
                 }
             </Dialog>
-            <ProfileMenu viewMode={viewMode} user={user} editMode={editMode} setEditMode={setEditMode} cancelEdit={cancelEdit} saveEdit={saveEdit}/>
+            <ProfileMenu viewMode={viewMode} user={user} editMode={editMode} setEditMode={setEditMode} cancelEdit={cancelEdit} updateUser={updateUser}/>
             <div>
                 {
                     viewMode === 'profile' ?
