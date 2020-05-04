@@ -14,7 +14,9 @@ export default function Subscriber({user, photo}: IUserSubscribers){
             <StyledSubscriber>
                 <a href={`/users/${user.username}`}>
                     <div className="colleague-item__avatar">
-                        <img src={DefaultPhoto} alt=""/>
+                        {
+                            user.profilephoto ? <img src={`data:image/png;base64,${user.profilephoto.data}`} alt="subscriber"/> : <img src={DefaultPhoto} alt="subscriber"/>
+                        }
                     </div>
                     <div className="colleague-item__label">{user.first_name} {user.last_name}</div>
                 </a>

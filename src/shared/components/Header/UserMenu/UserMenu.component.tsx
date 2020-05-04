@@ -11,6 +11,7 @@ interface IProps {
 function UserMenu ({isAuthenticated}:IProps) {
     const auth: LocalStorage = JSON.parse(localStorage.getItem('state') || '{}');
     const [login, setLogin] = useState(auth.login);
+    const [photo, setPhoto] = useState('');
 
     useEffect(
         () => {
@@ -29,6 +30,7 @@ function UserMenu ({isAuthenticated}:IProps) {
                 .then(res => {
                     console.log(res);
                     setLogin(res.data.username);
+                    setPhoto(res.data.profilephoto.data);
                 })
                 .catch(error => {
                     console.log(error)
@@ -39,11 +41,17 @@ function UserMenu ({isAuthenticated}:IProps) {
     return (
         <StyledUserMenu>
             <a className="user-menu__link" href={`/users/${login}`}>
-                <img
-                    className="user-menu__avatar"
-                    src={DefaultPhoto}
-                    alt="user"
-                />
+                {
+                    photo !== null ? <img
+                        className="user-menu__avatar"
+                        src={`data:image/png;base64,${photo}`}
+                        alt="user"/> : <img
+                        className="user-menu__avatar"
+                        src={DefaultPhoto}
+                        alt="user"
+                    />
+                }
+
                 <div className="user-menu__wrapper">
                     <div className="user-menu__name">{login}</div>
                 </div>

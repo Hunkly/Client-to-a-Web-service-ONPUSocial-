@@ -11,12 +11,22 @@ export default styled.div`
         img {
             width: 224px;
             height: 224px;
+            object-fit: cover;
             background-color: #9f9f9f;
             border-radius: 50%;
         }
     }
     
     .profile-menu__button-box{
+        label {
+           cursor: pointer;
+        }
+        
+        #upload-photo {
+           opacity: 0;
+           position: absolute;
+           z-index: -1;
+        }
         margin-top: 30px;
         width: 100%;
         

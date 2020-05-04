@@ -14,8 +14,9 @@ export default styled.div`
     .user-menu__avatar {
       height: 40px;
       width: 40px;
+      object-fit: cover;
       margin-right: 10px;
-      
+      border-radius: 50%;
     }
   }
 

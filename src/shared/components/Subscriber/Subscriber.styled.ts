@@ -14,6 +14,7 @@ export default styled.div<IStyledBasicInfoItemProps>`
 
   .colleague-item__avatar {
     img{
+        object-fit: cover;
         width: 50px;
         height: 50px;
         background-color: #9f9f9f;

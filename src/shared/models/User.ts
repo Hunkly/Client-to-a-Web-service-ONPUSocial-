@@ -1,6 +1,7 @@
 import IGroup from './Group';
 import IColleague from './Colleague';
 import IPost from './Post';
+import IPhoto from './Photo';
 
 export default interface IUser {
     id: number;
@@ -13,5 +14,6 @@ export default interface IUser {
     studygroup: IGroup;
     colleagues:  IColleague[];
     posts: IPost[];
+    profilephoto: IPhoto;
     username: string;
     }
