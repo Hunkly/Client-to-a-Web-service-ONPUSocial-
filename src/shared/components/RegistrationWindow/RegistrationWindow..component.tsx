@@ -294,7 +294,8 @@ export function onChangeCafedra(event: React.ChangeEvent<HTMLSelectElement>, set
 
 function RegistrationWindow({onLogIn}: DispatchProps){
     let isValid = true;
-    let id = '';
+    // let id = '';
+    const [id, setId] = useState('');
     // Переключатели
     const [toggle, setToggle] = useState(false);
     const [open, setOpen] = useState(false);
@@ -428,63 +429,63 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 setFirstName(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'lastName': {
                 setLastName(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'phone': {
                 setPhone(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'email': {
                 setEmail(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'password': {
                 setPassword(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'passwordConfirm': {
                 setPasswordConfirm(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'userName': {
                 setUserName(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'description': {
                 setDescription(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'studyGroup': {
                 // setGroup(event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'dateOfBirth': {
@@ -495,7 +496,7 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                 console.log('Date', event.target.value);
                 console.log(validate(event.target.name,event.target.value));
                 isValid = validate(event.target.name,event.target.value);
-                id = event.target.name;
+                setId(event.target.name);
                 break;
             }
             case 'nameFaculty': {
@@ -727,10 +728,10 @@ function RegistrationWindow({onLogIn}: DispatchProps){
                                 required
                             />
                             {
-                                !firstName ? null :
-                                    !isValid ?
-                                        // null :
-                                        // id === 'firstName' ?
+                                // !firstName ? null :
+                                    isValid ?
+                                        null :
+                                        id === 'firstName' ?
                                             <div className="registration-page__additional-text">
                                                 Данные некорректны
                                             </div>

@@ -50,7 +50,7 @@ export default function PostCommentItem({viewMode, comment, toggleChange}: PostC
         const commentForm = {
             content: content,
             user: comment.user.id,
-            post: comment.post.id
+            post: comment.post
         };
         console.log('comment form: ', commentForm);
         axios({
@@ -79,12 +79,14 @@ export default function PostCommentItem({viewMode, comment, toggleChange}: PostC
     return(
         <StyledPostCommentItem>
             <div className="post-comment__container">
-                <div className="post-comment__author">
-                    <div className="post-comment__author-avatar">
-                        <img src={DefaultPhoto} alt=""/>
+                <a href={`/users/${comment.user.username}`}>
+                    <div className="post-comment__author">
+                        <div className="post-comment__author-avatar">
+                            <img src={DefaultPhoto} alt=""/>
+                        </div>
+                        <div className="post-comment__author-label">{comment.user.username}</div>
                     </div>
-                    <div className="post-comment__author-label">{comment.user.username}</div>
-                </div>
+                </a>
                 {
                     viewMode === 'own' ?
                     <div className="post-comment-item__menu">

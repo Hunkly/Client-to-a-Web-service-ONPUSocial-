@@ -5,7 +5,7 @@ interface IStyledTextAreaProps{
 }
 
 export const LongText = styled.textarea<IStyledTextAreaProps>`
-    width: 95%;
+    width: 96.5%;
     height: 100%;
     margin-top: 5px;
     margin-right: 10px;
