@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 interface IStyledButtonProps{
    color?: string;
    activeColor?: string;
+   maxHeight?: string;
+   minWidth?: string;
 }
 
 export default styled.button<IStyledButtonProps>`
@@ -10,9 +12,10 @@ export default styled.button<IStyledButtonProps>`
     background-color: ${props =>( props.color ? props.color : "#e9e9e9")};
     color: #fff;
     border: none;
-    max-height: 60px;
+    height: 100%;
+    max-height: ${props =>( props.maxHeight ? props.maxHeight : '45px')};
     border-radius: 5px;
-    min-width: 150px;
+    min-width: ${props =>( props.minWidth ? props.minWidth : '150px')};
     padding: 10px 30px 10px 30px;
     //margin-top: 20px;
     :hover {
