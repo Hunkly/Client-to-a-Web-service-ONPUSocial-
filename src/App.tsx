@@ -7,6 +7,7 @@ import GreetingPage from './pages/GreetingPage';
 import AuthorizationPage from './pages/AuthorizationPage';
 import RegistrationPage from "./pages/RegistrationPage";
 import NewsPage from "./pages/NewsPage";
+import ChatPage from "./pages/ChatPage";
 import Chat from "./shared/components/Chat";
 import pathHistory from "./pathHistory";
 import './App.css';
@@ -41,13 +42,13 @@ function App({ checkAuthenticationConnect}: IProps) {
             <Container>
                 <Router history={pathHistory}>
                     <Switch>
+                        <ProtectedRoute path="/users/:id" component={UserPage} />
                         <ProtectedRoute path="/news" component={NewsPage} />
                         <ProtectedRoute path="/about-us" component={About} />
-                        <ProtectedRoute path="/users/:id" component={UserPage} />
-                        <Route exact={true} path="/" component={GreetingPage} />
                         <Route path="/auth/login" component={AuthorizationPage} />
                         <Route path="/auth/registration" component={RegistrationPage} />
-                        <Route path="/chat" component={Chat} />
+                        <ProtectedRoute path="/chat" component={ChatPage} />
+                        <Route exact={true} path="/" component={GreetingPage} />
                         <Route path="*" component={Error} />
                     </Switch>
                 </Router>

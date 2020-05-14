@@ -1,4 +1,4 @@
-import IUser from "./User";
+import IPhoto from "./Photo";
 
 export default interface IPost {
     id: number;
@@ -9,4 +9,5 @@ export default interface IPost {
     date: number;
     isImages: boolean;
     user_idfield: number;
+    owner_photo: IPhoto;
 }
