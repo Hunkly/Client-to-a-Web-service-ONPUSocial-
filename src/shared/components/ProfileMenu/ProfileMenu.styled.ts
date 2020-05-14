@@ -28,6 +28,7 @@ export default styled.div`
            z-index: -1;
         }
         margin-top: 30px;
+        margin-bottom: 50px;
         width: 100%;
         
         button {

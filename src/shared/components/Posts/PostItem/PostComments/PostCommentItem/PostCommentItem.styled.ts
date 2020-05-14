@@ -23,6 +23,7 @@ export default styled.div`
             height: 30px;
             background-color: #b9b9b9;
             border-radius: 50%;
+            object-fit: cover;
         }
     }
     

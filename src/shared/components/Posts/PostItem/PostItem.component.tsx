@@ -21,6 +21,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
     const [title, setTitle] = useState(post.name_post);
     const [content, setContent] = useState(post.content);
     const [userId, setUserId] = useState(0);
+    // const [photo, setPhoto] = useState();
     console.log('post user', post);
     useEffect(() => {
         axios({
@@ -38,6 +39,7 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
             .then(res => {
                 console.log('Компонент PublicationItem, проверка на авторизацию: ', res.data);
                 setUserId(res.data.id);
+                // setPhoto(res.data.profilephoto.data);
             })
             .catch(error => {
                 console.log(error);
@@ -120,7 +122,9 @@ export default function PublicationItem({viewMode,ref, toggleChange, post}:IPubl
                 <a href={`/users/${post.user}`}>
                     <div className="post-item__author">
                         <div className="post-item__avatar">
-                            <img src={DefaultPhoto} alt=""/>
+                            {
+                                post.owner_photo !== null ? <img src={`data:image/png;base64,${post.owner_photo.data}`} alt=""/> : <img src={DefaultPhoto} alt=""/>
+                            }
                         </div>
                         <div className="post-item__label">{post.user}</div>
                     </div>

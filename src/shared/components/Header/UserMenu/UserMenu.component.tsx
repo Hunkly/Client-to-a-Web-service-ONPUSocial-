@@ -30,7 +30,7 @@ function UserMenu ({isAuthenticated}:IProps) {
                 .then(res => {
                     console.log(res);
                     setLogin(res.data.username);
-                    setPhoto(res.data.profilephoto.data);
+                    if(res.data.profilephoto !== null) setPhoto(res.data.profilephoto.data);
                 })
                 .catch(error => {
                     console.log(error)
@@ -42,7 +42,7 @@ function UserMenu ({isAuthenticated}:IProps) {
         <StyledUserMenu>
             <a className="user-menu__link" href={`/users/${login}`}>
                 {
-                    photo !== null ? <img
+                    photo !== '' ? <img
                         className="user-menu__avatar"
                         src={`data:image/png;base64,${photo}`}
                         alt="user"/> : <img

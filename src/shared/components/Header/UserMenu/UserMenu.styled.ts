@@ -17,6 +17,7 @@ export default styled.div`
       object-fit: cover;
       margin-right: 10px;
       border-radius: 50%;
+      border: 2px solid #fff;
     }
   }
 

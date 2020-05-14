@@ -13,10 +13,10 @@ function Menu ({onLoggedChange}: IProps) {
 return (
   <StyledMenu>
     <a
-        href="/"
+        href="/chat"
         className="menu-link"
     >
-      Домашняя страница
+      Общение
     </a>
     <a
         href="/news"

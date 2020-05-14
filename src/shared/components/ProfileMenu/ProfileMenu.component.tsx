@@ -99,10 +99,10 @@ export default function ProfileMenu({updateUser,setEditMode,cancelEdit,editMode,
                     viewMode === 'profile' ?
                     !editMode ?
                         <div>
-                            <Button color="#B0B0B0" activeColor="#868585" onClick={() => {setEditMode(true)}}>
+                            <Button color="#5BD391" activeColor="#2CA864" onClick={() => {setEditMode(true)}}>
                                 Редактировать профиль
                             </Button>
-                            <Button color="#B0B0B0" activeColor="#868585">
+                            <Button color="#5BD391" activeColor="#2CA864">
                                 <label htmlFor='upload-photo'>Загрузить фото</label><input id="upload-photo" type="file" onChange={ (event) => { if(event.target.files) onFileChange(event.target.files[0]); } }/>
                             </Button>
                         </div>

@@ -82,7 +82,9 @@ export default function PostCommentItem({viewMode, comment, toggleChange}: PostC
                 <a href={`/users/${comment.user.username}`}>
                     <div className="post-comment__author">
                         <div className="post-comment__author-avatar">
-                            <img src={DefaultPhoto} alt=""/>
+                            {
+                                comment.user.profilephoto ? <img src={`data:image/png;base64,${comment.user.profilephoto.data}`} alt=""/> : <img src={DefaultPhoto} alt=""/>
+                            }
                         </div>
                         <div className="post-comment__author-label">{comment.user.username}</div>
                     </div>
