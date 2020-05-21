@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export default styled.div`
+export const ChatPageContainer = styled.div`
     color: #000;
     
     .chat-page__container{
@@ -59,4 +59,8 @@ export default styled.div`
     .tablinks{
         width: 100%;
     }
+`
+
+export const UserList = styled.div`
+
 `

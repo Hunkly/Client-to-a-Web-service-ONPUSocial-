@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export default styled.div`
+export const ChatStyled = styled.div`
     color: #000;
     height: 100%;
     
@@ -25,13 +25,7 @@ export default styled.div`
     }
     
     .Chat__message-item{
-        background-color: #EDCDC6;
-        width: 600px;
-        padding: 15px;
-        margin: 15px;
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
+        
     }
     
     .Chat__message-item__join {
@@ -83,4 +77,31 @@ export default styled.div`
       border-radius: 50%;
       border: 2px solid #fff;
     }
+`;
+
+interface IMessageItem {
+    type?: string,
+    addType?: boolean
+}
+
+export const ChatMessageItem = styled.div<IMessageItem>`
+    border-bottom: 3px solid ${props =>(props.type === 'CHAT' ? props.addType ? 'orange' : 'blue' : props.type === 'JOIN' ? 'green' : 'red')};
+    max-width: 400px;
+    min-width: 200px;
+    width: fit-content; 
+    padding: 15px;
+    margin: ${props =>( props.addType ? '0 auto 0 0' :'0 0 0 auto')};
+    display: flex;
+    align-items: center;
+    justify-content: ${props =>(props.addType ? 'flex-start' : 'flex-end')};
+`
+
+export const InfoMessageItem = styled.div<IMessageItem>`
+    border-bottom: 3px solid ${props =>( props.type === 'JOIN' ? 'green' : 'red')};
+    width: 600px;
+    padding: 15px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    width: 80%;
 `
