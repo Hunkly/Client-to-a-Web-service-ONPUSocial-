@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 
 export default styled.div`
     width: 500px;
-    height: 370px;
+    height: 430px;
     padding: 20px;
     background-color: #fff;
     display: flex;
@@ -14,12 +14,25 @@ export default styled.div`
         height: 30px;
         width: 97%;
         border-radius: 5px;
-        border: 1px solid #61BB9D;
+        border: 1px solid #000;
         margin-top: 5px;
+        margin-bottom: 10px;
     }
     
-    .dialog-box__text-area{
+    textarea{
         border: 1px solid #000;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+    
+    img{
+        margin-left: 10px;
+    }
+    
+    .align-items-center{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
     }
     
     .dialog-box {
