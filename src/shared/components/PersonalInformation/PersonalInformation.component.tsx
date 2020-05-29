@@ -20,7 +20,7 @@ import {
 import IFaculty from "../../models/Faculty";
 import ICafedra from "../../models/Cafedra";
 import IGroup from "../../models/Group";
-import StyledDialogBox from "../RegistrationWindow/DialogBox.styled";
+import StyledDialogBox from "../DialogBox/DialogBox.styled";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";

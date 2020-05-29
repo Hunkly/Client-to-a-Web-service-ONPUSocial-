@@ -18,5 +18,7 @@ export default styled.div<IStyledHeaderProps>`
   background-color: #61BB9D;
   width: 100%;
   box-shadow: 0px 0px 5px rgba(0,0,0,.8);
+  position: relative;
+  z-index: 1;
   }
 `;

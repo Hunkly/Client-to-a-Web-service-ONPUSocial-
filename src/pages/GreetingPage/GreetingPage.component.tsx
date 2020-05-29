@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import GreetingPageStyled from './GreetingPage.styled';
 import Button from '../../shared/components/Button';
+import Chat from '../../shared/components/Chat';
 import pathHistory from "../../pathHistory";
 import {checkAuthentication, ICurrent, LocalStorage} from "../../actions/current";
 import axios from "axios";
 import {connect} from "react-redux";
+import {DownloadFile} from "../../shared/components/DownloadFile/DownloadFile.component";
 
 interface IProps {
     isAuthenticated: boolean | null;
@@ -113,15 +115,15 @@ function GreetingPage({isAuthenticated}: IProps){
                     </div>
                     :
                     <div className="greeting-page__button-container">
-                        {/*<img src={`data:image/png;base64,${file}`} alt=""/>*/}
-                        {/*<input type="file" onChange={ (event) => { if(event.target.files) onFileChange(event.target.files[0]); } }/>*/}
-                        {/*<Button*/}
-                        {/*    onClick={downloadImage}*/}
-                        {/*    color="#3E76BB"*/}
-                        {/*    activeColor="#3E76BB"*/}
-                        {/*>*/}
-                        {/*    Загрузить изображение*/}
-                        {/*</Button>*/}
+                        <img src={`data:image/png;base64,${file}`} alt=""/>
+                        <input type="file" onChange={ (event) => { if(event.target.files) onFileChange(event.target.files[0]); } }/>
+                        <Button
+                            onClick={downloadImage}
+                            color="#3E76BB"
+                            activeColor="#3E76BB"
+                        >
+                            Загрузить изображение
+                        </Button>
                         <Button
                             onClick={() => {pathHistory.push('/auth/login')}}
                             value="/auth/login"
@@ -134,10 +136,11 @@ function GreetingPage({isAuthenticated}: IProps){
                             onClick={() => {pathHistory.push('/auth/registration')}}
                             value="/auth/registration"
                             color="#FB4141"
-                            activeColor="#FB4141"
+                            activeColor="#cd3434"
                         >
                             Регистрация
                         </Button>
+                        {/*<DownloadFile/>*/}
                     </div>
                 }
             </div>

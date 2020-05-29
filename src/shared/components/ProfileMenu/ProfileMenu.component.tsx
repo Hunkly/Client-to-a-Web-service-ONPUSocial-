@@ -91,7 +91,7 @@ export default function ProfileMenu({updateUser,setEditMode,cancelEdit,editMode,
         <StyledProfileMenu>
             <div className="profile-menu__avatar">
                 {
-                    user.profilephoto ? <img src={`data:image/png;base64,${user.profilephoto.data}`} alt=""/> : <img src={DefaultPhoto} alt=""/>
+                    user.profilephoto ? <a href={`data:image/png;base64,${user.profilephoto.data}`} download><img src={`data:image/png;base64,${user.profilephoto.data}`} alt=""/></a> : <img src={DefaultPhoto} alt=""/>
                 }
             </div>
             <div className="profile-menu__button-box">

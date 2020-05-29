@@ -10,11 +10,12 @@ interface IButtonProps {
     value?: string;
     maxHeight?: string;
     minWidth?: string;
+    disabled?: boolean;
 }
 
-export default function Button({ type, activeColor, color, children, onClick , value, maxHeight, minWidth}: IButtonProps) {
+export default function Button({ type, activeColor, color, children, onClick , value, maxHeight, minWidth,disabled}: IButtonProps) {
     return (
-        <StyledButton type={type} color={color} activeColor={activeColor} onClick={onClick} value={value} maxHeight={maxHeight} minWidth={minWidth}>
+        <StyledButton disabled={disabled} type={type} color={color} activeColor={activeColor} onClick={onClick} value={value} maxHeight={maxHeight} minWidth={minWidth}>
             {children}
         </StyledButton>
     )};

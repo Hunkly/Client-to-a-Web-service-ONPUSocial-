@@ -63,4 +63,10 @@ export default styled.div<IStyledGreetingPageProps>`
         color: #000;
         border-bottom: 1px solid #000;
     }
+    
+    .row-box{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
 `;

@@ -2,14 +2,14 @@ import styled from '@emotion/styled'
 
 export default styled.div`
     width: 500px;
-    height: 430px;
+    height: 100%;
     padding: 20px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     
-    input{
+    input, select{
         padding-left: 10px;
         height: 30px;
         width: 97%;
@@ -17,6 +17,10 @@ export default styled.div`
         border: 1px solid #000;
         margin-top: 5px;
         margin-bottom: 10px;
+    }
+    
+    select {
+        width: 50%;
     }
     
     textarea{

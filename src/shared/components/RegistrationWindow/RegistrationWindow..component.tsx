@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import StyledRegistrationPage from './RegistrationWindow.styled'
-import StyledDialogBox from './DialogBox.styled'
+import StyledDialogBox from '../DialogBox/DialogBox.styled'
 import Button from "../Button";
 import TextArea from "../TextArea/TextArea.component";
 import axios from 'axios';

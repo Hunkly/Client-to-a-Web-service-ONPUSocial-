@@ -2,33 +2,55 @@ import styled from '@emotion/styled';
 
 export const ChatPageContainer = styled.div`
     color: #000;
+    display: flex;
+    
+    .chat-page__button-container{
+        display: flex;
+        flex-direction: column; 
+        
+        button {
+            margin-top: 15px;
+            height: 50px
+        }
+    }
     
     .chat-page__container{
         display: flex;
-    }
-    
-    .chat-page__list{
-        height: 600px;
-        width: 200px;
-        display: flex;
         flex-direction: column;
-        background-color: #A2E0BE;
+        align-items: space-between;
+        height: 90vh;
     }
+`;
+
+export const UserList = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
     
-    .chat-page__chat{
-        max-height: 600px;
-        width: 600px;
-        background-color: #A2E0DA;
+    .row-box{
+        display: flex;
+        justify-content: space-between;
     }
+`;
+
+export const Avatar = styled.img`
+    height: 50px;
+      width: 50px;
+      object-fit: cover;
+      margin: auto 0;
+      margin-right: 10px;
+      border-radius: 50%;
+      // border: 2px solid #fff;
+`;
+
+export const ChatList = styled.div`
+    height: 100%;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    //border: 1px solid #A2E0BE;
     
-    .tab {
-      overflow: hidden;
-      border: 1px solid #ccc;
-      background-color: #f1f1f1;
-    }
-    
-    
-    .tab button {
+    button {
       background-color: inherit;
       float: left;
       border: none;
@@ -37,30 +59,30 @@ export const ChatPageContainer = styled.div`
       padding: 14px 16px;
       transition: 0.3s;
       font-size: 17px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      border-bottom: 1px solid #A2E0BE;
     }
     
-    
-    .tab button:hover {
-      background-color: #ddd;
+    button:hover {
+      background-color: #A2E0BE;
     }
     
-    
-    .tab button.active {
-      background-color: #ccc;
+    button.active {
+      background-color: #61BB9D;
     }
     
-    
-    .tabcontent {
-      padding: 6px 12px;
-      border: 1px solid #ccc;
-      border-top: none;
+    .message{
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        
+        p{
+            margin: 0;
+            font-size: 13px;
+        }
     }
-    
-    .tablinks{
-        width: 100%;
-    }
-`
-
-export const UserList = styled.div`
-
-`
+`;

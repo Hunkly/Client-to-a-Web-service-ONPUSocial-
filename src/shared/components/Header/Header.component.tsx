@@ -53,7 +53,7 @@ function Header({isAuthenticated}: IProps) {
     return (
         <StyledHeader user={logged}>
             <div className = "header">
-                <Container>
+                <Container bgColor={'#61BB9D'}>
                     <div className = "header__subheader">
                         {logged ? <UserMenu/> : null}
                         <Logo user={logged}/>

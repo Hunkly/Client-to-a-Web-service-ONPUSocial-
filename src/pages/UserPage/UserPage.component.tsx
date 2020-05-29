@@ -55,7 +55,7 @@ export default function UserPage({user}: IUserPageProps){
     return (
           <StyledUserPage>
             <div className="page-container">
-                <PersonalInformation  viewMode={mode} user={user} />
+                <PersonalInformation viewMode={mode} user={user} />
                 <PostsContainer viewMode={mode} user={user}/>
             </div>
             <div className="page__friend-box">

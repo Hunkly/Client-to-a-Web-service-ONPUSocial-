@@ -39,7 +39,7 @@ function App({ checkAuthenticationConnect}: IProps) {
     return (
         <div className='App'>
             <Header/>
-            <Container>
+            <Container bgColor={'transparent'}>
                 <Router history={pathHistory}>
                     <Switch>
                         <ProtectedRoute path="/users/:id" component={UserPage} />
